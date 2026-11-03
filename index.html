@@ -277,3 +277,24 @@
       background-repeat: no-repeat;
       background-position: right 9px center
     }
+
+    .sw-preset option {
+      background: #1c1f28
+    }
+
+    #suggestions {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      width: calc(100% - 94px);
+      background: rgba(11, 13, 20, .98);
+      backdrop-filter: blur(24px);
+      border: 1px solid var(--border-s);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .75);
+      z-index: 10
+    }
+
+    #suggestions.hidden {
+      display: none
