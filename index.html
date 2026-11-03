@@ -88,3 +88,13 @@
 
     
     #loading-overlay {
+        position: absolute;
+      inset: 0;
+      z-index: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: radial-gradient(ellipse at 50% 44%, #151b28 0%, #0b0d12 65%);
+      transition: opacity 600ms var(--ease)
