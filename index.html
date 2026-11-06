@@ -1048,3 +1048,13 @@
     }
 
     .p-body {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: var(--bg-hover) transparent
+    }
+
+    .p-body::-webkit-scrollbar {
+      width: 4px
+    }
