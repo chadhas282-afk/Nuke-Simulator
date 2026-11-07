@@ -1248,3 +1248,13 @@
       border-radius: var(--r-md);
       background: var(--bg-surface);
       border: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 120ms, border-color 120ms;
+      user-select: none
+    }
+
+    .fx-item:hover {
+      background: var(--bg-hover)
+    }
+
+    .fx-item.on {
