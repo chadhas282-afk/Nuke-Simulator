@@ -1768,3 +1768,13 @@
     #panel-toggle .bar {
       width: 16px;
       height: 2px;
+      background: currentColor;
+      border-radius: 1px;
+      transition: transform 200ms, opacity 200ms
+    }
+
+    #panel-toggle.open .bar:nth-child(1) {
+      transform: translateY(6px) rotate(45deg)
+    }
+
+    #panel-toggle.open .bar:nth-child(2) {
