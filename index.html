@@ -1558,3 +1558,13 @@
       cursor: pointer;
       border: none;
       position: relative;
+      transition: background 200ms;
+      outline: none;
+    }
+
+    .toggle:focus-visible {
+      outline: 2px solid rgba(229, 62, 62, .6);
+      outline-offset: 2px;
+    }
+
+    .toggle::after {
