@@ -1807,3 +1807,13 @@
       opacity: 0;
       pointer-events: none
     }
+
+    #stage::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background: radial-gradient(115% 90% at 50% 42%, transparent 62%, rgba(0, 0, 8, .5) 100%),
+        linear-gradient(165deg, rgba(0, 0, 0, 0) 62%, rgba(0, 0, 12, .4) 100%);
+    }
