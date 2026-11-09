@@ -1938,3 +1938,13 @@
       overflow: hidden;
       transition: opacity 240ms ease;
     }
+
+    #drone-hud.hidden {
+      display: none !important;
+      opacity: 0;
+    }
+
+    .dh-scanlines {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, transparent 55%, rgba(0, 0, 0, 0.45) 100%),
