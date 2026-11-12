@@ -2828,3 +2828,13 @@
               <button class="dh-btn" type="button" onclick="adjustDroneZoom(-1)" title="Zoom out [-]"
                 style="padding:4px 7px">-</button>
               <span id="dh-zoom-val"
+              style="font-size:10px;font-weight:700;color:#fde68a;min-width:32px;text-align:center">1.0X</span>
+              <button class="dh-btn" type="button" onclick="adjustDroneZoom(1)" title="Zoom in [+]"
+                style="padding:4px 7px">+</button>
+            </div>
+            <button class="dh-btn" id="dh-filter-btn" type="button" onclick="cycleDroneSensor()"
+              title="Cycle sensor [VIS / FLIR / NVG] [N]">📷 VIS</button>
+            <button class="dh-btn" type="button" onclick="resetDronePosition()"
+              title="Reset standoff position facing Ground Zero [R]">🔄 RESET</button>
+            <button class="dh-btn" id="dh-hud-btn" type="button" onclick="toggleDroneHudVisibility()"
+              title="Toggle cinematic HUD view [H]">👁️ HUD</button>
