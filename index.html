@@ -2818,3 +2818,13 @@
               title="Automated circular orbit around Ground Zero [O]">🔄 AUTOPILOT</button>
             <button class="dh-btn dh-btn-detonate" id="dh-det-btn" type="button" onclick="runDet(true)"
               title="Launch nuclear strike on Ground Zero [Enter]">☢ DETONATE</button>
+              <button class="dh-btn" id="dh-lock-btn" type="button" onclick="targetDroneCrosshair()"
+              title="Designate Ground Zero at center crosshair [L]">🎯 LOCK GZ</button>
+            <button class="dh-btn" id="dh-speed-btn" type="button" onclick="cycleDroneSpeed()"
+              title="Cycle flight speed tier [T]">⚡ SPD: 400 KM/H</button>
+            <button class="dh-btn" id="dh-gimbal-btn" type="button" onclick="cycleDroneGimbal()"
+              title="Cycle camera gimbal mode [G]">🎥 GIMBAL: FREE</button>
+            <div style="display:flex;align-items:center;gap:3px">
+              <button class="dh-btn" type="button" onclick="adjustDroneZoom(-1)" title="Zoom out [-]"
+                style="padding:4px 7px">-</button>
+              <span id="dh-zoom-val"
