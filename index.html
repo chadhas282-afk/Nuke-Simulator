@@ -3168,3 +3168,13 @@
                 <div class="sl-hdr"><span class="sl-lbl">Exo-atmospheric Altitude</span><span class="sl-val"
                     id="hane-val">150 km</span></div>
                 <input type="range" id="hane-sl" min="100" max="600" value="150" step="25"
+                oninput="updateHaneAlt(this.value)">
+              </div>
+            </div>
+          </div>
+          <div class="sec">
+            <div class="sec-lbl">Effects</div>
+            <div class="fx-list">
+              <label class="fx-item on" id="fx-fireball">
+                <div class="fx-dot" style="background:#ef4444"></div>
+                <div class="fx-inf">
