@@ -3048,3 +3048,13 @@
               Scrubber</span>
             <span id="sun-time-val" style="font:600 11px monospace;color:#38bdf8">Live UTC</span>
           </div>
+          <input type="range" id="sun-time-slider" min="0" max="24" step="0.1" value="12"
+            style="width:100%;accent-color:#38bdf8;cursor:pointer" oninput="setSolarTime(this.value)">
+          <div style="display:flex;gap:4px">
+            <button class="btn btn-xs" onclick="setSolarMode('live')" id="btn-sun-live"
+              style="flex:1;font-size:9px;padding:3px 4px">📡 Live</button>
+            <button class="btn btn-xs" onclick="setSolarMode('orbit')" id="btn-sun-orbit"
+              style="flex:1;font-size:9px;padding:3px 4px">🔄 Orbit</button>
+            <button class="btn btn-xs" onclick="setSolarMode('cam')" id="btn-sun-cam"
+              style="flex:1;font-size:9px;padding:3px 4px">🎥 Key</button>
+          </div>
