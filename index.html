@@ -3078,3 +3078,13 @@
           <div class="sec">
             <div class="sec-lbl" style="display:flex;justify-content:space-between;align-items:center">
               <span>Historical Crisis Scenarios</span>
+               <span style="font-size:9px;color:var(--orange);font-weight:700;letter-spacing:.05em">TACTICAL</span>
+            </div>
+            <select class="sel" id="scenario-sel" onchange="loadScenario(this.value)">
+              <option value="">— Select Crisis Preset —</option>
+              <option value="cuban_crisis">🇨🇺 Cuban Missile Crisis (1962) — DEFCON 2</option>
+              <option value="able_archer">🎯 Able Archer 83 (1983) — European Theatre</option>
+              <option value="castle_bravo">💥 Castle Bravo (1954) — 15 Mt Pacific Fallout</option>
+              <option value="starfish_prime">🌌 Starfish Prime (1962) — 1.4 Mt Space EMP / Aurora</option>
+              <option value="strategic_mirv">🚀 Modern Deterrence (2026) — MIRV Exchange</option>
+            </select>
