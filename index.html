@@ -3158,3 +3158,13 @@
             <div id="pen-row" style="display:none">
               <div class="sl-block">
                 <div class="sl-hdr"><span class="sl-lbl">Bunker penetration depth</span><span class="sl-val"
+                  id="pen-val">35 m</span></div>
+                <input type="range" id="pen-sl" min="5" max="100" value="35" step="5"
+                  oninput="updatePenDepth(this.value)">
+              </div>
+            </div>
+            <div id="hane-row" style="display:none">
+              <div class="sl-block">
+                <div class="sl-hdr"><span class="sl-lbl">Exo-atmospheric Altitude</span><span class="sl-val"
+                    id="hane-val">150 km</span></div>
+                <input type="range" id="hane-sl" min="100" max="600" value="150" step="25"
