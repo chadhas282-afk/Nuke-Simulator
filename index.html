@@ -3128,3 +3128,13 @@
                 <option value="200">JL-3 (China) — 200 kt</option>
                 <option value="500">RSM-56 Bulava — 500 kt</option>
               </optgroup>
+              </select>
+            <div id="weapon-note" style="font:400 10px/1.5 var(--font);color:var(--txt3);margin-top:6px;display:none">
+            </div>
+            <div class="in-row">
+              <div class="in-grp"><input type="number" id="yield-in" value="15" min="0.001" max="100000"
+                  step="any" /><span class="in-sfx" id="unit-lbl">kt</span></div>
+              <div class="btn-grp"><button type="button" class="btn-seg on" id="btn-kt"
+                  onclick="setUnit('kt')">kt</button><button type="button" class="btn-seg" id="btn-mt"
+                  onclick="setUnit('mt')">Mt</button></div>
+            </div>
