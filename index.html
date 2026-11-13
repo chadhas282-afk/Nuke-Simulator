@@ -3058,3 +3058,13 @@
             <button class="btn btn-xs" onclick="setSolarMode('cam')" id="btn-sun-cam"
               style="flex:1;font-size:9px;padding:3px 4px">🎥 Key</button>
           </div>
+           </div>
+        <div class="mc-row"><span class="mc-lbl">🛡️ ABM missile interceptors</span><button class="toggle" id="tog-abm"
+            onclick="toggleABM()"></button></div>
+        <div class="mc-row"><span class="mc-lbl">🎥 ICBM tracking camera</span><button class="toggle on"
+            id="tog-track-cam" onclick="toggleTrackCam()"></button></div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('simulate',this)">Simulate</button>
+        <button class="tab" onclick="switchTab('history',this)">History</button>
