@@ -3318,3 +3318,13 @@
                   id="ftime-val">T+1h</span></div>
               <input type="range" id="ftime-sl" min="1" max="48" value="1" step="1"
                 oninput="updateFalloutTime(this.value)">
+                </div>
+            <div class="sl-block">
+              <div class="sl-hdr"><span class="sl-lbl">Atmospheric Weather</span><span class="sl-val" id="wx-val">☀️
+                  Clear</span></div>
+              <div style="display:flex;gap:4px;margin-top:5px;flex-wrap:wrap">
+                <button type="button" class="tag wx-btn active" onclick="setWeather('clear')" id="wx-clear"
+                  title="Standard dry atmospheric dispersion">☀️ Clear</button>
+                <button type="button" class="tag wx-btn" onclick="setWeather('rain')" id="wx-rain"
+                  title="Precipitation scavenging & radioactive Black Rainout">🌧️ Rainout</button>
+                <button type="button" class="tag wx-btn" onclick="setWeather('blizzard')" id="wx-blizzard"
