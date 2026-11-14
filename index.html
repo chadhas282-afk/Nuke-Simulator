@@ -3358,3 +3358,13 @@
         <div class="tab-pane" id="tab-history">
           <div class="sec">
             <div class="sec-lbl">Historical nuclear tests</div>
+            <div class="tl-scrub">
+              <div class="tl-s-head">
+                <span class="tl-s-year" id="tl-year">…</span>
+                <span class="tl-s-count" id="tl-count">…</span>
+              </div>
+              <input type="range" id="tl-slider" min="1945" max="2017" value="2017" step="1">
+              <div class="tl-s-row">
+                <button class="tl-s-btn" id="tl-play" onclick="toggleTimelinePlay()">▶ Play</button>
+                <button class="tl-s-btn" onclick="resetTimeline()">⏮ Reset</button>
+              </div>
