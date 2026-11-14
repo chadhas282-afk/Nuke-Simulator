@@ -3528,3 +3528,13 @@
                 <div class="sci-card" style="margin-top:7px">
                   <div class="sci-phase"><span>E3 Slow Pulse (MHD-EMP)</span><span>1 s – 10 min</span></div>
                   <div class="sci-val" id="hemp-e3-val">~24 V/km GIC</div>
+                  <div class="sci-desc">Geomagnetic magnetosphere cavity oscillation. Induces quasi-DC currents that
+                    saturate and melt extra-high-voltage bulk grid transformers.</div>
+                </div>
+
+                <div class="oscilloscope-wrap">
+                  <canvas id="emp-scope-canvas" width="340" height="140"></canvas>
+                  <div class="scope-btn-grp">
+                    <button type="button" class="scope-btn active" id="scope-btn-e1" onclick="setScopeWaveform('e1')">E1
+                      (Prompt γ · 2.5ns)</button>
+                    <button type="button" class="scope-btn" id="scope-btn-e2" onclick="setScopeWaveform('e2')">E2
