@@ -3808,3 +3808,13 @@
                     <div class="sci-val" id="winter-famine-val" style="color:#ef4444">~5.3 Billion</div>
                   </div>
                 </div>
+                <div id="winter-recover" style="display:none;margin-top:10px">
+                  <div style="display:flex;justify-content:space-between;align-items:center">
+                    <span style="font:600 9px/1 var(--font);letter-spacing:.08em;color:var(--txt3)">DECADE RECOVERY
+                      SCRUBBER</span>
+                    <span style="font:700 11px/1 var(--font);color:#a5b4fc" id="winter-yr">Y+0</span>
+                  </div>
+                  <input type="range" id="winter-yr-sl" min="0" max="10" value="0" step="0.1"
+                    style="width:100%;margin:6px 0" oninput="window.scrubWinterYear(parseFloat(this.value))">
+                  <div
+                    style="height:6px;border-radius:3px;background:rgba(255,255,255,.08);margin:4px 0 6px;overflow:hidden">
