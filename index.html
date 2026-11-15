@@ -3818,3 +3818,13 @@
                     style="width:100%;margin:6px 0" oninput="window.scrubWinterYear(parseFloat(this.value))">
                   <div
                     style="height:6px;border-radius:3px;background:rgba(255,255,255,.08);margin:4px 0 6px;overflow:hidden">
+                    <div id="winter-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#6366f1,#a5b4fc)">
+                    </div>
+                  </div>
+                  <div style="font:400 9px/1.5 var(--font);color:var(--txt3);min-height:16px" id="winter-detail">—</div>
+                  <button id="winter-play" type="button" onclick="window.playWinterRecovery()"
+                    style="width:100%;margin-top:8px;padding:7px 10px;border:1px solid rgba(165,180,252,.35);border-radius:8px;background:rgba(99,102,241,.15);color:#c7d2fe;font:600 10px/1 var(--font);cursor:pointer;transition:background 150ms"
+                    onmouseover="this.style.background='rgba(99,102,241,.3)'"
+                    onmouseout="this.style.background='rgba(99,102,241,.15)'">▶ Play 10-year recovery</button>
+                </div>
+              </div>
