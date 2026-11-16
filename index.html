@@ -4118,3 +4118,12 @@
 
           float amp = 0.0;
           if (abs(delta) < uWidth) {
+          float x = delta / uWidth;
+            
+            float nWave = (x < 0.0) ? (1.0 + x * 2.2) : (-sin(x * 3.14159) * 0.65);
+            amp += uStrength * nWave * (1.0 - smoothstep(0.0, 1.4, uRadius));
+          }
+          if (uRadius > 0.18 && abs(delta2) < uWidth * 0.75) {
+            float x2 = delta2 / (uWidth * 0.75);
+            amp += uStrength * 0.38 * (1.0 - x2 * x2) * (1.0 - smoothstep(0.18, 1.2, uRadius));
+          }
