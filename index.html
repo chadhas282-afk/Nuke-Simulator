@@ -4018,3 +4018,13 @@
 
     
     const EARTH_R = 1.0, EARTH_KM = 6371, KM2SU = EARTH_R / EARTH_KM;
+
+    
+    const S = {
+      yieldKt: 15, unit: 'kt', burst: 'surface', hobM: 500, penDepthM: 35, haneAltKm: 150,
+      fx: {
+        fireball: true, blast: true, thermal: true, radiation: false, emp: false, fallout: false,
+        schlieren: true, lightning: true, firestorm: true, terrain: true, evac: true,
+        wilson: true, rtvortex: true, debris: true
+      },
+      windDir: 0, windSpd: 15, point: null, layers: [], hasResults: false,
