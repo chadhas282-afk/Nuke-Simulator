@@ -4048,3 +4048,13 @@
     renderer.toneMappingExposure = 1.04;
     renderer.setClearColor(0x000000, 1);
     const scene = new THREE.Scene();
+    (() => {
+      const cv = document.createElement('canvas'); cv.width = 2; cv.height = 256;
+      const c2 = cv.getContext('2d');
+      const g = c2.createLinearGradient(0, 0, 0, 256);
+      g.addColorStop(0, '#070d1d'); g.addColorStop(0.5, '#04060f'); g.addColorStop(1, '#000004');
+      c2.fillStyle = g; c2.fillRect(0, 0, 2, 256);
+      const tg = new THREE.CanvasTexture(cv); tg.needsUpdate = true;
+      scene.background = tg;
+    })();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.001, 100);
