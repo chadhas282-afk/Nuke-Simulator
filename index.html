@@ -4148,3 +4148,13 @@
     const shockPass = new ShaderPass(ShockwaveDistortionShader);
     composer.addPass(shockPass);
     composer.addPass(new OutputPass());
+
+    let shockFx = { active: false, t0: 0, dur: 3200, gzPt: new THREE.Vector3() };
+    function triggerShockLensing(lat, lng, yieldKt) {
+      if (!S.fx.schlieren) return;
+      shockFx.active = true;
+      shockFx.t0 = Date.now();
+      shockFx.gzPt = latlng2v3(lat, lng, EARTH_R + 0.001);
+      shockFx.dur = Math.min(Math.max(1800 + Math.pow(Math.max(yieldKt, 1), 0.3) * 450, 2200), 5000);
+    }
+    function updateShockLensing() {
