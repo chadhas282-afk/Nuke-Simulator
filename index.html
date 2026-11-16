@@ -4168,3 +4168,13 @@
         shockPass.uniforms.uStrength.value = 0.0;
         return;
       }
+      const p = shockFx.gzPt.clone().project(camera);
+      if (p.z > 1.0 || shockFx.gzPt.dot(camera.position) < -0.1) {
+        shockPass.uniforms.uStrength.value = 0.0;
+        return;
+      }
+      shockPass.uniforms.uCenter.value.set((p.x + 1) * 0.5, (p.y + 1) * 0.5);
+      const prog = el / shockFx.dur;
+      shockPass.uniforms.uRadius.value = 0.03 + 0.98 * Math.pow(prog, 0.52);
+      shockPass.uniforms.uStrength.value = 0.065 * Math.pow(1.0 - prog, 1.6);
+    }
