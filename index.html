@@ -4178,3 +4178,13 @@
       shockPass.uniforms.uRadius.value = 0.03 + 0.98 * Math.pow(prog, 0.52);
       shockPass.uniforms.uStrength.value = 0.065 * Math.pow(1.0 - prog, 1.6);
     }
+
+    
+    let cloudsMesh = null;
+    let droneActive = false;
+    let dronePos = new THREE.Vector3();
+    let droneHeading = 0; 
+    let dronePitch = -0.32; 
+    let droneRoll = 0; 
+    let droneVel = { fwd: 0, right: 0, up: 0 };
+    let droneGimbalMode = 'free'; 
