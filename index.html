@@ -3989,3 +3989,12 @@
                   <button onclick="window.runSeries(document.getElementById('series-sel').value)"
                     style="width:100%;padding:9px 14px;border:1px solid rgba(251,191,36,0.25);border-radius:8px;background:rgba(120,53,15,0.18);color:#fde68a;font:600 11px/1 var(--font);cursor:pointer;transition:background 150ms"
                     onmouseover="this.style.background='rgba(120,53,15,0.4)'"
+                    onmouseout="this.style.background='rgba(120,53,15,0.18)'">▶ Replay selected series</button>
+                  <div style="font:400 9px/1.5 var(--font);color:var(--txt3);margin-top:6px">Sequences the recorded
+                    detonations as a MIRV cascade at real yields.</div>
+                </div>
+                <button onclick="stopScenario()" id="btn-stop-scenario"
+                  style="display:none;width:100%;padding:8px 14px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;background:rgba(255,255,255,0.06);color:var(--txt2);font:600 11px/1 var(--font);cursor:pointer;transition:background 150ms"
+                  onmouseover="this.style.background='rgba(255,255,255,0.12)'"
+                  onmouseout="this.style.background='rgba(255,255,255,0.06)'">
+                  ⏹ Stop Scenario
