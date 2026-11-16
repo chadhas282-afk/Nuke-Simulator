@@ -4188,3 +4188,13 @@
     let droneRoll = 0; 
     let droneVel = { fwd: 0, right: 0, up: 0 };
     let droneGimbalMode = 'free'; 
+    let droneSpeedTier = 1; 
+    let droneSensorIndex = 0; 
+    let lastDroneTime = performance.now();
+    let isDroneDragging = false;
+    let droneDragStart = { x: 0, y: 0 };
+    let droneZoomLevel = 1.0;
+    let droneBaseFov = 52;
+
+    const droneKeys = {
+      w: false, s: false,
