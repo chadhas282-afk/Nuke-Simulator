@@ -4158,3 +4158,13 @@
       shockFx.dur = Math.min(Math.max(1800 + Math.pow(Math.max(yieldKt, 1), 0.3) * 450, 2200), 5000);
     }
     function updateShockLensing() {
+      if (!shockFx.active || !S.fx.schlieren) {
+        shockPass.uniforms.uStrength.value = 0.0;
+        return;
+      }
+      const el = Date.now() - shockFx.t0;
+      if (el >= shockFx.dur) {
+        shockFx.active = false;
+        shockPass.uniforms.uStrength.value = 0.0;
+        return;
+      }
