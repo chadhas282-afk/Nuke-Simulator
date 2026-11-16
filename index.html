@@ -4098,3 +4098,13 @@
         varying vec2 vUv;
 
         void main() {
+        if (uStrength <= 0.0001 || uRadius <= 0.0) {
+            gl_FragColor = texture2D(tDiffuse, vUv);
+            return;
+          }
+          vec2 diff = vUv - uCenter;
+          diff.x *= uAspect;
+          float dist = length(diff);
+          if (dist <= 0.0001) {
+            gl_FragColor = texture2D(tDiffuse, vUv);
+            return;
