@@ -4078,3 +4078,13 @@
         'uCenter': { value: new THREE.Vector2(0.5, 0.5) },
         'uRadius': { value: -1.0 },
         'uWidth': { value: 0.065 },
+        'uStrength': { value: 0.0 },
+        'uAspect': { value: 1.0 }
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
