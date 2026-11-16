@@ -4138,3 +4138,13 @@
             vec4 col = vec4(r, g, b, 1.0);
             
             col.rgb += vec3(0.04, 0.08, 0.14) * abs(amp) * 14.0;
+            gl_FragColor = col;
+          } else {
+            gl_FragColor = texture2D(tDiffuse, vUv);
+          }
+        }
+      `
+    };
+    const shockPass = new ShaderPass(ShockwaveDistortionShader);
+    composer.addPass(shockPass);
+    composer.addPass(new OutputPass());
