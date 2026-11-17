@@ -4288,3 +4288,13 @@
         gain.gain.setValueAtTime(0.05, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
         osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.12);
+      } catch (e) { }
+    }
+
+    function playBombReleaseSound() {
+      try {
+        const ctx = getAudioCtx();
+        if (!ctx) return;
