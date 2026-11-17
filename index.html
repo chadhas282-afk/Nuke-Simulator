@@ -4318,3 +4318,13 @@
       document.body.classList.add('drone-mode-active');
       if (!S.point) {
         S.point = { lat: 38.8951, lng: -77.0364 };
+        }
+      placeGZ(S.point.lat, S.point.lng);
+      const pt = S.point;
+      const gz = latlng2v3(pt.lat, pt.lng, EARTH_R);
+      const norm = gz.clone().normalize();
+      const arb = Math.abs(norm.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+      const tan1 = new THREE.Vector3().crossVectors(norm, arb).normalize();
+
+      
+      const standoffSU = 42.0 * KM2SU;
