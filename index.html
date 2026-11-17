@@ -4388,3 +4388,13 @@
       }
 
       canvas.classList.remove('drone-flir', 'drone-nvg');
+       droneSensorIndex = 0;
+      if (droneAutopilot) {
+        droneAutopilot = false;
+        updateAutopilotBtn();
+      }
+      const pip = document.getElementById('dh-bomb-pip');
+      if (pip) pip.classList.add('hidden');
+      stopDroneAudio();
+
+      
