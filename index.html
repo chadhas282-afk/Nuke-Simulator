@@ -4458,3 +4458,14 @@
       camera.getWorldDirection(camDir);
       const ray = new THREE.Raycaster(dronePos, camDir);
       const hits = ray.intersectObject(earth);
+      if (hits.length > 0) {
+        const ll = v3ToLL(hits[0].point);
+        S.point = { lat: ll.lat, lng: ll.lng };
+        placeGZ(S.point.lat, S.point.lng);
+        toast(`🎯 Ground Zero Locked at Reticle: ${Math.abs(ll.lat).toFixed(2)}°${ll.lat >= 0 ? 'N' : 'S'} ${Math.abs(ll.lng).toFixed(2)}°${ll.lng >= 0 ? 'E' : 'W'}`, 'success');
+      } else {
+        const ll = v3ToLL(dronePos);
+        S.point = { lat: ll.lat, lng: ll.lng };
+        placeGZ(S.point.lat, S.point.lng);
+        toast(`🎯 Ground Zero Locked Directly Beneath Drone: ${Math.abs(ll.lat).toFixed(2)}°${ll.lat >= 0 ? 'N' : 'S'} ${Math.abs(ll.lng).toFixed(2)}°${ll.lng >= 0 ? 'E' : 'W'}`, 'info');
+      }
