@@ -4438,3 +4438,13 @@
       const norm = gz.clone().normalize();
       const arb = Math.abs(norm.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
       const tan1 = new THREE.Vector3().crossVectors(norm, arb).normalize();
+      const standoffSU = 42.0 * KM2SU;
+      const altSU = 22.0 * KM2SU;
+      dronePos.copy(gz).addScaledVector(norm, altSU).addScaledVector(tan1, standoffSU);
+      droneVel = { fwd: 0, right: 0, up: 0 };
+      const toGZ = gz.clone().sub(dronePos).normalize();
+      const worldUp = Math.abs(norm.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+      const east = new THREE.Vector3().crossVectors(worldUp, norm).normalize();
+      const north = new THREE.Vector3().crossVectors(norm, east).normalize();
+      droneHeading = Math.atan2(toGZ.dot(east), toGZ.dot(north));
+      dronePitch = Math.asin(Math.max(-0.99, Math.min(0.99, toGZ.dot(norm))));
