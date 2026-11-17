@@ -4258,3 +4258,13 @@
       try {
         const vMag = Math.sqrt((vel.fwd || 0) ** 2 + (vel.right || 0) ** 2 + (vel.up || 0) ** 2);
         const pitchFreq = 90 + Math.min(220, vMag * 14000);
+        droneDroneOsc1?.frequency.setTargetAtTime(pitchFreq, droneAudioCtx.currentTime, 0.08);
+        droneDroneOsc2?.frequency.setTargetAtTime(pitchFreq * 0.5, droneAudioCtx.currentTime, 0.08);
+        const targetVol = Math.min(0.04, 0.01 + vMag * 1.8);
+        droneGain.gain.setTargetAtTime(targetVol, droneAudioCtx.currentTime, 0.08);
+      } catch (e) { }
+    }
+
+    function stopDroneAudio() {
+      try {
+        if (droneDroneOsc1) { droneDroneOsc1.stop(); droneDroneOsc1.disconnect(); droneDroneOsc1 = null; }
