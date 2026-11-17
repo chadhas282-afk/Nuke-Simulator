@@ -4477,3 +4477,14 @@
       if (hud) hud.classList.toggle('dh-cinematic', !droneHudVisible);
       toast(droneHudVisible ? '👁️ Drone Cockpit HUD Visible' : '🎬 Drone Cinematic View (HUD Hidden - Press H to Restore)');
     };
+
+        
+    window.toggleDroneAutopilot = function () {
+      if (!droneActive) {
+        toast('🛸 Switch to Drone Cockpit vantage to engage Autopilot Loiter', 'info');
+        return;
+      }
+      droneAutopilot = !droneAutopilot;
+      updateAutopilotBtn();
+      if (droneAutopilot) {
+        const pt = S.point || { lat: 38.8951, lng: -77.0364 };
