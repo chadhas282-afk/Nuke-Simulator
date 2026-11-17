@@ -4328,3 +4328,13 @@
 
       
       const standoffSU = 42.0 * KM2SU;
+      const altSU = 22.0 * KM2SU;
+      dronePos.copy(gz).addScaledVector(norm, altSU).addScaledVector(tan1, standoffSU);
+      droneVel = { fwd: 0, right: 0, up: 0 };
+      droneGimbalMode = 'free'; 
+      droneSpeedTier = 1;
+      droneZoomLevel = 1.0;
+      droneHudVisible = true;
+
+      
+      camera.near = 0.000005;
