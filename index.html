@@ -4469,3 +4469,11 @@
         placeGZ(S.point.lat, S.point.lng);
         toast(`🎯 Ground Zero Locked Directly Beneath Drone: ${Math.abs(ll.lat).toFixed(2)}°${ll.lat >= 0 ? 'N' : 'S'} ${Math.abs(ll.lng).toFixed(2)}°${ll.lng >= 0 ? 'E' : 'W'}`, 'info');
       }
+      };
+
+    window.toggleDroneHudVisibility = function () {
+      droneHudVisible = !droneHudVisible;
+      const hud = document.getElementById('drone-hud');
+      if (hud) hud.classList.toggle('dh-cinematic', !droneHudVisible);
+      toast(droneHudVisible ? '👁️ Drone Cockpit HUD Visible' : '🎬 Drone Cinematic View (HUD Hidden - Press H to Restore)');
+    };
