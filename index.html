@@ -4268,3 +4268,13 @@
     function stopDroneAudio() {
       try {
         if (droneDroneOsc1) { droneDroneOsc1.stop(); droneDroneOsc1.disconnect(); droneDroneOsc1 = null; }
+        if (droneDroneOsc2) { droneDroneOsc2.stop(); droneDroneOsc2.disconnect(); droneDroneOsc2 = null; }
+        if (droneGain) { droneGain.disconnect(); droneGain = null; }
+      } catch (e) { }
+    }
+
+    let lastBeepTime = 0;
+    function playTerrainWarningBeep() {
+      const now = performance.now();
+      if (now - lastBeepTime < 380) return;
+      lastBeepTime = now;
