@@ -4358,3 +4358,13 @@
       controls.autoRotate = false;
 
       const hud = document.getElementById('drone-hud');
+      if (hud) {
+        hud.classList.remove('hidden', 'dh-cinematic');
+      }
+      const hints = document.getElementById('hints');
+      if (hints) hints.style.display = 'none';
+
+      updateGimbalBtn();
+      updateSpeedBtn();
+      updateZoomDisplay();
+      startDroneAudio();
