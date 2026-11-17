@@ -4378,3 +4378,13 @@
       droneActive = false;
       if (typeof cloudsMesh !== 'undefined' && cloudsMesh) cloudsMesh.visible = S.showTexture;
       document.body.classList.remove('drone-mode-active');
+      const hud = document.getElementById('drone-hud');
+      if (hud) hud.classList.add('hidden');
+      const hints = document.getElementById('hints');
+      if (hints) hints.style.display = '';
+
+      if (document.pointerLockElement === canvas) {
+        document.exitPointerLock?.();
+      }
+
+      canvas.classList.remove('drone-flir', 'drone-nvg');
