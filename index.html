@@ -4398,3 +4398,13 @@
       stopDroneAudio();
 
       
+      camera.near = 0.001;
+      camera.far = 100;
+      camera.fov = 45;
+      camera.updateProjectionMatrix();
+      controls.enabled = true;
+      controls.target.set(0, 0, 0);
+      camera.up.set(0, 1, 0);
+    }
+
+    window.togglePointerLock = function () {
