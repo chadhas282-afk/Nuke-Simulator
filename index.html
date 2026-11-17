@@ -4368,3 +4368,13 @@
       updateSpeedBtn();
       updateZoomDisplay();
       startDroneAudio();
+
+      lastDroneTime = performance.now();
+      toast('🛸 High-Altitude Recon Drone Active (22 km Alt) · WASDCVQE Keys · [B / Enter] Detonate · [L] Lock GZ · [H] HUD', 'info');
+    }
+
+    function exitDroneMode() {
+      if (!droneActive) return;
+      droneActive = false;
+      if (typeof cloudsMesh !== 'undefined' && cloudsMesh) cloudsMesh.visible = S.showTexture;
+      document.body.classList.remove('drone-mode-active');
