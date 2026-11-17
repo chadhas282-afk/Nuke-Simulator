@@ -4247,3 +4247,14 @@
         droneDroneOsc2.connect(filter);
         filter.connect(droneGain);
         droneGain.connect(ctx.destination);
+
+         droneDroneOsc1.start();
+        droneDroneOsc2.start();
+      } catch (e) { }
+    }
+
+    function modulateDroneAudio(vel) {
+      if (!droneGain || !droneAudioCtx) return;
+      try {
+        const vMag = Math.sqrt((vel.fwd || 0) ** 2 + (vel.right || 0) ** 2 + (vel.up || 0) ** 2);
+        const pitchFreq = 90 + Math.min(220, vMag * 14000);
