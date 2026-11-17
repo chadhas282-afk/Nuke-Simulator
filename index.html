@@ -4338,3 +4338,13 @@
 
       
       camera.near = 0.000005;
+      camera.far = 300.0;
+      camera.fov = droneBaseFov;
+      camera.updateProjectionMatrix();
+
+      
+      Object.keys(droneKeys).forEach(k => droneKeys[k] = false);
+
+      
+      const toGZ = gz.clone().sub(dronePos).normalize();
+      const worldUp = Math.abs(norm.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
