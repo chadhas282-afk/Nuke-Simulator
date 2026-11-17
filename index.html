@@ -4228,3 +4228,13 @@
       try {
         const ctx = getAudioCtx();
         if (!ctx) return;
+        droneDroneOsc1 = ctx.createOscillator();
+        droneDroneOsc2 = ctx.createOscillator();
+        droneGain = ctx.createGain();
+
+        droneDroneOsc1.type = 'triangle';
+        droneDroneOsc1.frequency.setValueAtTime(110, ctx.currentTime);
+        droneDroneOsc2.type = 'sawtooth';
+        droneDroneOsc2.frequency.setValueAtTime(55, ctx.currentTime);
+
+        const filter = ctx.createBiquadFilter();
