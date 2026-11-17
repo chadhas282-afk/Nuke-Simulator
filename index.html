@@ -4448,3 +4448,13 @@
       const north = new THREE.Vector3().crossVectors(norm, east).normalize();
       droneHeading = Math.atan2(toGZ.dot(east), toGZ.dot(north));
       dronePitch = Math.asin(Math.max(-0.99, Math.min(0.99, toGZ.dot(norm))));
+      droneRoll = 0;
+      toast('🛸 Drone Repositioned to High-Altitude Standoff (22 km Alt)', 'info');
+    };
+
+    window.targetDroneCrosshair = function () {
+      if (!droneActive) return;
+      const camDir = new THREE.Vector3();
+      camera.getWorldDirection(camDir);
+      const ray = new THREE.Raycaster(dronePos, camDir);
+      const hits = ray.intersectObject(earth);
