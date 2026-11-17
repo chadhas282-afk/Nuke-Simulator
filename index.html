@@ -4488,3 +4488,13 @@
       updateAutopilotBtn();
       if (droneAutopilot) {
         const pt = S.point || { lat: 38.8951, lng: -77.0364 };
+        const gz = latlng2v3(pt.lat, pt.lng, EARTH_R);
+        const distKm = (dronePos.distanceTo(gz) * EARTH_KM).toFixed(1);
+        toast(`🔄 Drone Autopilot Active: Loitering orbit around GZ at ${distKm} km standoff`, 'success');
+      } else {
+        toast('🕹️ Autopilot Disengaged: Full Manual Pilot Controls Active', 'info');
+      }
+    };
+
+    function updateAutopilotBtn() {
+      const btn = document.getElementById('dh-orbit-btn');
