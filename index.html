@@ -4408,3 +4408,13 @@
     }
 
     window.togglePointerLock = function () {
+      if (!droneActive) return;
+      if (document.pointerLockElement === canvas) {
+        document.exitPointerLock?.();
+      } else {
+        canvas.requestPointerLock?.();
+      }
+    };
+
+    document.addEventListener('pointerlockchange', () => {
+      const prompt = document.getElementById('dh-aim-prompt');
