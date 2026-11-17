@@ -4218,3 +4218,13 @@
         if (AudioCtor) droneAudioCtx = new AudioCtor();
       }
       if (droneAudioCtx && droneAudioCtx.state === 'suspended') {
+        droneAudioCtx.resume?.();
+      }
+      return droneAudioCtx;
+    }
+
+    let droneDroneOsc1 = null, droneDroneOsc2 = null, droneGain = null;
+    function startDroneAudio() {
+      try {
+        const ctx = getAudioCtx();
+        if (!ctx) return;
