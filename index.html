@@ -4208,3 +4208,13 @@
     let droneAutopilot = false;
     let droneMunition = null;
     let pipRenderer = null;
+    let pipCamera = null;
+    let defconLevel = 5;
+
+    let droneAudioCtx = null;
+    function getAudioCtx() {
+      if (!droneAudioCtx) {
+        const AudioCtor = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtor) droneAudioCtx = new AudioCtor();
+      }
+      if (droneAudioCtx && droneAudioCtx.state === 'suspended') {
