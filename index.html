@@ -4308,3 +4308,13 @@
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start();
+         osc.stop(ctx.currentTime + 0.35);
+      } catch (e) { }
+    }
+
+    function enterDroneMode() {
+      droneActive = true;
+      if (typeof cloudsMesh !== 'undefined' && cloudsMesh) cloudsMesh.visible = false;
+      document.body.classList.add('drone-mode-active');
+      if (!S.point) {
+        S.point = { lat: 38.8951, lng: -77.0364 };
