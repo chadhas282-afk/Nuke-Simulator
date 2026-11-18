@@ -4578,3 +4578,12 @@
         toast('🛸 Switch to Drone Cockpit vantage to deploy B61 munition', 'info');
         return;
       }
+      if (droneMunition && droneMunition.active) {
+        toast('⚠️ Munition already in flight! Tracking active weapon.', 'warning');
+        return;
+      }
+
+      initPipRenderer();
+
+      const mesh = createB61Mesh();
+      scene.add(mesh);
