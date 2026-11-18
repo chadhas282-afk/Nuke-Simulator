@@ -4597,3 +4597,14 @@
       camera.getWorldDirection(fwdMoveVec);
       const initialVel = fwdMoveVec.clone().multiplyScalar(Math.max(0.0003, (droneVel.fwd || 0.0005) * 0.8))
         .addScaledVector(norm, -0.0003);
+
+        droneMunition = {
+        mesh: mesh,
+        pos: initialPos,
+        vel: initialVel,
+        active: true,
+        t0: performance.now()
+      };
+
+      const pipEl = document.getElementById('dh-bomb-pip');
+      if (pipEl) pipEl.classList.remove('hidden');
