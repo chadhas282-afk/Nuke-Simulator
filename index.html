@@ -4748,3 +4748,13 @@
 
     function updateGimbalBtn() {
       const btn = document.getElementById('dh-gimbal-btn');
+      if (!btn) return;
+      if (droneGimbalMode === 'track') btn.textContent = '🎯 GZ TRACK';
+      else if (droneGimbalMode === 'nadir') btn.textContent = '⬇️ TOP-DOWN';
+      else btn.textContent = '🎥 GIMBAL: FREE';
+    }
+
+    window.cycleDroneSpeed = function () {
+      droneSpeedTier = (droneSpeedTier % 4) + 1;
+      updateSpeedBtn();
+      const labels = {
