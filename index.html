@@ -4758,3 +4758,13 @@
       droneSpeedTier = (droneSpeedTier % 4) + 1;
       updateSpeedBtn();
       const labels = {
+        1: '⚡ Low Speed (380 km/h Recon)',
+        2: '⚡ Fast Cruise (1200 km/h)',
+        3: '🚀 Supersonic Dash (3200 km/h)',
+        4: '🛰️ Hypersonic / Orbital (18,000 km/h)'
+      };
+      toast(labels[droneSpeedTier]);
+    };
+
+    function updateSpeedBtn() {
+      const btn = document.getElementById('dh-speed-btn');
