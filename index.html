@@ -4587,3 +4587,13 @@
 
       const mesh = createB61Mesh();
       scene.add(mesh);
+
+      const norm = dronePos.clone().normalize();
+      const initialPos = dronePos.clone().subScaledVector(norm, 0.00015);
+      mesh.position.copy(initialPos);
+
+      
+      const fwdMoveVec = new THREE.Vector3();
+      camera.getWorldDirection(fwdMoveVec);
+      const initialVel = fwdMoveVec.clone().multiplyScalar(Math.max(0.0003, (droneVel.fwd || 0.0005) * 0.8))
+        .addScaledVector(norm, -0.0003);
