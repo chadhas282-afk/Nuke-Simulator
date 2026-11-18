@@ -4668,3 +4668,13 @@
         pipCamera.lookAt(gz);
         try {
           pipRenderer.render(scene, pipCamera);
+          } catch (e) { }
+      }
+
+      
+      if (altSU <= 0.00008 || bombPos.distanceTo(gz) <= 0.00018) {
+        droneMunition.active = false;
+        scene.remove(droneMunition.mesh);
+
+        
+        runDet(true);
