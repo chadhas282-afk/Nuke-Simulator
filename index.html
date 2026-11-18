@@ -4527,3 +4527,14 @@
 
     function createB61Mesh() {
       const bombGroup = new THREE.Group();
+
+           
+      const bodyGeo = new THREE.CylinderGeometry(0.00028, 0.00028, 0.0015, 16);
+      const bodyMat = new THREE.MeshStandardMaterial({
+        color: 0x94a3b8,
+        metalness: 0.8,
+        roughness: 0.25
+      });
+      const body = new THREE.Mesh(bodyGeo, bodyMat);
+      body.rotation.x = Math.PI * 0.5;
+      bombGroup.add(body);
