@@ -4548,3 +4548,13 @@
         emissive: 0x0369a1,
         emissiveIntensity: 0.4
       });
+      const nose = new THREE.Mesh(noseGeo, noseMat);
+      nose.rotation.x = -Math.PI * 0.5;
+      nose.position.z = 0.00105;
+      bombGroup.add(nose);
+
+      
+      const finGeo = new THREE.BoxGeometry(0.00003, 0.0008, 0.00045);
+      const finMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.7, roughness: 0.3 });
+      for (let i = 0; i < 4; i++) {
+        const fin = new THREE.Mesh(finGeo, finMat);
