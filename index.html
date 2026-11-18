@@ -4777,3 +4777,14 @@
       };
       btn.textContent = speeds[droneSpeedTier] || '⚡ SPD: 380 KM/H';
     }
+
+    window.adjustDroneZoom = function (dir) {
+      if (dir > 0) droneZoomLevel = Math.min(10.0, droneZoomLevel * 1.4);
+      else droneZoomLevel = Math.max(1.0, droneZoomLevel / 1.4);
+      updateZoomDisplay();
+    };
+
+    function updateZoomDisplay() {
+      camera.fov = droneBaseFov / droneZoomLevel;
+      camera.updateProjectionMatrix();
+      const zoomVal = document.getElementById('dh-zoom-val');
