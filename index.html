@@ -4678,3 +4678,13 @@
 
         
         runDet(true);
+        if (defconLevel > 1) cycleDefcon(1);
+
+        const pipHeader = document.querySelector('.dh-pip-header span');
+        if (pipHeader) pipHeader.innerHTML = '💥 <span style="color:#ef4444">IMPACT CONFIRMED // GZ TARGET DESTROYED</span>';
+        toast('💥 B61 Precision Thermonuclear Munition Impact Confirmed at GZ!', 'success');
+
+        setTimeout(() => {
+          const pipEl = document.getElementById('dh-bomb-pip');
+          if (pipEl) pipEl.classList.add('hidden');
+          if (pipHeader) pipHeader.innerHTML = '🔴 BOMB-CAM // NOSE SEEKER [B61-12]';
