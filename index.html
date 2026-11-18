@@ -4558,3 +4558,13 @@
       const finMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.7, roughness: 0.3 });
       for (let i = 0; i < 4; i++) {
         const fin = new THREE.Mesh(finGeo, finMat);
+        fin.position.z = -0.00095;
+        fin.rotation.z = (Math.PI / 2) * i;
+        bombGroup.add(fin);
+      }
+
+      
+      const lensGeo = new THREE.SphereGeometry(0.00008, 8, 8);
+      const lensMat = new THREE.MeshBasicMaterial({ color: 0xef4444 });
+      const lens = new THREE.Mesh(lensGeo, lensMat);
+      lens.position.z = 0.0014;
