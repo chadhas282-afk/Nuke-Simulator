@@ -4718,3 +4718,13 @@
         badge.textContent = data.name;
         badge.style.background = data.badgeBg;
       }
+      const label = document.getElementById('defcon-label');
+      if (label) {
+        label.textContent = `${data.code} · ${data.label}`;
+      }
+      for (let i = 1; i <= 5; i++) {
+        const light = document.getElementById('df-' + i);
+        if (light) {
+          light.classList.toggle('active', i === defconLevel);
+        }
+      }
