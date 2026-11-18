@@ -4507,3 +4507,14 @@
         btn.textContent = '🔄 AUTOPILOT';
       }
     }
+
+       function initPipRenderer() {
+      const pipCanvas = document.getElementById('bomb-pip-canvas');
+      if (!pipCanvas) return;
+      if (!pipRenderer) {
+        try {
+          pipRenderer = new THREE.WebGLRenderer({ canvas: pipCanvas, antialias: true, alpha: true });
+          pipRenderer.setSize(260, 160, false);
+          pipRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+        } catch (e) {
+          console.warn('PIP WebGLRenderer init:', e);
