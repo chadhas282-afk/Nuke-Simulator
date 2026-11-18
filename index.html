@@ -4628,3 +4628,13 @@
       
       const toGz = gz.clone().sub(bombPos).normalize();
       const currentSpeed = bombVel.length();
+       const targetSpeed = Math.min(0.007, currentSpeed + 0.001 * dt);
+      bombVel.lerp(toGz.multiplyScalar(targetSpeed), Math.min(1.0, 0.16 + dt * 2.2));
+
+      
+      bombPos.addScaledVector(bombVel, dt * 60.0);
+      droneMunition.mesh.position.copy(bombPos);
+
+      
+      const fwd = bombVel.clone().normalize();
+      droneMunition.mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), fwd);
