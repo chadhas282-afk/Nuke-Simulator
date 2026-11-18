@@ -4728,3 +4728,13 @@
           light.classList.toggle('active', i === defconLevel);
         }
       }
+      if (defconLevel === 1) {
+        toast('🚨 DEFCON 1 [COCKED PISTOL]: Maximum Readiness — Strategic Forces Release Authorized', 'warning');
+      } else if (defconLevel === 2) {
+        toast('⚠️ DEFCON 2 [FAST PACE]: Armed Forces Ready to Deploy within 6 Hours', 'warning');
+      } else if (defconLevel === 3) {
+        toast('🟡 DEFCON 3 [ROUND HOUSE]: Air Force Readiness Increased to 15 Minutes', 'info');
+      }
+    }
+
+    window.cycleDroneGimbal = function () {
