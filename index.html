@@ -4658,3 +4658,13 @@
       const pipTimerEl = document.getElementById('dh-pip-timer');
       if (pipTimerEl) {
         const estT = Math.max(0, (altSU / Math.max(0.00001, bombVel.length()))).toFixed(1);
+        pipTimerEl.textContent = `T-${estT}s`;
+      }
+
+      
+      if (pipRenderer && pipCamera) {
+        pipCamera.position.copy(bombPos);
+        pipCamera.up.set(0, 1, 0);
+        pipCamera.lookAt(gz);
+        try {
+          pipRenderer.render(scene, pipCamera);
