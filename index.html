@@ -4768,3 +4768,12 @@
 
     function updateSpeedBtn() {
       const btn = document.getElementById('dh-speed-btn');
+      if (!btn) return;
+      const speeds = {
+        1: '⚡ SPD: 380 KM/H',
+        2: '⚡ SPD: 1200 KM/H',
+        3: '🚀 SPD: 3200 KM/H',
+        4: '🛰️ SPD: ORBITAL'
+      };
+      btn.textContent = speeds[droneSpeedTier] || '⚡ SPD: 380 KM/H';
+    }
