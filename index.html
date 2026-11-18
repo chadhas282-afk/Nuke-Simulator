@@ -4518,3 +4518,12 @@
           pipRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
         } catch (e) {
           console.warn('PIP WebGLRenderer init:', e);
+          }
+      }
+      if (!pipCamera) {
+        pipCamera = new THREE.PerspectiveCamera(65, 260 / 160, 0.000005, 300.0);
+      }
+    }
+
+    function createB61Mesh() {
+      const bombGroup = new THREE.Group();
