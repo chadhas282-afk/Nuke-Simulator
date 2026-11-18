@@ -4638,3 +4638,13 @@
       
       const fwd = bombVel.clone().normalize();
       droneMunition.mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), fwd);
+
+      
+      const distFromCenter = bombPos.length();
+      const altSU = distFromCenter - EARTH_R;
+      const altM = Math.max(0, Math.round(altSU * EARTH_KM * 1000));
+      const distToGzKm = bombPos.distanceTo(gz) * EARTH_KM;
+
+      
+      const pipAltEl = document.getElementById('dh-pip-alt');
+      if (pipAltEl) {
