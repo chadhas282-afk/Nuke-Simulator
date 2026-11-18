@@ -4648,3 +4648,13 @@
       
       const pipAltEl = document.getElementById('dh-pip-alt');
       if (pipAltEl) {
+        pipAltEl.textContent = altM >= 1000 ? `ALT: ${(altM / 1000).toFixed(1)} KM` : `ALT: ${altM} M`;
+      }
+      const pipMachEl = document.getElementById('dh-pip-mach');
+      if (pipMachEl) {
+        const bombMach = (bombVel.length() * 580000 / 1062).toFixed(1);
+        pipMachEl.textContent = `M ${bombMach}`;
+      }
+      const pipTimerEl = document.getElementById('dh-pip-timer');
+      if (pipTimerEl) {
+        const estT = Math.max(0, (altSU / Math.max(0.00001, bombVel.length()))).toFixed(1);
