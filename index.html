@@ -4618,3 +4618,13 @@
 
       const pt = S.point || { lat: 38.8951, lng: -77.0364 };
       const gz = latlng2v3(pt.lat, pt.lng, EARTH_R);
+      const bombPos = droneMunition.pos;
+      const bombVel = droneMunition.vel;
+
+      
+      const down = bombPos.clone().normalize().negate();
+      bombVel.addScaledVector(down, 0.0005 * dt);
+
+      
+      const toGz = gz.clone().sub(bombPos).normalize();
+      const currentSpeed = bombVel.length();
