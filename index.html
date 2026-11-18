@@ -4608,3 +4608,13 @@
 
       const pipEl = document.getElementById('dh-bomb-pip');
       if (pipEl) pipEl.classList.remove('hidden');
+
+      playBombReleaseSound();
+      toast('🚀 B61-12 Thermonuclear Precision Munition Released! Live Seeker Active.', 'info');
+    };
+
+    function updateDroneMunition(dt) {
+      if (!droneMunition || !droneMunition.active) return;
+
+      const pt = S.point || { lat: 38.8951, lng: -77.0364 };
+      const gz = latlng2v3(pt.lat, pt.lng, EARTH_R);
