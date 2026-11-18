@@ -4738,3 +4738,13 @@
     }
 
     window.cycleDroneGimbal = function () {
+      if (droneGimbalMode === 'free') droneGimbalMode = 'track';
+      else if (droneGimbalMode === 'track') droneGimbalMode = 'nadir';
+      else droneGimbalMode = 'free';
+      updateGimbalBtn();
+      const labels = { free: '🕹️ Free Aim (Full Manual)', track: '🎯 Ground Zero Target Lock', nadir: '⬇️ Ortho Nadir (Top-Down)' };
+      toast(labels[droneGimbalMode] || 'Gimbal Mode Changed');
+    };
+
+    function updateGimbalBtn() {
+      const btn = document.getElementById('dh-gimbal-btn');
