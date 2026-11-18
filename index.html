@@ -4498,4 +4498,12 @@
 
     function updateAutopilotBtn() {
       const btn = document.getElementById('dh-orbit-btn');
-      
+      if (!btn) return;
+      if (droneAutopilot) {
+        btn.classList.add('active');
+        btn.textContent = '🔄 ORBITING';
+      } else {
+        btn.classList.remove('active');
+        btn.textContent = '🔄 AUTOPILOT';
+      }
+    }
