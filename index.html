@@ -4708,3 +4708,13 @@
       } else {
         defconLevel = defconLevel === 1 ? 5 : defconLevel - 1;
       }
+      updateDefconUI();
+    };
+
+    function updateDefconUI() {
+      const data = DEFCON_DATA[defconLevel] || DEFCON_DATA[5];
+      const badge = document.getElementById('defcon-badge');
+      if (badge) {
+        badge.textContent = data.name;
+        badge.style.background = data.badgeBg;
+      }
