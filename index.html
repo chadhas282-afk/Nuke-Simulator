@@ -4538,3 +4538,13 @@
       const body = new THREE.Mesh(bodyGeo, bodyMat);
       body.rotation.x = Math.PI * 0.5;
       bombGroup.add(body);
+
+      
+      const noseGeo = new THREE.ConeGeometry(0.00028, 0.00065, 16);
+      const noseMat = new THREE.MeshStandardMaterial({
+        color: 0x0284c7,
+        metalness: 0.5,
+        roughness: 0.2,
+        emissive: 0x0369a1,
+        emissiveIntensity: 0.4
+      });
