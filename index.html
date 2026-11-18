@@ -4688,3 +4688,13 @@
           const pipEl = document.getElementById('dh-bomb-pip');
           if (pipEl) pipEl.classList.add('hidden');
           if (pipHeader) pipHeader.innerHTML = '🔴 BOMB-CAM // NOSE SEEKER [B61-12]';
+          droneMunition = null;
+        }, 3200);
+      }
+    }
+
+    
+    const DEFCON_DATA = {
+      5: { name: 'DEFCON 5', code: 'FADE OUT', label: 'PEACETIME READINESS', badgeBg: '#0284c7', color: '#38bdf8' },
+      4: { name: 'DEFCON 4', code: 'DOUBLE TAKE', label: 'INTELLIGENCE WATCH', badgeBg: '#16a34a', color: '#4ade80' },
+      3: { name: 'DEFCON 3', code: 'ROUND HOUSE', label: 'AIR FORCE READY 15M', badgeBg: '#ca8a04', color: '#fde047' },
