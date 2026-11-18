@@ -4568,3 +4568,13 @@
       const lensMat = new THREE.MeshBasicMaterial({ color: 0xef4444 });
       const lens = new THREE.Mesh(lensGeo, lensMat);
       lens.position.z = 0.0014;
+      bombGroup.add(lens);
+
+      return bombGroup;
+    }
+
+    window.dropDroneMunition = function () {
+      if (!droneActive) {
+        toast('🛸 Switch to Drone Cockpit vantage to deploy B61 munition', 'info');
+        return;
+      }
