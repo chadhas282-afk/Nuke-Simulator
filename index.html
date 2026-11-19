@@ -4808,3 +4808,12 @@
       } else {
         canvas.classList.add('drone-nvg');
         if (modeTag) modeTag.textContent = 'NVG-GEN3';
+        if (filterBtn) filterBtn.textContent = '🟢 NVG';
+        toast('🟢 Sensor: Gen-3 Phosphor Night Vision (NVG)');
+      }
+    };
+
+    function updateDroneHUD(dPos, gzPos, altSU, headingRad, pitchRad, rollRad, vel) {
+      const ll = v3ToLL(dPos);
+      const coordsVal = document.getElementById('dh-coords-val');
+      if (coordsVal) coordsVal.textContent = `${Math.abs(ll.lat).toFixed(3)}°${ll.lat >= 0 ? 'N' : 'S'} ${Math.abs(ll.lng).toFixed(3)}°${ll.lng >= 0 ? 'E' : 'W'}`;
