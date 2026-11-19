@@ -4998,3 +4998,13 @@
             fpmEl.style.opacity = '1.0';
             const cx = window.innerWidth * 0.5;
             const cy = window.innerHeight * 0.5;
+            const sx = (proj.x * 0.5 + 0.5) * window.innerWidth;
+            const sy = (-proj.y * 0.5 + 0.5) * window.innerHeight;
+            const dx = Math.max(-260, Math.min(260, sx - cx));
+            const dy = Math.max(-190, Math.min(190, sy - cy));
+            fpmEl.style.transform = `translate(calc(-50% + ${dx.toFixed(1)}px), calc(-50% + ${dy.toFixed(1)}px))`;
+          } else {
+            fpmEl.style.opacity = '0.35';
+          }
+        }
+      }
