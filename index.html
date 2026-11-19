@@ -5008,3 +5008,13 @@
           }
         }
       }
+      }
+
+    function runDroneFlightStep() {
+      const now = performance.now();
+      const dt = Math.min((now - lastDroneTime) * 0.001, 0.08);
+      lastDroneTime = now;
+
+      const norm = dronePos.clone().normalize();
+      const worldUp = Math.abs(norm.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+      const east = new THREE.Vector3().crossVectors(worldUp, norm).normalize();
