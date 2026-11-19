@@ -4958,3 +4958,13 @@
         const isFacing = p.z < 1.0 && toGzVec.dot(camDir) > 0;
         if (isFacing) {
           const sx = (p.x * 0.5 + 0.5) * window.innerWidth;
+          const sy = (-p.y * 0.5 + 0.5) * window.innerHeight;
+          tmEl.style.display = 'flex';
+          tmEl.style.left = `${sx}px`;
+          tmEl.style.top = `${sy}px`;
+          const tmDist = document.getElementById('dh-tm-dist');
+          if (tmDist) tmDist.textContent = `${dDistKm.toFixed(1)} KM`;
+        } else {
+          tmEl.style.display = 'none';
+        }
+      }
