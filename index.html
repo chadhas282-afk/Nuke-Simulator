@@ -4929,3 +4929,12 @@
       const psiEl = document.getElementById('dh-psi-val');
       if (psiEl) {
         if (overpressurePsi > 1.0) {
+           psiEl.textContent = `${overpressurePsi.toFixed(2)} PSI (ALERT)`;
+          psiEl.style.color = '#ef4444';
+        } else {
+          psiEl.textContent = `${overpressurePsi.toFixed(2)} PSI`;
+          psiEl.style.color = '#bae6fd';
+        }
+      }
+
+      const radEl = document.getElementById('dh-rad-val');
