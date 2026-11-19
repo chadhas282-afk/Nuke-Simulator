@@ -4978,3 +4978,13 @@
         } else {
           const norm = dPos.clone().normalize();
           const worldUp = Math.abs(norm.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+          const east = new THREE.Vector3().crossVectors(worldUp, norm).normalize();
+          const north = new THREE.Vector3().crossVectors(norm, east).normalize();
+          const groundFwd = north.clone().multiplyScalar(Math.cos(headingRad)).addScaledVector(east, Math.sin(headingRad)).normalize();
+          const groundRight = east.clone().multiplyScalar(Math.cos(headingRad)).addScaledVector(north, -Math.sin(headingRad)).normalize();
+          const lookDir = groundFwd.clone().multiplyScalar(Math.cos(pitchRad)).addScaledVector(norm, Math.sin(pitchRad)).normalize();
+          const fwdMoveVec = lookDir.clone().multiplyScalar(0.72).addScaledVector(groundFwd, 0.28).normalize();
+
+          const vWorld = fwdMoveVec.clone().multiplyScalar(vel.fwd)
+            .addScaledVector(groundRight, vel.right)
+            .addScaledVector(norm, vel.up).normalize();
