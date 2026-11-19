@@ -4938,3 +4938,12 @@
       }
 
       const radEl = document.getElementById('dh-rad-val');
+      if (radEl) {
+        if (radDoseRate > 10.0) {
+          radEl.textContent = `${Math.round(radDoseRate)} R/HR (DANGER)`;
+          radEl.style.color = '#ef4444';
+        } else {
+          radEl.textContent = `${radDoseRate.toFixed(2)} R/HR`;
+          radEl.style.color = '#4ade80';
+        }
+      }
