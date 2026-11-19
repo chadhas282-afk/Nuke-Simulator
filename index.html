@@ -5077,3 +5077,24 @@
         
         if (droneKeys.d) droneVel.right += accel;
         if (droneKeys.a) droneVel.right -= accel;
+
+               
+        const curDist = dronePos.length();
+        const curAltKm = Math.max(0.01, (curDist - EARTH_R) * EARTH_KM);
+
+        
+        const altClimbBoost = Math.max(1.0, Math.min(Math.sqrt(curAltKm / 10.0), 12.0));
+        const vAccel = accel * 1.25 * altClimbBoost;
+
+        
+        if (droneKeys.v) droneVel.up += vAccel;
+        if (droneKeys.c) droneVel.up -= vAccel;
+
+        
+        const damp = Math.pow(0.86, dt * 60);
+        droneVel.fwd *= damp;
+        droneVel.right *= damp;
+        droneVel.up *= damp;
+
+        const step = fwdMoveVec.multiplyScalar(droneVel.fwd)
+          .addScaledVector(manualRight, droneVel.right)
