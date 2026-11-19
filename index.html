@@ -4988,3 +4988,13 @@
           const vWorld = fwdMoveVec.clone().multiplyScalar(vel.fwd)
             .addScaledVector(groundRight, vel.right)
             .addScaledVector(norm, vel.up).normalize();
+
+          const fpmPoint = dPos.clone().addScaledVector(vWorld, 0.08);
+          const proj = fpmPoint.project(camera);
+          const camDir = new THREE.Vector3();
+          camera.getWorldDirection(camDir);
+
+          if (proj.z < 1.0 && vWorld.dot(camDir) > 0) {
+            fpmEl.style.opacity = '1.0';
+            const cx = window.innerWidth * 0.5;
+            const cy = window.innerHeight * 0.5;
