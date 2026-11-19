@@ -5068,3 +5068,12 @@
         const manualFwd = north.clone().multiplyScalar(Math.cos(droneHeading)).addScaledVector(east, Math.sin(droneHeading)).normalize();
         const manualRight = east.clone().multiplyScalar(Math.cos(droneHeading)).addScaledVector(north, -Math.sin(droneHeading)).normalize();
         const manualLook = manualFwd.clone().multiplyScalar(Math.cos(dronePitch)).addScaledVector(norm, Math.sin(dronePitch)).normalize();
+
+        
+        const fwdMoveVec = manualLook.clone().multiplyScalar(0.72).addScaledVector(manualFwd, 0.28).normalize();
+        if (droneKeys.w) droneVel.fwd += accel;
+        if (droneKeys.s) droneVel.fwd -= accel;
+
+        
+        if (droneKeys.d) droneVel.right += accel;
+        if (droneKeys.a) droneVel.right -= accel;
