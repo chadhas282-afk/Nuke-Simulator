@@ -5038,3 +5038,13 @@
           const gzNorm = gz.clone().normalize();
           const rel = dronePos.clone().sub(gz);
           const h = rel.dot(gzNorm);
+          const planar = rel.clone().subScaledVector(gzNorm, h);
+          const radius = Math.max(0.015, planar.length());
+
+          
+          const tangent = gzNorm.clone().cross(planar).normalize();
+          const orbitSpeed = (baseSpeedKmH * KM2SU / 3600) * 45;
+          dronePos.addScaledVector(tangent, orbitSpeed * dt);
+
+          
+          const newRel = dronePos.clone().sub(gz);
