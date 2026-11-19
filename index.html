@@ -4908,3 +4908,12 @@
         if (altM < 220) {
           warnEl.classList.remove('hidden');
           playTerrainWarningBeep();
+          } else {
+          warnEl.classList.add('hidden');
+        }
+      }
+
+      
+      const curYield = S.yieldKt || 100;
+      let overpressurePsi = 0.0;
+      let radDoseRate = 0.05; 
