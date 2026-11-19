@@ -4947,3 +4947,14 @@
           radEl.style.color = '#4ade80';
         }
       }
+
+            
+      const tmEl = document.getElementById('dh-target-marker');
+      if (tmEl) {
+        const p = gzPos.clone().project(camera);
+        const toGzVec = gzPos.clone().sub(dPos);
+        const camDir = new THREE.Vector3();
+        camera.getWorldDirection(camDir);
+        const isFacing = p.z < 1.0 && toGzVec.dot(camDir) > 0;
+        if (isFacing) {
+          const sx = (p.x * 0.5 + 0.5) * window.innerWidth;
