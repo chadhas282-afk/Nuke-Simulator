@@ -4788,3 +4788,13 @@
       camera.fov = droneBaseFov / droneZoomLevel;
       camera.updateProjectionMatrix();
       const zoomVal = document.getElementById('dh-zoom-val');
+      if (zoomVal) zoomVal.textContent = `${droneZoomLevel.toFixed(1)}X`;
+    }
+
+    window.cycleDroneSensor = function () {
+      droneSensorIndex = (droneSensorIndex + 1) % 3;
+      canvas.classList.remove('drone-flir', 'drone-nvg');
+      const modeTag = document.getElementById('dh-sensor-mode');
+      const filterBtn = document.getElementById('dh-filter-btn');
+      if (droneSensorIndex === 0) {
+        if (modeTag) modeTag.textContent = 'RGB-VIS';
