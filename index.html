@@ -5048,3 +5048,13 @@
 
           
           const newRel = dronePos.clone().sub(gz);
+          const newPlanar = newRel.clone().subScaledVector(gzNorm, newRel.dot(gzNorm)).normalize().multiplyScalar(radius);
+          dronePos.copy(gz).addScaledVector(gzNorm, h).add(newPlanar);
+
+          
+          const toGZ = gz.clone().sub(dronePos).normalize();
+          droneHeading = Math.atan2(toGZ.dot(east), toGZ.dot(north));
+          dronePitch = Math.asin(Math.max(-0.99, Math.min(0.99, toGZ.dot(norm))));
+          droneRoll = -0.16; 
+          droneVel.fwd = orbitSpeed * 0.02;
+          droneVel.right = 0;
