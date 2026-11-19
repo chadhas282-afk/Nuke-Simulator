@@ -4817,3 +4817,14 @@
       const ll = v3ToLL(dPos);
       const coordsVal = document.getElementById('dh-coords-val');
       if (coordsVal) coordsVal.textContent = `${Math.abs(ll.lat).toFixed(3)}°${ll.lat >= 0 ? 'N' : 'S'} ${Math.abs(ll.lng).toFixed(3)}°${ll.lng >= 0 ? 'E' : 'W'}`;
+
+      const altKm = altSU * EARTH_KM;
+      const altM = Math.round(altKm * 1000);
+      const altFt = Math.round(altM * 3.28084);
+      const altEl = document.getElementById('dh-alt');
+      if (altEl) {
+        if (altKm >= 100) {
+          altEl.textContent = `${altKm.toFixed(1)} KM (${Math.round(altKm * 0.621371).toLocaleString()} MI) [ORBIT]`;
+        } else {
+          altEl.textContent = `${altM.toLocaleString()} M (${altFt.toLocaleString()} FT)`;
+        }
