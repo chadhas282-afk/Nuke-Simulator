@@ -4798,3 +4798,13 @@
       const filterBtn = document.getElementById('dh-filter-btn');
       if (droneSensorIndex === 0) {
         if (modeTag) modeTag.textContent = 'RGB-VIS';
+         if (filterBtn) filterBtn.textContent = '📷 VIS';
+        toast('📷 Sensor: Electro-Optical Daylight HD (RGB)');
+      } else if (droneSensorIndex === 1) {
+        canvas.classList.add('drone-flir');
+        if (modeTag) modeTag.textContent = 'FLIR-WH';
+        if (filterBtn) filterBtn.textContent = '🔥 FLIR';
+        toast('🔥 Sensor: White-Hot Thermal Infrared (FLIR)');
+      } else {
+        canvas.classList.add('drone-nvg');
+        if (modeTag) modeTag.textContent = 'NVG-GEN3';
