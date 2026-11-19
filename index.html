@@ -4877,3 +4877,14 @@
       let brgDeg = Math.round((Math.atan2(y, x) * 180 / Math.PI + 360) % 360);
       const gzBrgEl = document.getElementById('dh-gz-brg');
       if (gzBrgEl) gzBrgEl.textContent = `${String(brgDeg).padStart(3, '0')}° BRG`;
+
+      const pitchDeg = Math.round(pitchRad * (180 / Math.PI));
+      const pitchEl = document.getElementById('dh-pitch');
+      if (pitchEl) pitchEl.textContent = `${pitchDeg > 0 ? '+' : ''}${pitchDeg}°`;
+
+      let hdgDeg = Math.round(headingRad * (180 / Math.PI)) % 360;
+      if (hdgDeg < 0) hdgDeg += 360;
+      const cardinals = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW', 'N'];
+      const cardIdx = Math.round(hdgDeg / 45) % 8;
+      const hdgVal = document.getElementById('dh-heading-val');
+      if (hdgVal) hdgVal.textContent = `${String(hdgDeg).padStart(3, '0')}° ${cardinals[cardIdx]} HDG`;
