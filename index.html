@@ -4858,3 +4858,13 @@
       if (gEl) {
         gEl.textContent = `${gLoad >= 0 ? '+' : ''}${gLoad.toFixed(1)} G`;
         gEl.style.color = gLoad > 4.5 ? '#f97316' : '#94a3b8';
+        }
+
+      const vsiMS = (vel.up * 580000 / 3.6).toFixed(1);
+      const vsiEl = document.getElementById('dh-vsi');
+      if (vsiEl) vsiEl.textContent = `${vel.up >= 0 ? '+' : ''}${vsiMS} M/S`;
+
+      const pt = S.point || { lat: 38.8951, lng: -77.0364 };
+      const dDistKm = distKm(ll.lat, ll.lng, pt.lat, pt.lng);
+      const distEl = document.getElementById('dh-dist');
+      if (distEl) distEl.textContent = `${dDistKm.toFixed(1)} KM`;
