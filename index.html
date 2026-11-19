@@ -4828,3 +4828,13 @@
         } else {
           altEl.textContent = `${altM.toLocaleString()} M (${altFt.toLocaleString()} FT)`;
         }
+        }
+
+      const aglEl = document.getElementById('dh-agl');
+      if (aglEl) {
+        if (altKm >= 100) {
+          aglEl.textContent = `${altKm.toFixed(1)} KM SPACE`;
+        } else {
+          aglEl.textContent = `${altM.toLocaleString()} M AGL`;
+        }
+      }
