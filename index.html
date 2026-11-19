@@ -4968,3 +4968,13 @@
           tmEl.style.display = 'none';
         }
       }
+
+      
+      const fpmEl = document.getElementById('dh-fpm');
+      if (fpmEl) {
+        if (vMag < 0.00003) {
+          fpmEl.style.transform = 'translate(-50%, -50%)';
+          fpmEl.style.opacity = '0.5';
+        } else {
+          const norm = dPos.clone().normalize();
+          const worldUp = Math.abs(norm.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
