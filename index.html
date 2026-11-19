@@ -5028,3 +5028,13 @@
       const yawRate = (droneSpeedTier >= 3 ? 2.5 : 1.9) * dt;
 
       if (droneAutopilot) {
+        if (droneKeys.w || droneKeys.s || droneKeys.a || droneKeys.d || droneKeys.q || droneKeys.e || droneKeys.v || droneKeys.c) {
+          droneAutopilot = false;
+          updateAutopilotBtn();
+          toast('⚠️ Autopilot Disengaged: Manual Pilot Override', 'info');
+        } else {
+          const pt = S.point || { lat: 38.8951, lng: -77.0364 };
+          const gz = latlng2v3(pt.lat, pt.lng, EARTH_R);
+          const gzNorm = gz.clone().normalize();
+          const rel = dronePos.clone().sub(gz);
+          const h = rel.dot(gzNorm);
