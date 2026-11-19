@@ -4917,3 +4917,15 @@
       const curYield = S.yieldKt || 100;
       let overpressurePsi = 0.0;
       let radDoseRate = 0.05; 
+
+      if (lastRpt && dDistKm > 0.05) {
+        const scR = dDistKm / Math.pow(Math.max(0.1, curYield), 1 / 3);
+        if (scR < 18.0) {
+          overpressurePsi = Math.max(0.02, 14.0 / Math.pow(scR, 1.3) + 3.2 / Math.pow(scR, 2.8));
+          radDoseRate = Math.max(0.05, (curYield * 420.0) / Math.pow(Math.max(0.8, dDistKm), 2.2));
+        }
+      }
+
+      const psiEl = document.getElementById('dh-psi-val');
+      if (psiEl) {
+        if (overpressurePsi > 1.0) {
