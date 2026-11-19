@@ -5018,3 +5018,13 @@
       const norm = dronePos.clone().normalize();
       const worldUp = Math.abs(norm.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
       const east = new THREE.Vector3().crossVectors(worldUp, norm).normalize();
+       const north = new THREE.Vector3().crossVectors(norm, east).normalize();
+
+      let baseSpeedKmH = droneSpeedTier === 1 ? 380 : (droneSpeedTier === 2 ? 1200 : (droneSpeedTier === 3 ? 3200 : 18000));
+      if (droneKeys.shift) baseSpeedKmH *= 3.0; 
+      if (droneKeys.ctrl || droneKeys.alt) baseSpeedKmH *= 0.30;
+      const speedSUPerSec = (baseSpeedKmH * KM2SU) / 3600 * 55;
+      const accel = speedSUPerSec * 4.8 * dt;
+      const yawRate = (droneSpeedTier >= 3 ? 2.5 : 1.9) * dt;
+
+      if (droneAutopilot) {
