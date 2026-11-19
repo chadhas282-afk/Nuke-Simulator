@@ -4838,3 +4838,13 @@
           aglEl.textContent = `${altM.toLocaleString()} M AGL`;
         }
       }
+
+      const vMag = Math.sqrt(vel.fwd * vel.fwd + vel.right * vel.right + vel.up * vel.up);
+      const speedKmH = Math.round(vMag * 580000);
+      const speedKnots = Math.round(speedKmH * 0.539957);
+      const spdEl = document.getElementById('dh-speed');
+      if (spdEl) spdEl.textContent = `${speedKmH} KM/H (${speedKnots} KTS)`;
+
+      const machVal = (speedKmH / 1062).toFixed(2);
+      const machEl = document.getElementById('dh-mach');
+      if (machEl) {
