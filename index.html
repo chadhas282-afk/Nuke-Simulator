@@ -4888,3 +4888,13 @@
       const cardIdx = Math.round(hdgDeg / 45) % 8;
       const hdgVal = document.getElementById('dh-heading-val');
       if (hdgVal) hdgVal.textContent = `${String(hdgDeg).padStart(3, '0')}° ${cardinals[cardIdx]} HDG`;
+
+      const tape = document.getElementById('dh-compass-tape');
+      if (tape) {
+        const offsetPct = ((hdgDeg % 360) / 360) * 100;
+        tape.style.transform = `translateX(${-offsetPct * 0.22}px)`;
+      }
+
+      const ladder = document.getElementById('dh-pitch-ladder');
+      if (ladder) {
+        const ladderY = pitchDeg * 2.2;
