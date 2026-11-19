@@ -4898,3 +4898,13 @@
       const ladder = document.getElementById('dh-pitch-ladder');
       if (ladder) {
         const ladderY = pitchDeg * 2.2;
+        const bankDeg = (rollRad * 180 / Math.PI);
+        ladder.style.transform = `translateY(${ladderY}px) rotate(${bankDeg}deg)`;
+      }
+
+      
+      const warnEl = document.getElementById('dh-terrain-warn');
+      if (warnEl) {
+        if (altM < 220) {
+          warnEl.classList.remove('hidden');
+          playTerrainWarningBeep();
