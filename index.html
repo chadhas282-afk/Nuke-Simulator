@@ -5138,3 +5138,12 @@
       const lookDir = groundFwd.clone().multiplyScalar(Math.cos(dronePitch)).addScaledVector(norm, Math.sin(dronePitch)).normalize();
 
       
+      if (!droneAutopilot) {
+        const targetRoll = -droneVel.right * 18.0 - (droneKeys.e ? 0.22 : 0) + (droneKeys.q ? 0.22 : 0);
+        droneRoll = THREE.MathUtils.lerp(droneRoll, targetRoll, 0.15);
+      }
+      const camUp = norm.clone().addScaledVector(groundRight, droneRoll).normalize();
+
+      camera.position.copy(dronePos);
+      camera.up.copy(camUp);
+      camera.lookAt(dronePos.clone().add(lookDir));
