@@ -5287,3 +5287,14 @@
       const wdVal = document.getElementById('wdir-val'); if (wdVal) wdVal.textContent = `${sc.windDir}°`;
       const wsSl = document.getElementById('wspd-sl'); if (wsSl) wsSl.value = sc.windSpd;
       const wsVal = document.getElementById('wspd-val'); if (wsVal) wsVal.textContent = `${sc.windSpd} km/h`;
+
+      placeGZ(sc.lat, sc.lng);
+      flyToCity(sc.lat, sc.lng);
+      toast(sc.toast, 'warning');
+    };
+
+    
+    S.weather = 'clear';
+    window.setWeather = function (w) {
+      S.weather = w;
+      document.querySelectorAll('.wx-btn').forEach(b => b.classList.toggle('active', b.id === 'wx-' + w));
