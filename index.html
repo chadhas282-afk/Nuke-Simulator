@@ -5388,3 +5388,13 @@
       b.style.display = isHidden ? 'flex' : 'none';
       if (a) a.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(-90deg)';
     };
+
+    function onResize() {
+      const isDrone = droneActive;
+      const w = stage.clientWidth;
+      const h = Math.max(isDrone ? stage.clientHeight : stage.clientHeight - 56, 100);
+      renderer.setSize(w, h, false);
+      composer.setSize(w, h);
+      bloomPass.resolution.set(w, h);
+      shockPass.uniforms.uAspect.value = w / h;
+      camera.aspect = w / h;
