@@ -5268,3 +5268,13 @@
         const val = document.getElementById('hob-val'); if (val) val.textContent = sc.hobM + ' m';
       } else if (sc.burst === 'hane') {
         S.haneAltKm = sc.haneAltKm || 400;
+        const sl = document.getElementById('hane-sl'); if (sl) sl.value = S.haneAltKm;
+        const val = document.getElementById('hane-val'); if (val) val.textContent = S.haneAltKm + ' km';
+      }
+      const yIn = document.getElementById('yield-in');
+      if (yIn) {
+        if (sc.yieldKt >= 1000) {
+          setUnit('mt');
+          yIn.value = (sc.yieldKt / 1000).toFixed(sc.yieldKt % 1000 === 0 ? 0 : 2);
+        } else {
+          setUnit('kt');
