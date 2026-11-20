@@ -5327,3 +5327,14 @@
       });
       toast(`⚡ Detonation Speed: ${spd}x${spd < 1 ? ' (Slow-Mo)' : ''}`);
     };
+
+        
+    window.toggleABM = function () {
+      S.abmActive = !S.abmActive;
+      const el = document.getElementById('tog-abm');
+      if (el) el.classList.toggle('on', S.abmActive);
+      toast(S.abmActive ? '🛡️ ABM Interceptor Batteries Activated (GBI/THAAD)' : '🛡️ ABM Defense Standby');
+    };
+
+    
+    let solarMode = 'orbit'; 
