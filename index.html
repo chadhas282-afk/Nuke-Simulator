@@ -5158,3 +5158,13 @@
       if (activeBtn) activeBtn.classList.add('active');
 
       S.vantageMode = mode;
+      const stageEl = document.getElementById('stage');
+      if (stageEl) stageEl.classList.toggle('thermal-flir-active', mode === 'thermal');
+
+      if (mode === 'drone') {
+        enterDroneMode();
+        return;
+      }
+
+      if (droneActive) {
+        exitDroneMode();
