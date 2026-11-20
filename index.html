@@ -5298,3 +5298,13 @@
     window.setWeather = function (w) {
       S.weather = w;
       document.querySelectorAll('.wx-btn').forEach(b => b.classList.toggle('active', b.id === 'wx-' + w));
+      const lbls = {
+        clear: '☀️ Clear',
+        rain: '🌧️ Rainout',
+        blizzard: '❄️ Blizzard',
+        gale: '🌪️ Gale'
+      };
+      const wxVal = document.getElementById('wx-val');
+      if (wxVal) wxVal.textContent = lbls[w] || w;
+      if (w === 'gale') {
+        S.windSpd = 75;
