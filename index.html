@@ -5108,3 +5108,13 @@
       const maxAltSU = 12000.0 * KM2SU;
       const curAlt = Math.max(minAltSU, Math.min(maxAltSU, newDist - EARTH_R));
       if (newDist - EARTH_R <= minAltSU && droneVel.up < 0) droneVel.up = 0;
+      if (newDist - EARTH_R >= maxAltSU && droneVel.up > 0) droneVel.up = 0;
+      dronePos.normalize().multiplyScalar(EARTH_R + curAlt);
+
+      
+      const speedFrac = Math.min(1.0, (baseSpeedKmH / 2900));
+      const jitterAmp = (droneKeys.shift ? 0.000004 : 0.0000015) * (0.4 + 0.6 * speedFrac);
+      const jx = Math.sin(now * 0.042) * jitterAmp;
+      const jy = Math.cos(now * 0.057) * jitterAmp;
+      const jz = Math.sin(now * 0.033) * jitterAmp * 0.6;
+      dronePos.x += jx; dronePos.y += jy; dronePos.z += jz;
