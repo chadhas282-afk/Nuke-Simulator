@@ -5318,3 +5318,12 @@
       toast(`Atmosphere: ${lbls[w] || w}`);
       if (S.hasResults) redraw();
     };
+
+    
+    window.setSpeed = function (spd) {
+      S.timeScale = spd;
+      document.querySelectorAll('.spd-btn').forEach(b => {
+        b.classList.toggle('active', parseFloat(b.getAttribute('data-spd')) === spd);
+      });
+      toast(`⚡ Detonation Speed: ${spd}x${spd < 1 ? ' (Slow-Mo)' : ''}`);
+    };
