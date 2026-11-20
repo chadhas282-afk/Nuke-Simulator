@@ -5338,3 +5338,13 @@
 
     
     let solarMode = 'orbit'; 
+    let manualSunHour = 12.0;
+
+    window.toggleSun = function () {
+      S.sunTerminator = !S.sunTerminator;
+      const el = document.getElementById('tog-sun');
+      if (el) el.classList.toggle('on', S.sunTerminator);
+      toast(S.sunTerminator ? '☀️ Solar Terminator & Day/Night Cycle Enabled' : '☀️ Radiant Daylight Mode Enabled');
+    };
+
+    window.setSolarTime = function (hour) {
