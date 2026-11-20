@@ -5218,3 +5218,13 @@
 
     
     window.loadScenario = function (key) {
+      if (!key) return;
+      const scenarios = {
+        cuban_crisis: {
+          lat: 38.8951, lng: -77.0364,
+          yieldKt: 1000, burst: 'airburst', hobM: 1800,
+          launchLat: 22.7167, launchLng: -83.05,
+          windDir: 45, windSpd: 25,
+          toast: '🇨🇺 DEFCON 2: Soviet R-12 / SS-4 Sandal IRBM targeted at Washington DC from Cuba'
+        },
+        able_archer: {
