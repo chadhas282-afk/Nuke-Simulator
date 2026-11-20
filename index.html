@@ -5098,3 +5098,13 @@
 
         const step = fwdMoveVec.multiplyScalar(droneVel.fwd)
           .addScaledVector(manualRight, droneVel.right)
+          .addScaledVector(norm, droneVel.up);
+        dronePos.add(step);
+      }
+
+      
+      const newDist = dronePos.length();
+      const minAltSU = 0.035 * KM2SU;
+      const maxAltSU = 12000.0 * KM2SU;
+      const curAlt = Math.max(minAltSU, Math.min(maxAltSU, newDist - EARTH_R));
+      if (newDist - EARTH_R <= minAltSU && droneVel.up < 0) droneVel.up = 0;
