@@ -5128,3 +5128,13 @@
           const toGZ = gz.clone().sub(dronePos).normalize();
           droneHeading = Math.atan2(toGZ.dot(east), toGZ.dot(north));
           dronePitch = Math.asin(Math.max(-0.99, Math.min(0.99, toGZ.dot(norm))));
+          } else if (droneGimbalMode === 'nadir') {
+          dronePitch = -Math.PI * 0.49;
+        }
+      }
+
+      const groundFwd = north.clone().multiplyScalar(Math.cos(droneHeading)).addScaledVector(east, Math.sin(droneHeading)).normalize();
+      const groundRight = east.clone().multiplyScalar(Math.cos(droneHeading)).addScaledVector(north, -Math.sin(droneHeading)).normalize();
+      const lookDir = groundFwd.clone().multiplyScalar(Math.cos(dronePitch)).addScaledVector(norm, Math.sin(dronePitch)).normalize();
+
+      
