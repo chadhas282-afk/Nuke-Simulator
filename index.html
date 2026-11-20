@@ -5178,3 +5178,13 @@
 
       if (mode === 'orbit') {
         const targetPos = gz.clone().addScaledVector(norm, 2.3).addScaledVector(tan1, 0.35);
+        flyCamera(targetPos, 1600);
+      } else if (mode === 'thermal') {
+        const targetPos = gz.clone().addScaledVector(norm, 1.8);
+        flyCamera(targetPos, 1400);
+        toast('📡 Satellite Infrared Thermal FLIR View Engaged');
+      } else if (mode === 'icbm') {
+        S.trackCam = true;
+        const togCam = document.getElementById('tog-track-cam');
+        if (togCam) togCam.classList.add('on');
+        const targetPos = gz.clone().addScaledVector(norm, 1.25).addScaledVector(tan1, 0.45);
