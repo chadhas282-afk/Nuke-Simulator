@@ -5278,3 +5278,12 @@
           yIn.value = (sc.yieldKt / 1000).toFixed(sc.yieldKt % 1000 === 0 ? 0 : 2);
         } else {
           setUnit('kt');
+          yIn.value = sc.yieldKt;
+        }
+      }
+      S.windDir = sc.windDir;
+      S.windSpd = sc.windSpd;
+      const wdSl = document.getElementById('wdir-sl'); if (wdSl) wdSl.value = sc.windDir;
+      const wdVal = document.getElementById('wdir-val'); if (wdVal) wdVal.textContent = `${sc.windDir}°`;
+      const wsSl = document.getElementById('wspd-sl'); if (wsSl) wsSl.value = sc.windSpd;
+      const wsVal = document.getElementById('wspd-val'); if (wsVal) wsVal.textContent = `${sc.windSpd} km/h`;
