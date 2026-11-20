@@ -5198,3 +5198,13 @@
         const targetPos = gz.clone().addScaledVector(norm, 2.3).addScaledVector(tan1, 0.35);
         flyCamera(targetPos, 1600);
       }
+      };
+
+    
+    S.windShearDeg = 0;
+    S.falloutHours = 1;
+    window.updateWindShear = function (deg) {
+      S.windShearDeg = parseFloat(deg);
+      const el = document.getElementById('wshear-val');
+      if (el) el.textContent = `${deg}°`;
+      if (S.hasResults) redraw();
