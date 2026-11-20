@@ -5188,3 +5188,13 @@
         const togCam = document.getElementById('tog-track-cam');
         if (togCam) togCam.classList.add('on');
         const targetPos = gz.clone().addScaledVector(norm, 1.25).addScaledVector(tan1, 0.45);
+        flyCamera(targetPos, 1400);
+        toast('🎯 ICBM Hypersonic Re-entry Tracking Chase Camera Engaged');
+      } else if (mode === 'shock') {
+        const targetPos = gz.clone().addScaledVector(norm, 0.45).addScaledVector(tan1, 0.65);
+        flyCamera(targetPos, 1500);
+        toast('🌊 Supersonic Shockwave Wavefront Follower Engaged');
+      } else {
+        const targetPos = gz.clone().addScaledVector(norm, 2.3).addScaledVector(tan1, 0.35);
+        flyCamera(targetPos, 1600);
+      }
