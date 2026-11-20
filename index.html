@@ -5118,3 +5118,13 @@
       const jy = Math.cos(now * 0.057) * jitterAmp;
       const jz = Math.sin(now * 0.033) * jitterAmp * 0.6;
       dronePos.x += jx; dronePos.y += jy; dronePos.z += jz;
+
+      const pt = S.point || { lat: 38.8951, lng: -77.0364 };
+      const gz = latlng2v3(pt.lat, pt.lng, EARTH_R);
+
+      
+      if (!droneAutopilot) {
+        if (droneGimbalMode === 'track') {
+          const toGZ = gz.clone().sub(dronePos).normalize();
+          droneHeading = Math.atan2(toGZ.dot(east), toGZ.dot(north));
+          dronePitch = Math.asin(Math.max(-0.99, Math.min(0.99, toGZ.dot(norm))));
