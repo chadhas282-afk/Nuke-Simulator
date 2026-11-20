@@ -5368,3 +5368,13 @@
         const now = new Date();
         const utcH = now.getUTCHours() + now.getUTCMinutes() / 60;
         lbl.textContent = `${String(now.getUTCHours()).padStart(2, '0')}:${String(now.getUTCMinutes()).padStart(2, '0')} UTC (LIVE)`;
+        if (slider) slider.value = utcH;
+      } else if (solarMode === 'manual') {
+        const h = Math.floor(manualSunHour);
+        const m = Math.floor((manualSunHour - h) * 60);
+        lbl.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')} UTC`;
+      } else if (solarMode === 'orbit') {
+        lbl.textContent = `Auto-Orbit`;
+      } else if (solarMode === 'cam') {
+        lbl.textContent = `Camera Key`;
+      }
