@@ -5308,3 +5308,13 @@
       if (wxVal) wxVal.textContent = lbls[w] || w;
       if (w === 'gale') {
         S.windSpd = 75;
+        const sl = document.getElementById('wspd-sl'); if (sl) sl.value = 75;
+        const val = document.getElementById('wspd-val'); if (val) val.textContent = '75 km/h';
+      } else if (w === 'clear') {
+        S.windSpd = 15;
+        const sl = document.getElementById('wspd-sl'); if (sl) sl.value = 15;
+        const val = document.getElementById('wspd-val'); if (val) val.textContent = '15 km/h';
+      }
+      toast(`Atmosphere: ${lbls[w] || w}`);
+      if (S.hasResults) redraw();
+    };
