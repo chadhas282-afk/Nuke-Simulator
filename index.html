@@ -5378,3 +5378,13 @@
       } else if (solarMode === 'cam') {
         lbl.textContent = `Camera Key`;
       }
+      }
+
+    window.toggleMapControls = function () {
+      const b = document.getElementById('map-controls-body');
+      const a = document.getElementById('mc-arrow');
+      if (!b) return;
+      const isHidden = b.style.display === 'none';
+      b.style.display = isHidden ? 'flex' : 'none';
+      if (a) a.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(-90deg)';
+    };
