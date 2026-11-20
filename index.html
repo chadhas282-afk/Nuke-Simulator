@@ -5258,3 +5258,13 @@
       };
 
       const sc = scenarios[key];
+      if (!sc) return;
+      S.point = { lat: sc.lat, lng: sc.lng };
+      S.yieldKt = sc.yieldKt;
+      setBurst(sc.burst);
+      if (sc.burst === 'airburst') {
+        S.hobM = sc.hobM;
+        const sl = document.getElementById('hob-sl'); if (sl) sl.value = sc.hobM;
+        const val = document.getElementById('hob-val'); if (val) val.textContent = sc.hobM + ' m';
+      } else if (sc.burst === 'hane') {
+        S.haneAltKm = sc.haneAltKm || 400;
