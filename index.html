@@ -5208,3 +5208,13 @@
       const el = document.getElementById('wshear-val');
       if (el) el.textContent = `${deg}°`;
       if (S.hasResults) redraw();
+      };
+    window.updateFalloutTime = function (hrs) {
+      S.falloutHours = parseFloat(hrs);
+      const el = document.getElementById('ftime-val');
+      if (el) el.textContent = `T+${hrs}h`;
+      if (S.hasResults) redraw();
+    };
+
+    
+    window.loadScenario = function (key) {
