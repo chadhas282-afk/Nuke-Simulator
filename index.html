@@ -5348,3 +5348,13 @@
     };
 
     window.setSolarTime = function (hour) {
+      manualSunHour = parseFloat(hour);
+      solarMode = 'manual';
+      updateSunTimeUI();
+    };
+
+    window.setSolarMode = function (mode) {
+      solarMode = mode;
+      updateSunTimeUI();
+      const modeNames = { live: 'Live UTC', orbit: 'Auto Orbit', cam: 'Camera Key' };
+      toast(`☀️ Solar Lighting: ${modeNames[mode] || mode.toUpperCase()}`);
