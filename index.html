@@ -5147,3 +5147,14 @@
       camera.position.copy(dronePos);
       camera.up.copy(camUp);
       camera.lookAt(dronePos.clone().add(lookDir));
+
+      modulateDroneAudio(droneVel);
+      updateDroneHUD(dronePos, gz, curAlt, droneHeading, dronePitch, droneRoll, droneVel);
+    }
+
+    window.setVantage = function (mode) {
+      document.querySelectorAll('.vc-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById('vc-' + mode);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      S.vantageMode = mode;
