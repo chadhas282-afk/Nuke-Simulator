@@ -5358,3 +5358,13 @@
       updateSunTimeUI();
       const modeNames = { live: 'Live UTC', orbit: 'Auto Orbit', cam: 'Camera Key' };
       toast(`☀️ Solar Lighting: ${modeNames[mode] || mode.toUpperCase()}`);
+      };
+
+    function updateSunTimeUI() {
+      const lbl = document.getElementById('sun-time-val');
+      const slider = document.getElementById('sun-time-slider');
+      if (!lbl) return;
+      if (solarMode === 'live') {
+        const now = new Date();
+        const utcH = now.getUTCHours() + now.getUTCMinutes() / 60;
+        lbl.textContent = `${String(now.getUTCHours()).padStart(2, '0')}:${String(now.getUTCMinutes()).padStart(2, '0')} UTC (LIVE)`;
