@@ -5648,3 +5648,13 @@
     
     const hemiLight = new THREE.HemisphereLight(0x7ea8d4, 0x050d18, 0.14);
     scene.add(hemiLight);
+        
+    const dirL = new THREE.DirectionalLight(0xfff8ee, 1.22);
+    dirL.position.copy(sunDirVec.clone().multiplyScalar(6));
+    scene.add(dirL);
+    
+    const fillL = new THREE.DirectionalLight(0x1a355e, 0.05);
+    fillL.position.set(-sunDirVec.x, -sunDirVec.y, -sunDirVec.z);
+    scene.add(fillL);
+
+    
