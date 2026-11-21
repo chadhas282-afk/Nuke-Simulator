@@ -5608,3 +5608,13 @@
       'textures/earth_normal.jpg',
       'https://cdn.jsdelivr.net/npm/three@0.168.0/examples/textures/planets/earth_normal_2048.jpg'
     ];
+    function tryLoadNorm(urls, idx = 0) {
+      if (idx >= urls.length) return;
+      texLoader.load(urls[idx],
+        tex => {
+          tex.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
+          earthMatTex.normalMap = tex;
+          earthMatTex.normalScale = new THREE.Vector2(0.85, 0.85);
+          earthMatTex.needsUpdate = true;
+        },
+        undefined,
