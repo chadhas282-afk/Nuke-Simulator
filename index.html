@@ -5488,3 +5488,13 @@
          uniform float uTerminator;
          uniform float uTime;
          uniform vec3 uEmpCenter;
+          uniform float uEmpRadius;
+         uniform vec3 uScorchCenter;
+         uniform float uScorchRadius;
+         varying vec3 vWorldNormal;
+         varying vec3 vWorldPos;
+         varying vec2 vAtmUv;`
+      );
+
+      shader.fragmentShader = shader.fragmentShader.replace(
+        '#include <dithering_fragment>',
