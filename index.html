@@ -5627,3 +5627,14 @@
     tryLoadNight(NIGHT_URLS);
     tryLoadSpec(SPEC_URLS);
     tryLoadNorm(NORM_URLS);
+
+    const atmMat = {
+      uniforms: {
+        uSunDir: { value: sunDirVec },
+        uTerminator: { value: 1.0 }
+      }
+    };
+
+    
+    (() => {
+      const mat = new THREE.LineBasicMaterial({ color: 0x1a3a60, transparent: true, opacity: 0.25, depthWrite: false }); const R = EARTH_R + 0.001;
