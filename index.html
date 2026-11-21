@@ -5528,3 +5528,13 @@
          }
 
          
+         if (uScorchRadius > 0.0005) {
+           float distToBlast = length(vWorldPos - uScorchCenter);
+           if (distToBlast < uScorchRadius) {
+             float scorchT = 1.0 - smoothstep(0.0, uScorchRadius, distToBlast);
+             vec3 scorchChar = vec3(0.04, 0.03, 0.03);
+             gl_FragColor.rgb = mix(gl_FragColor.rgb, scorchChar, scorchT * 0.85);
+           }
+         }
+
+         
