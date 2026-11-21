@@ -5638,3 +5638,13 @@
     
     (() => {
       const mat = new THREE.LineBasicMaterial({ color: 0x1a3a60, transparent: true, opacity: 0.25, depthWrite: false }); const R = EARTH_R + 0.001;
+      for (let lat = -60; lat <= 60; lat += 30) { const pts = []; for (let lng = 0; lng <= 360; lng += 3)pts.push(latlng2v3(lat, lng, R)); scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat)); }
+      for (let lng = 0; lng < 360; lng += 30) { const pts = []; for (let lat = -90; lat <= 90; lat += 3)pts.push(latlng2v3(lat, lng, R)); scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat)); }
+    })();
+
+    
+    const ambLight = new THREE.AmbientLight(0xffffff, 0.20);
+    scene.add(ambLight);
+    
+    const hemiLight = new THREE.HemisphereLight(0x7ea8d4, 0x050d18, 0.14);
+    scene.add(hemiLight);
