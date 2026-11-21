@@ -5437,3 +5437,14 @@
       specular: new THREE.Color(0x406080),
       shininess: 48
     });
+
+       
+    const dummyBlackTex = new THREE.DataTexture(new Uint8Array([0, 0, 0, 255]), 1, 1, THREE.RGBAFormat);
+    dummyBlackTex.needsUpdate = true;
+
+    const sunDirVec = new THREE.Vector3(3.8, 1.2, 3.5).normalize();
+    const earthMatTexUniforms = {
+      uNightTex: { value: dummyBlackTex },
+      uSunDir: { value: sunDirVec },
+      uTerminator: { value: 1.0 },
+      uTime: { value: 0.0 },
