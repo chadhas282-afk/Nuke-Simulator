@@ -5398,3 +5398,13 @@
       bloomPass.resolution.set(w, h);
       shockPass.uniforms.uAspect.value = w / h;
       camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener('resize', onResize); onResize();
+
+    function latlng2v3(lat, lng, r = EARTH_R) { const phi = (90 - lat) * (Math.PI / 180), theta = (lng + 180) * (Math.PI / 180); return new THREE.Vector3(-r * Math.sin(phi) * Math.cos(theta), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(theta)); }
+    function v3ToLL(v) { const n = v.clone().normalize(); return { lat: 90 - Math.acos(Math.max(-1, Math.min(1, n.y))) * (180 / Math.PI), lng: (Math.atan2(n.z, -n.x) * (180 / Math.PI)) - 180 }; }
+
+    
+    (() => {
+      const N = 16000, pos = new Float32Array(N * 3), cols = new Float32Array(N * 3);
