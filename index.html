@@ -5558,3 +5558,12 @@
           tex.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
           earthMatTex.map = tex;
           earthMatTex.needsUpdate = true;
+          earthTexLoaded = true;
+          earth.material = earthMatTex;
+          S.showTexture = true;
+          document.getElementById('tog-texture')?.classList.add('on');
+          document.getElementById('loading-overlay')?.remove();
+        },
+        undefined,
+        () => tryLoadTex(urls, idx + 1));
+    }
