@@ -5578,3 +5578,13 @@
       texLoader.load(urls[idx],
         tex => {
           tex.colorSpace = THREE.SRGBColorSpace;
+          tex.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
+          earthMatTexUniforms.uNightTex.value = tex;
+          earthMatTex.needsUpdate = true;
+        },
+        undefined,
+        () => tryLoadNight(urls, idx + 1));
+    }
+
+    
+    const SPEC_URLS = [
