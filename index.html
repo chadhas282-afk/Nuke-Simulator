@@ -5618,3 +5618,12 @@
           earthMatTex.needsUpdate = true;
         },
         undefined,
+        () => tryLoadNorm(urls, idx + 1));
+    }
+
+    const earth = new THREE.Mesh(earthGeo, earthMatTex);
+    scene.add(earth);
+    tryLoadTex(TEX_URLS);
+    tryLoadNight(NIGHT_URLS);
+    tryLoadSpec(SPEC_URLS);
+    tryLoadNorm(NORM_URLS);
