@@ -5498,3 +5498,13 @@
 
       shader.fragmentShader = shader.fragmentShader.replace(
         '#include <dithering_fragment>',
+          `#include <dithering_fragment>
+
+         
+         vec3 viewV = normalize(cameraPosition - vWorldPos);
+         float rimVal = pow(1.0 - max(0.0, dot(viewV, vWorldNormal)), 4.0);
+         float daySun = smoothstep(0.05, 0.45, dot(vWorldNormal, uSunDir));
+         vec3 limbHaze = vec3(0.18, 0.48, 0.90) * rimVal * daySun * 0.35;
+         gl_FragColor.rgb += limbHaze;
+
+         
