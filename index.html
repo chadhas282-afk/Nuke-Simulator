@@ -5448,3 +5448,13 @@
       uSunDir: { value: sunDirVec },
       uTerminator: { value: 1.0 },
       uTime: { value: 0.0 },
+      uEmpCenter: { value: new THREE.Vector3(0, -999, 0) },
+      uEmpRadius: { value: 0.0 },
+      uScorchCenter: { value: new THREE.Vector3(0, -999, 0) },
+      uScorchRadius: { value: 0.0 }
+    };
+
+    earthMatTex.onBeforeCompile = (shader) => {
+      shader.uniforms.uNightTex = earthMatTexUniforms.uNightTex;
+      shader.uniforms.uSunDir = earthMatTexUniforms.uSunDir;
+      shader.uniforms.uTerminator = earthMatTexUniforms.uTerminator;
