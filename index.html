@@ -5567,3 +5567,14 @@
         undefined,
         () => tryLoadTex(urls, idx + 1));
     }
+
+        
+    const NIGHT_URLS = [
+      'textures/earth_night.jpg',
+      'https://unpkg.com/three-globe/example/img/earth-night.jpg'
+    ];
+    function tryLoadNight(urls, idx = 0) {
+      if (idx >= urls.length) return;
+      texLoader.load(urls[idx],
+        tex => {
+          tex.colorSpace = THREE.SRGBColorSpace;
