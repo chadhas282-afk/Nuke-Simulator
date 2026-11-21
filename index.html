@@ -5518,3 +5518,13 @@
              vec3 cLights = nMap.rgb * cityMask * vec3(2.8, 2.1, 1.3) * 3.2;
 
              
+              if (uEmpRadius > 0.001) {
+               float distToEmp = length(vWorldPos - uEmpCenter);
+               float empCutoff = smoothstep(uEmpRadius * 0.75, uEmpRadius * 1.15, distToEmp);
+               cLights *= empCutoff;
+             }
+             gl_FragColor.rgb += cLights * nightFactor;
+           }
+         }
+
+         
