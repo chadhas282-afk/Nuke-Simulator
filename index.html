@@ -5688,3 +5688,13 @@
       ctx.fillRect(0, 0, 256, 64);
       const tex = new THREE.CanvasTexture(cv);
       tex.needsUpdate = true;
+      return tex;
+    })();
+
+    const sunFlareMat = new THREE.SpriteMaterial({
+      map: sunFlareTex,
+      color: 0xffffff,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
