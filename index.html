@@ -5538,3 +5538,13 @@
          }
 
          
+          gl_FragColor.rgb = clamp(gl_FragColor.rgb, 0.0, 1.5);
+        `
+      );
+    };
+
+    
+    const TEX_URLS = [
+      'textures/earth_blue_marble.jpg',
+      'https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg',
+      'textures/earth_vibrant.jpg',
