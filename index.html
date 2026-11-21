@@ -5678,3 +5678,13 @@
     const sunStreakTex = (() => {
       const cv = document.createElement('canvas');
       cv.width = 256; cv.height = 64;
+      const ctx = cv.getContext('2d');
+      const g = ctx.createRadialGradient(128, 32, 0, 128, 32, 128);
+      g.addColorStop(0.0, 'rgba(255, 255, 255, 0.9)');
+      g.addColorStop(0.2, 'rgba(255, 220, 160, 0.5)');
+      g.addColorStop(0.6, 'rgba(100, 180, 255, 0.15)');
+      g.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, 256, 64);
+      const tex = new THREE.CanvasTexture(cv);
+      tex.needsUpdate = true;
