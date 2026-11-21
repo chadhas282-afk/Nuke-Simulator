@@ -5588,3 +5588,13 @@
 
     
     const SPEC_URLS = [
+      'textures/earth_specular.jpg',
+      'https://cdn.jsdelivr.net/npm/three@0.168.0/examples/textures/planets/earth_specular_2048.jpg'
+    ];
+    function tryLoadSpec(urls, idx = 0) {
+      if (idx >= urls.length) return;
+      texLoader.load(urls[idx],
+        tex => {
+          tex.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
+          earthMatTex.specularMap = tex;
+          earthMatTex.needsUpdate = true;
