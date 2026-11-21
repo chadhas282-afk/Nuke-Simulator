@@ -5468,3 +5468,13 @@
         '#include <common>',
         `#include <common>
          varying vec3 vWorldNormal;
+         varying vec3 vWorldPos;
+         varying vec2 vAtmUv;`
+      );
+
+      shader.vertexShader = shader.vertexShader.replace(
+        '#include <worldpos_vertex>',
+        `#include <worldpos_vertex>
+         vWorldNormal = normalize((modelMatrix * vec4(normal, 0.0)).xyz);
+         vWorldPos = (modelMatrix * vec4(position, 1.0)).xyz;
+         vAtmUv = uv;`
