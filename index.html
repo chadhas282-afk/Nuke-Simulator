@@ -5598,3 +5598,13 @@
           tex.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
           earthMatTex.specularMap = tex;
           earthMatTex.needsUpdate = true;
+          },
+        undefined,
+        () => tryLoadSpec(urls, idx + 1));
+    }
+
+    
+    const NORM_URLS = [
+      'textures/earth_normal.jpg',
+      'https://cdn.jsdelivr.net/npm/three@0.168.0/examples/textures/planets/earth_normal_2048.jpg'
+    ];
