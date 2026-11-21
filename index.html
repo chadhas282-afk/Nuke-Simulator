@@ -5508,3 +5508,13 @@
          gl_FragColor.rgb += limbHaze;
 
          
+         if (uTerminator > 0.5) {
+           float sDot = dot(vWorldNormal, uSunDir);
+           float nightFactor = smoothstep(0.04, -0.12, sDot);
+           if (nightFactor > 0.001) {
+             vec4 nMap = texture2D(uNightTex, vAtmUv);
+             float maxCh = max(nMap.r, max(nMap.g, nMap.b));
+             float cityMask = smoothstep(0.012, 0.10, maxCh);
+             vec3 cLights = nMap.rgb * cityMask * vec3(2.8, 2.1, 1.3) * 3.2;
+
+             
