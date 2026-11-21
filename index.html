@@ -5418,3 +5418,12 @@
         else if (temp > 0.65) { cols[i * 3] = 1.0; cols[i * 3 + 1] = 0.85; cols[i * 3 + 2] = 0.65; }
         else { cols[i * 3] = 0.95; cols[i * 3 + 1] = 0.97; cols[i * 3 + 2] = 1.0; }
       }
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      g.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+      scene.add(new THREE.Points(g, new THREE.PointsMaterial({ size: 0.075, vertexColors: true, sizeAttenuation: true, transparent: true, opacity: 0.85 })));
+    })();
+
+    
+    const earthGeo = new THREE.SphereGeometry(EARTH_R, 96, 96);
+    const earthMatDark = new THREE.MeshPhongMaterial({ color: new THREE.Color(0x05111f), emissive: new THREE.Color(0x020c14), specular: new THREE.Color(0x1a3050), shininess: 12 });
