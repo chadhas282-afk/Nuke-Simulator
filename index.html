@@ -5548,3 +5548,13 @@
       'textures/earth_blue_marble.jpg',
       'https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg',
       'textures/earth_vibrant.jpg',
+      'https://cdn.jsdelivr.net/npm/three@0.168.0/examples/textures/planets/earth_atmos_2048.jpg'
+    ];
+    function tryLoadTex(urls, idx = 0) {
+      if (idx >= urls.length) return;
+      texLoader.load(urls[idx],
+        tex => {
+          tex.colorSpace = THREE.SRGBColorSpace;
+          tex.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
+          earthMatTex.map = tex;
+          earthMatTex.needsUpdate = true;
