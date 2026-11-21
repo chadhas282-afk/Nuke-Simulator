@@ -5458,3 +5458,13 @@
       shader.uniforms.uNightTex = earthMatTexUniforms.uNightTex;
       shader.uniforms.uSunDir = earthMatTexUniforms.uSunDir;
       shader.uniforms.uTerminator = earthMatTexUniforms.uTerminator;
+       shader.uniforms.uTime = earthMatTexUniforms.uTime;
+      shader.uniforms.uEmpCenter = earthMatTexUniforms.uEmpCenter;
+      shader.uniforms.uEmpRadius = earthMatTexUniforms.uEmpRadius;
+      shader.uniforms.uScorchCenter = earthMatTexUniforms.uScorchCenter;
+      shader.uniforms.uScorchRadius = earthMatTexUniforms.uScorchRadius;
+
+      shader.vertexShader = shader.vertexShader.replace(
+        '#include <common>',
+        `#include <common>
+         varying vec3 vWorldNormal;
