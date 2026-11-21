@@ -5427,3 +5427,13 @@
     
     const earthGeo = new THREE.SphereGeometry(EARTH_R, 96, 96);
     const earthMatDark = new THREE.MeshPhongMaterial({ color: new THREE.Color(0x05111f), emissive: new THREE.Color(0x020c14), specular: new THREE.Color(0x1a3050), shininess: 12 });
+
+        
+    const texLoader = new THREE.TextureLoader();
+    texLoader.setCrossOrigin(location.protocol === 'file:' ? '' : 'anonymous');
+    let earthTexLoaded = false;
+    const earthMatTex = new THREE.MeshPhongMaterial({
+      color: 0xffffff,
+      specular: new THREE.Color(0x406080),
+      shininess: 48
+    });
