@@ -5478,3 +5478,13 @@
          vWorldNormal = normalize((modelMatrix * vec4(normal, 0.0)).xyz);
          vWorldPos = (modelMatrix * vec4(position, 1.0)).xyz;
          vAtmUv = uv;`
+         );
+
+      shader.fragmentShader = shader.fragmentShader.replace(
+        '#include <common>',
+        `#include <common>
+         uniform sampler2D uNightTex;
+         uniform vec3 uSunDir;
+         uniform float uTerminator;
+         uniform float uTime;
+         uniform vec3 uEmpCenter;
