@@ -5877,3 +5877,24 @@
       while (l < h) { const mid = (l + h) >> 1; if (nuclearTests[mid].year <= y) l = mid + 1; else h = mid; }
       return l;
     }
+
+    function applyTimelineDots() {
+      if (!testMesh) return;
+      testMesh.count = S.showTests ? timelineFilteredEnd() : 0;
+    }
+
+    function applyTimeline() {
+      const sl = document.getElementById('tl-slider'); if (sl) sl.value = S.tlYear;
+      const yrs = document.getElementById('tl-year'); if (yrs) yrs.textContent = S.tlYear;
+      applyTimelineDots();
+      renderTestList();
+      const cnt = document.getElementById('tl-count');
+      if (cnt) cnt.textContent = `${timelineFilteredEnd().toLocaleString()} tests through ${S.tlYear}`;
+    }
+
+    let tlSlTimer = null;
+    function initTimeline() {
+      const sl = document.getElementById('tl-slider');
+      if (!sl) return;
+      sl.min = Math.min(...nuclearTests.map(t => t.year));
+      sl.max = S.tlYear;
