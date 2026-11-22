@@ -6198,3 +6198,23 @@
         if (dSq < 1.0) {
           const w = 1.0 - Math.sqrt(dSq);
           const noise = 0.72 + 0.28 * Math.sin(lat * 12.0) * Math.cos(lng * 12.0);
+          const e = mz.elevM * Math.pow(w, 1.2) * noise;
+          if (e > maxElev) maxElev = e;
+        }
+      }
+      return maxElev;
+    }
+
+    function calcTopographicShielding(lat0, lng0, lat1, lng1, hobM = 0) {
+      if (!S.fx.terrain) return { factor: 1.0, type: 'open_terrain', ridgeElevM: 0 };
+      const steps = 7;
+      let maxInterveningElev = 0;
+      const gzElev = getTerrainElevation(lat0, lng0);
+      const tgtElev = getTerrainElevation(lat1, lng1);
+
+      for (let i = 1; i < steps; i++) {
+        const frac = i / steps;
+        const curLat = lat0 + (lat1 - lat0) * frac;
+        const curLng = lng0 + (lng1 - lng0) * frac;
+        const e = getTerrainElevation(curLat, curLng);
+        if (e > maxInterveningElev) maxInterveningElev = e;
