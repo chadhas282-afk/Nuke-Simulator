@@ -6177,3 +6177,24 @@
     function playGeiger(doseRateR) { }
     function playElectrostaticCrackle() { }
     function playFirestormRoar() { }
+
+       
+    const MOUNTAIN_ZONES = [
+      { name: 'Himalayas / Tibetan Plateau', lat: 31.0, lng: 86.0, rLat: 8.0, rLng: 15.0, elevM: 5200 },
+      { name: 'Rocky Mountains', lat: 44.0, lng: -110.0, rLat: 12.0, rLng: 6.0, elevM: 3200 },
+      { name: 'European Alps', lat: 46.5, lng: 10.0, rLat: 3.5, rLng: 5.5, elevM: 3000 },
+      { name: 'Andes Cordillera', lat: -22.0, lng: -68.0, rLat: 35.0, rLng: 4.0, elevM: 4200 },
+      { name: 'Caucasus & Zagros', lat: 37.0, lng: 48.0, rLat: 7.0, rLng: 8.0, elevM: 3100 },
+      { name: 'Ural Mountains', lat: 58.0, lng: 59.0, rLat: 10.0, rLng: 2.5, elevM: 1400 },
+      { name: 'Appalachian Ridges', lat: 38.0, lng: -79.0, rLat: 6.0, rLng: 4.0, elevM: 1300 }
+    ];
+
+    function getTerrainElevation(lat, lng) {
+      let maxElev = 50; 
+      for (const mz of MOUNTAIN_ZONES) {
+        const dLat = (lat - mz.lat) / mz.rLat;
+        const dLng = (lng - mz.lng) / mz.rLng;
+        const dSq = dLat * dLat + dLng * dLng;
+        if (dSq < 1.0) {
+          const w = 1.0 - Math.sqrt(dSq);
+          const noise = 0.72 + 0.28 * Math.sin(lat * 12.0) * Math.cos(lng * 12.0);
