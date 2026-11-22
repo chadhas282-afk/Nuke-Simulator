@@ -6218,3 +6218,23 @@
         const curLng = lng0 + (lng1 - lng0) * frac;
         const e = getTerrainElevation(curLat, curLng);
         if (e > maxInterveningElev) maxInterveningElev = e;
+        }
+
+      const losElev = Math.max(gzElev + (hobM || 0), tgtElev);
+      const ridgeDiff = maxInterveningElev - losElev;
+
+      if (ridgeDiff > 350) {
+        
+        const shadowLoss = Math.min(0.55, 0.18 + (ridgeDiff / 4000) * 0.45);
+        return {
+          factor: 1.0 - shadowLoss,
+          type: 'ridge_shadow',
+          ridgeElevM: maxInterveningElev,
+          dropPct: Math.round(shadowLoss * 100)
+        };
+      } else if (maxInterveningElev > 1200 && Math.abs(gzElev - maxInterveningElev) > 600) {
+        
+        const channelBoost = Math.min(0.38, 0.15 + (maxInterveningElev / 5000) * 0.25);
+        return {
+          factor: 1.0 + channelBoost,
+          type: 'canyon_channel',
