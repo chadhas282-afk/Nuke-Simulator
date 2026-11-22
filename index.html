@@ -5738,3 +5738,22 @@
       { n: 'Sao Paulo', lat: -23.5505, lng: -46.6333, pop: 12300000 },
       { n: 'Sydney', lat: -33.8688, lng: 151.2093, pop: 5300000 },
       { n: 'Kyiv', lat: 50.4501, lng: 30.5234, pop: 2900000 },
+      ];
+
+    const cdGeo = new THREE.SphereGeometry(0.0055, 8, 8);
+    const cdMat = new THREE.MeshBasicMaterial({ color: 0x60a5fa });
+    const cityDotMeshes = [];
+    const cityLabelSprites = [];
+
+    function makeLabel(text) {
+      const cv = document.createElement('canvas'); cv.width = 256; cv.height = 64;
+      const ctx = cv.getContext('2d');
+      ctx.clearRect(0, 0, 256, 64);
+
+      
+      ctx.font = 'bold 20px -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif';
+      const tw = ctx.measureText(text).width;
+      const pw = Math.min(240, Math.max(tw + 20, 60));
+      const ph = 28;
+      const px = (256 - pw) / 2;
+      const py = (64 - ph) / 2;
