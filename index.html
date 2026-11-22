@@ -5898,3 +5898,23 @@
       if (!sl) return;
       sl.min = Math.min(...nuclearTests.map(t => t.year));
       sl.max = S.tlYear;
+      sl.value = S.tlYear;
+      const yrs = document.getElementById('tl-year'); if (yrs) yrs.textContent = S.tlYear;
+      const cnt = document.getElementById('tl-count');
+      if (cnt) cnt.textContent = `${timelineFilteredEnd().toLocaleString()} tests through ${S.tlYear}`;
+      sl.addEventListener('input', () => {
+        stopTimelinePlay();
+        S.tlYear = +sl.value;
+        document.getElementById('tl-year').textContent = S.tlYear;
+        applyTimelineDots();
+        clearTimeout(tlSlTimer);
+        tlSlTimer = setTimeout(renderTestList, 90);
+      });
+    }
+
+    let tlPlayRAF = null;
+    window.toggleTimelinePlay = function () {
+      if (S.tlPlaying) return stopTimelinePlay();
+      const minY = Math.min(...nuclearTests.map(t => t.year));
+      const maxY = Math.max(...nuclearTests.map(t => t.year));
+      if (S.tlYear >= maxY) S.tlYear = minY;
