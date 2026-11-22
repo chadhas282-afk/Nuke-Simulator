@@ -5798,3 +5798,23 @@
       sp.userData = { lat: c.lat, lng: c.lng, pop: c.pop, uv: latlng2v3(c.lat, c.lng, 1).normalize(), dot: m };
       m.userData.sprite = sp;
       sp.visible = false;
+      scene.add(sp); cityLabelSprites.push(sp);
+    });
+    S.showLabels = false;
+
+    
+    
+    const HEATMAP_PTS = [
+      { lat: 35.6762, lng: 139.6503, w: 1.0 }, { lat: 28.6139, lng: 77.209, w: 0.95 }, { lat: 19.076, lng: 72.8777, w: 0.9 },
+      { lat: 39.9042, lng: 116.4074, w: 0.95 }, { lat: 31.2304, lng: 121.4737, w: 0.9 }, { lat: 30.5928, lng: 114.3055, w: 0.75 },
+      { lat: 23.1291, lng: 113.2644, w: 0.85 }, { lat: 22.3964, lng: 114.1095, w: 0.7 }, { lat: 37.5665, lng: 126.978, w: 0.8 },
+      { lat: 55.7558, lng: 37.6173, w: 0.8 }, { lat: 51.5074, lng: -0.1278, w: 0.75 }, { lat: 48.8566, lng: 2.3522, w: 0.7 },
+      { lat: 52.52, lng: 13.405, w: 0.65 }, { lat: 40.7128, lng: -74.006, w: 0.85 }, { lat: 34.0522, lng: -118.2437, w: 0.72 },
+      { lat: 41.8781, lng: -87.6298, w: 0.65 }, { lat: -23.5505, lng: -46.6333, w: 0.8 }, { lat: 30.0444, lng: 31.2357, w: 0.78 },
+      { lat: 41.0082, lng: 28.9784, w: 0.74 }, { lat: 25.2048, lng: 55.2708, w: 0.6 }, { lat: -33.8688, lng: 151.2093, w: 0.55 },
+      { lat: 24.8607, lng: 67.0011, w: 0.78 }, { lat: 6.5244, lng: 3.3792, w: 0.72 }, { lat: -1.2921, lng: 36.8219, w: 0.55 },
+      { lat: 14.6928, lng: -17.4467, w: 0.5 }, { lat: 33.6844, lng: 73.0479, w: 0.65 },
+    ];
+    const heatObjs = [];
+    let heatmapVisible = false;
+    function buildHeatmap() {
