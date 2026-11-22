@@ -5998,3 +5998,23 @@
             acc += n;
           }
         }
+        svg += segs + '<line x1="' + padL + '" y1="' + yAt(maxN) + '" x2="' + W + '" y2="' + yAt(maxN) + '" stroke="rgba(255,255,255,0.12)"/>' + '</svg>';
+        host1.innerHTML = svg;
+      }
+      { 
+        const H = 150, padL = 40, padB = 20, padT = 8, innerH = H - padT - padB;
+        const maxMt = Math.max(...Object.values(cum)) / 1000, gridMt = [0, 25, 50, 75, 100];
+        const xs = (y) => padL + ((y - years[0]) / (years[years.length - 1] - years[0] || 1)) * (W - padL - 6);
+        const ys = (v) => padT + innerH - (v / Math.max(maxMt, 100)) * innerH;
+        let d = '', p = 0;
+        for (const y of years) { d += (p++ ? 'L' : 'M') + xs(y).toFixed(1) + ' ' + ys(cum[y] / 1000).toFixed(1); }
+        const area = d + `L${xs(years[years.length - 1])} ${ys(0)}L${xs(years[0])} ${ys(0)}Z`;
+        let svg = `<svg viewBox="0 0 ${W} ${H}"><defs><linearGradient id="cumg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24" stop-opacity="0.45"/><stop offset="1" stop-color="#fbbf24" stop-opacity="0.02"/></linearGradient></defs><line x1="${padL}" y1="${H - padB}" x2="${W}" y2="${H - padB}" stroke="rgba(255,255,255,0.25)"/>`;
+        for (const gv of gridMt) { const gy = ys(Math.min(gv, maxMt)); svg += `<line x1="${padL}" y1="${gy}" x2="${W}" y2="${gy}" stroke="rgba(255,255,255,0.1)"/><text x="${padL - 5}" y="${gy + 3}" fill="rgba(255,255,255,0.4)" font-size="7" text-anchor="end">${gv}</text>`; }
+        for (const y of years) if ((y - 1945) % 10 === 0) svg += `<text x="${xs(y)}" y="${H - padB + 13}" fill="rgba(255,255,255,0.4)" font-size="7" text-anchor="middle">${y}</text>`;
+        svg += `<path d="${area}" fill="url(#cumg)"/><path d="${d}" fill="none" stroke="#fbbf24" stroke-width="1.6"/></svg>`;
+        host2.innerHTML = svg;
+      }
+      { 
+        const total = nuclearTests.length, totMt = run / 1000;
+        const byC = {}; nuclearTests.forEach(t => { byC[t.country] = (byC[t.country] || 0) + 1; });
