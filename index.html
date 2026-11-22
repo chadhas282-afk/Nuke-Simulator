@@ -6118,3 +6118,23 @@
       ['blast20psi', '#ea580c', 0.24, 0.12, true, 'blast'],
       ['blast10psi', '#ff5a1f', 0.16, 0.08, true, 'blast'],
       ['blast5psi', '#f97316', 0.12, 0.07, true, 'blast'],
+      ['thermal3', '#fbbf24', 0.0, 0.05, false, 'thermal'],
+      ['blast2psi', '#84cc16', 0.0, 0.04, false, 'blast'],
+      ['thermal2', '#fb923c', 0.0, 0.035, false, 'thermal'],
+      ['blast1psi', '#c8f5a0', 0.0, 0.025, false, 'blast'],
+      ['thermal1', '#fde68a', 0.0, 0.02, false, 'thermal'],
+      ['rad500rem', '#4ade80', 0.0, 0.05, false, 'radiation'],
+      ['emp', '#38bdf8', 0.0, 0.03, false, 'emp'],
+    ];
+
+    function makeDome(lat, lng, rKm, col, alpha) {
+      const r = rKm * KM2SU, geo = new THREE.SphereGeometry(r, 36, 18, 0, Math.PI * 2, 0, Math.PI / 2);
+      const m = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: new THREE.Color(col), transparent: true, opacity: alpha, side: THREE.DoubleSide, depthWrite: false }));
+      const sp = latlng2v3(lat, lng, EARTH_R + 0.001); m.position.copy(sp); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), sp.clone().normalize()); return m;
+    }
+    function makeRing(lat, lng, rKm, col, alpha) {
+      const angR = rKm / EARTH_KM, phi1 = lat * Math.PI / 180, lam1 = lng * Math.PI / 180, sinD = Math.sin(angR), cosD = Math.cos(angR), sinP1 = Math.sin(phi1), cosP1 = Math.cos(phi1), pts = [], N = 180;
+      for (let i = 0; i <= N; i++) { const b = (i / N) * 2 * Math.PI, phi2 = Math.asin(sinP1 * cosD + cosP1 * sinD * Math.cos(b)), lam2 = lam1 + Math.atan2(Math.sin(b) * sinD * cosP1, cosD - sinP1 * Math.sin(phi2)); pts.push(latlng2v3(phi2 * 180 / Math.PI, lam2 * 180 / Math.PI, EARTH_R + 0.003)); }
+      return new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: new THREE.Color(col), transparent: true, opacity: alpha, depthWrite: false }));
+    }
+    function makeFill(lat, lng, rKm, col, alpha) {
