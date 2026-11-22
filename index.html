@@ -6238,3 +6238,23 @@
         return {
           factor: 1.0 + channelBoost,
           type: 'canyon_channel',
+           ridgeElevM: maxInterveningElev,
+          boostPct: Math.round(channelBoost * 100)
+        };
+      }
+      return { factor: 1.0, type: 'open_terrain', ridgeElevM: maxInterveningElev };
+    }
+
+    
+    let firestormSystem = null;
+
+    function spawnFirestorm(lat, lng, yieldKt) {
+      if (!S.fx.firestorm || S.burst === 'hane') return;
+      if (firestormSystem) {
+        scene.remove(firestormSystem.group);
+        firestormSystem = null;
+      }
+
+      const rFireKm = Math.min(Math.max(0.75 * Math.pow(yieldKt, 0.38), 1.2), 45);
+      const rFireSU = rFireKm * KM2SU;
+      const gzPt = latlng2v3(lat, lng, EARTH_R + 0.0006);
