@@ -5938,3 +5938,23 @@
     };
     window.stopTimelinePlay = function () {
       if (!S.tlPlaying) return;
+      S.tlPlaying = false;
+      const b = document.getElementById('tl-play'); if (b) { b.textContent = '▶ Play'; b.classList.remove('on'); }
+    };
+    window.resetTimeline = function () {
+      stopTimelinePlay();
+      S.tlYear = Math.min(...nuclearTests.map(t => t.year));
+      applyTimeline();
+    };
+
+    const COUNTRY_FLAGS = { 'USA': '🇺🇸', 'USSR': '🇷🇺', 'UK': '🇬🇧', 'France': '🇫🇷', 'China': '🇨🇳', 'India': '🇮🇳', 'Pakistan': '🇵🇰', 'North Korea': '🇰🇵' };
+    function renderTestList() {
+      const el = document.getElementById('test-list'); el.innerHTML = '';
+      const end = timelineFilteredEnd();
+      for (let i = 0; i < end; i++) {
+        const t = nuclearTests[i];
+        const d = document.createElement('div'); d.className = 'test-item';
+        d.innerHTML = `<span class="test-flag">${COUNTRY_FLAGS[t.country] || '🌐'}</span><span class="test-year">${t.year}</span><div class="test-inf"><div class="test-name">${esc(t.name)}</div><div class="test-sub">${esc(t.note)}</div></div><span class="test-kt">${t.kt >= 1000 ? (t.kt / 1000).toFixed(1) + ' Mt' : t.kt + ' kt'}</span>`;
+        d.addEventListener('click', () => {
+          S.point = { lat: t.lat, lng: t.lng }; S.yieldKt = t.kt;
+          document.getElementById('yield-in').value = window._curUnit === 'mt' ? (t.kt / 1000).toFixed(3) : t.kt;
