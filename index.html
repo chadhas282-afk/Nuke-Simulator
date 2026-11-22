@@ -5778,3 +5778,23 @@
       ctx.textBaseline = 'middle';
       ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
       ctx.shadowBlur = 4;
+      ctx.fillText(text, 128, 32);
+
+      const t = new THREE.CanvasTexture(cv);
+      t.colorSpace = THREE.SRGBColorSpace;
+      return t;
+    }
+
+    PRESET_CITIES.forEach(c => {
+      const m = new THREE.Mesh(cdGeo, cdMat.clone());
+      m.position.copy(latlng2v3(c.lat, c.lng, EARTH_R + 0.0035));
+      m.userData = { city: c };
+      m.visible = false;
+      scene.add(m); cityDotMeshes.push(m);
+
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: makeLabel(c.n), transparent: true, depthTest: false }));
+      sp.scale.set(0.18, 0.045, 1);
+      sp.position.copy(latlng2v3(c.lat, c.lng, EARTH_R + 0.045));
+      sp.userData = { lat: c.lat, lng: c.lng, pop: c.pop, uv: latlng2v3(c.lat, c.lng, 1).normalize(), dot: m };
+      m.userData.sprite = sp;
+      sp.visible = false;
