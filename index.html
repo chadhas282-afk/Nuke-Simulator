@@ -6158,3 +6158,22 @@
         const fill = makeFill(lat, lng, r, col, gA); scene.add(fill); S.layers.push(fill);
         const ring = makeRing(lat, lng, r, col, 0.78); scene.add(ring); S.layers.push(ring);
         if (isDome && dA > 0) { const dome = makeDome(lat, lng, r, col, dA); scene.add(dome); S.layers.push(dome); }
+        });
+      if (S.fx.fallout) drawFallout(lat, lng);
+      const threat = tsunamiThreat(lat, lng, S.yieldKt);
+      S.tsunami = threat;
+      clearTsunami();
+      if (threat) spawnTsunamiWave(lat, lng, threat);
+      
+      if (S.fx.emp && S.burst === 'airburst' && (radii.emp || 0) > 0) {
+        S.empBlack = empBlackout(lat, lng, radii.emp, S.yieldKt);
+        spawnEmpPulse(lat, lng, radii.emp);
+      } else { S.empBlack = null; clearEmpPulse(); }
+      showResults(radii, calcCas(lat, lng, radii), null);
+      switchTab('results', document.querySelectorAll('.tab')[2]);
+    }
+
+    
+    function playGeiger(doseRateR) { }
+    function playElectrostaticCrackle() { }
+    function playFirestormRoar() { }
