@@ -5838,3 +5838,23 @@
     const testDotGeo = new THREE.SphereGeometry(0.009, 8, 8);
     const testDotMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b });
     const TEST_COLORS = {
+      'USA': 0xfbbf24, 'USSR': 0xef4444, 'UK': 0x38bdf8, 'France': 0xa855f7,
+      'China': 0xf59e0b, 'India': 0x22c55e, 'Pakistan': 0x84cc16, 'North Korea': 0xfca5a5
+    };
+
+    async function loadTests() {
+      try {
+        const r = await fetch('./nuclear_tests.json'); nuclearTests = await r.json();
+        S.tlYear = nuclearTests.length ? nuclearTests[nuclearTests.length - 1].year : 0;
+        buildTestDots();
+        initTimeline();
+        renderTestList();
+        buildHistoryCharts();
+      } catch (e) { document.getElementById('test-list').textContent = 'Could not load test data.'; }
+    }
+
+    function buildTestDots() {
+      if (testMesh) { scene.remove(testMesh); testMesh.geometry.dispose(); testMesh.material.dispose(); testMesh = null; }
+      const n = nuclearTests.length; if (!n) return;
+      testMesh = new THREE.InstancedMesh(testDotGeo, testDotMat, n);
+      const dummy = new THREE.Object3D(), color = new THREE.Color();
