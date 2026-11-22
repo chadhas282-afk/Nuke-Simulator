@@ -5858,3 +5858,22 @@
       const n = nuclearTests.length; if (!n) return;
       testMesh = new THREE.InstancedMesh(testDotGeo, testDotMat, n);
       const dummy = new THREE.Object3D(), color = new THREE.Color();
+      for (let i = 0; i < n; i++) {
+        const t = nuclearTests[i];
+        dummy.position.copy(latlng2v3(t.lat, t.lng, EARTH_R + 0.006));
+        dummy.updateMatrix();
+        testMesh.setMatrixAt(i, dummy.matrix);
+        testMesh.setColorAt(i, color.set(TEST_COLORS[t.country] || 0xfbbf24));
+      }
+      testMesh.instanceMatrix.needsUpdate = true;
+      if (testMesh.instanceColor) testMesh.instanceColor.needsUpdate = true;
+      scene.add(testMesh);
+      applyTimelineDots();
+    }
+
+    function timelineFilteredEnd() {
+      const lo = 0, hi = nuclearTests.length, y = S.tlYear;
+      let l = lo, h = hi;
+      while (l < h) { const mid = (l + h) >> 1; if (nuclearTests[mid].year <= y) l = mid + 1; else h = mid; }
+      return l;
+    }
