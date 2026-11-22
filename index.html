@@ -6277,3 +6277,24 @@
           .addScaledVector(tan1, Math.cos(ang) * rad)
           .addScaledVector(tan2, Math.sin(ang) * rad)
           .addScaledVector(norm, (0.05 + Math.random() * 0.95) * rFireSU * 0.45);
+
+          pos[i * 3] = p.x; pos[i * 3 + 1] = p.y; pos[i * 3 + 2] = p.z;
+        col[i * 3] = 1.0; col[i * 3 + 1] = 0.35 + Math.random() * 0.4; col[i * 3 + 2] = 0.05;
+
+        parts[i] = {
+          rad, maxRad: rad,
+          ang,
+          omega: (2.5 + Math.random() * 3.5) * (Math.random() < 0.5 ? 1 : -1),
+          inflowSpd: (0.18 + Math.random() * 0.32) * rFireSU,
+          h: Math.random() * rFireSU * 0.45,
+          updraftSpd: (0.35 + Math.random() * 0.65) * rFireSU * 0.4,
+          life: Math.random(),
+          maxLife: 2.5 + Math.random() * 3.0
+        };
+      }
+
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+
+      const mat = new THREE.PointsMaterial({
+        size: rFireSU * 0.12,
