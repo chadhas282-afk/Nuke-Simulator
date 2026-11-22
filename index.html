@@ -5958,3 +5958,23 @@
         d.addEventListener('click', () => {
           S.point = { lat: t.lat, lng: t.lng }; S.yieldKt = t.kt;
           document.getElementById('yield-in').value = window._curUnit === 'mt' ? (t.kt / 1000).toFixed(3) : t.kt;
+          document.getElementById('weapon-sel').value = 'custom';
+          placeGZ(t.lat, t.lng); flyToCity(t.lat, t.lng);
+          switchTab('simulate', document.querySelector('.tab'));
+          toast(`☢ ${t.name} loaded — ${t.kt >= 1000 ? (t.kt / 1000).toFixed(1) + ' Mt' : t.kt + ' kt'}`);
+        });
+        el.appendChild(d);
+      }
+      if (!end) el.innerHTML = '<div style="padding:14px 0;text-align:center;color:var(--txt3);font:400 11px var(--font)">No recorded tests before this year.</div>';
+    }
+
+    
+    const _hex = (c) => '#' + ('00000' + c.toString(16)).slice(-6);
+    function buildHistoryCharts() {
+      const host1 = document.getElementById('hist-by-year'), host2 = document.getElementById('hist-cumul'), host3 = document.getElementById('hist-stats');
+      if (!nuclearTests.length || !host1) return;
+      const byYr = {}, cum = {};
+      const m = (t) => Math.max(t.kt || 0, 1);
+      let run = 0;
+      for (const t of nuclearTests) { byYr[t.year] = byYr[t.year] || {}; byYr[t.year][t.country] = (byYr[t.year][t.country] || 0) + 1; run += m(t); cum[t.year] = run; }
+      const years = Object.keys(byYr).sort().map(Number);
