@@ -5978,3 +5978,23 @@
       let run = 0;
       for (const t of nuclearTests) { byYr[t.year] = byYr[t.year] || {}; byYr[t.year][t.country] = (byYr[t.year][t.country] || 0) + 1; run += m(t); cum[t.year] = run; }
       const years = Object.keys(byYr).sort().map(Number);
+      const countries = Object.keys(TEST_COLORS).filter(c => years.some(y => byYr[y][c]));
+
+      const W = 760;
+      { 
+        const H = 190, padL = 34, padB = 20, padT = 6, innerH = H - padT - padB;
+        const maxN = Math.max(...years.map(y => Object.values(byYr[y]).reduce((a, b) => a + b, 0)));
+        const xStep = W / years.length, bw = Math.min(xStep * 0.72, 10);
+        const yAt = (v) => padT + innerH - (v / maxN) * innerH;
+        let svg = `<svg viewBox="0 0 ${W} ${H}"><line x1="${padL}" y1="${H - padB}" x2="${W}" y2="${H - padB}" stroke="rgba(255,255,255,0.25)"/>`;
+        for (const y of years) { const x = padL + (y - years[0]) * xStep; if ((y - years[0]) % 5 === 0) svg += `<text x="${x + bw / 2}" y="${H - padB + 13}" fill="rgba(255,255,255,0.4)" font-size="7" text-anchor="middle">${y}</text>`; }
+        let segs = '';
+        for (const y of years) {
+          const x = padL + (y - years[0]) * xStep; let acc = 0;
+          for (const c of countries) {
+            const n = byYr[y][c] || 0; if (!n) continue;
+            const col = _hex(TEST_COLORS[c]);
+            segs += `<rect x="${x}" y="${yAt(acc + n)}" width="${bw}" height="${Math.max(0, yAt(acc) - yAt(acc + n))}" fill="${col}" opacity="0.9"/>`;
+            acc += n;
+          }
+        }
