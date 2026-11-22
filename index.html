@@ -5818,3 +5818,23 @@
     const heatObjs = [];
     let heatmapVisible = false;
     function buildHeatmap() {
+      if (heatObjs.length) return;
+      HEATMAP_PTS.forEach(h => {
+        const r = 0.06 * h.w * KM2SU * 6371 * 0.18;
+        const geo = new THREE.SphereGeometry(EARTH_R * r * 0.8, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2);
+        const mat = new THREE.MeshBasicMaterial({
+          color: new THREE.Color(`hsl(${Math.round(0 + h.w * 30)},90%,55%)`),
+          transparent: true, opacity: 0.22 * h.w, side: THREE.DoubleSide, depthWrite: false
+        });
+        const m = new THREE.Mesh(geo, mat);
+        const sp = latlng2v3(h.lat, h.lng, EARTH_R + 0.001);
+        m.position.copy(sp); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), sp.clone().normalize());
+        m.visible = false; scene.add(m); heatObjs.push(m);
+      });
+    }
+
+    
+    let nuclearTests = [], testMesh = null;
+    const testDotGeo = new THREE.SphereGeometry(0.009, 8, 8);
+    const testDotMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b });
+    const TEST_COLORS = {
