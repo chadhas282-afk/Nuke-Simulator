@@ -6058,3 +6058,23 @@
           
           const turb = 1.0
             + 0.16 * Math.sin(x * 0.22 + y * 0.16) * Math.cos(x * 0.15 - y * 0.20)
+             + 0.09 * Math.sin(x * 0.45 + y * 0.38)
+            + 0.045 * Math.sin(x * 0.88 - y * 0.72);
+          const alpha = Math.max(0, Math.min(1, falloff * turb));
+          
+          const sunGrad = Math.max(0.65, Math.min(1.0, 0.84 - dx * 0.16 - dy * 0.22));
+          const idx = (y * sz + x) * 4;
+          const lum = Math.round(255 * sunGrad);
+          d[idx] = lum; d[idx + 1] = lum; d[idx + 2] = lum; d[idx + 3] = Math.round(alpha * 255);
+        }
+      }
+      ctx.putImageData(img, 0, 0);
+      const t = new THREE.CanvasTexture(cv); t.needsUpdate = true; return t;
+    })();
+
+    
+    const sootTex = (() => {
+      const sz = 256, cv = document.createElement('canvas'); cv.width = sz; cv.height = sz;
+      const ctx = cv.getContext('2d'), img = ctx.createImageData(sz, sz), d = img.data, c = sz / 2;
+      for (let y = 0; y < sz; y++) {
+        for (let x = 0; x < sz; x++) {
