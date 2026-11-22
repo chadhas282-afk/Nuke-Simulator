@@ -6138,3 +6138,23 @@
       return new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: new THREE.Color(col), transparent: true, opacity: alpha, depthWrite: false }));
     }
     function makeFill(lat, lng, rKm, col, alpha) {
+      const r = rKm * KM2SU, m = new THREE.Mesh(new THREE.CircleGeometry(r, 64), new THREE.MeshBasicMaterial({ color: new THREE.Color(col), map: blastRadialTex, transparent: true, opacity: alpha, side: THREE.DoubleSide, depthWrite: false }));
+      const sp = latlng2v3(lat, lng, EARTH_R + 0.001); m.position.copy(sp); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), sp.clone().normalize()); return m;
+    }
+
+    function clearAll() {
+      S.layers.forEach(o => scene.remove(o));
+      S.layers = [];
+      if (typeof earthMatTexUniforms !== 'undefined') {
+        earthMatTexUniforms.uEmpRadius.value = 0.0;
+        earthMatTexUniforms.uScorchRadius.value = 0.0;
+      }
+    }
+    function redraw() {
+      clearAll(); if (!S.point) return;
+      const { lat, lng } = S.point, radii = calcRadii(S.yieldKt, S.burst === 'airburst');
+      [...ZONE_DEF].sort((a, b) => (radii[b[0]] || 0) - (radii[a[0]] || 0)).forEach(([rk, col, dA, gA, isDome, fxKey]) => {
+        const r = radii[rk]; if (!r || r <= 0 || !S.fx[fxKey]) return;
+        const fill = makeFill(lat, lng, r, col, gA); scene.add(fill); S.layers.push(fill);
+        const ring = makeRing(lat, lng, r, col, 0.78); scene.add(ring); S.layers.push(ring);
+        if (isDome && dA > 0) { const dome = makeDome(lat, lng, r, col, dA); scene.add(dome); S.layers.push(dome); }
