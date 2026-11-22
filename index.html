@@ -5698,3 +5698,23 @@
       blending: THREE.AdditiveBlending,
       depthWrite: false
     });
+    const sunFlareSprite = new THREE.Sprite(sunFlareMat);
+    sunFlareSprite.scale.set(10, 10, 1);
+
+    const sunStreakMat = new THREE.SpriteMaterial({
+      map: sunStreakTex,
+      color: 0xaaccff,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+    const sunStreakSprite = new THREE.Sprite(sunStreakMat);
+    sunStreakSprite.scale.set(22, 3.2, 1);
+
+    const sunFlareGroup = new THREE.Group();
+    sunFlareGroup.add(sunFlareSprite);
+    sunFlareGroup.add(sunStreakSprite);
+    scene.add(sunFlareGroup);
+
+    
+    const PRESET_CITIES = [
