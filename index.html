@@ -6018,3 +6018,23 @@
       { 
         const total = nuclearTests.length, totMt = run / 1000;
         const byC = {}; nuclearTests.forEach(t => { byC[t.country] = (byC[t.country] || 0) + 1; });
+        const top = Object.entries(byC).sort((a, b) => b[1] - a[1])[0];
+        host3.innerHTML = `<span>${total.toLocaleString()} tests</span><span>${fmtN(totMt)} Mt TNT total</span><span>${top ? top[0] + ': ' + top[1].toLocaleString() : ''}</span><span>1945–2017</span>`;
+      }
+    }
+
+    
+    let gzMesh = null, gzRing = null;
+    function placeGZ(lat, lng) {
+      if (gzMesh) { scene.remove(gzMesh); gzMesh = null; } if (gzRing) { scene.remove(gzRing); gzRing = null; }
+      gzMesh = new THREE.Mesh(new THREE.SphereGeometry(0.012, 12, 12), new THREE.MeshBasicMaterial({ color: 0xff2222 }));
+      gzMesh.position.copy(latlng2v3(lat, lng, EARTH_R + 0.006)); scene.add(gzMesh);
+      gzRing = new THREE.Mesh(new THREE.RingGeometry(0.014, 0.019, 32), new THREE.MeshBasicMaterial({ color: 0xff4444, side: THREE.DoubleSide, transparent: true, opacity: 0.7, depthWrite: false }));
+      gzRing.position.copy(latlng2v3(lat, lng, EARTH_R + 0.006));
+      gzRing.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), gzRing.position.clone().normalize());
+      scene.add(gzRing);
+    }
+
+    
+    const pTex = (() => {
+      const sz = 256, cv = document.createElement('canvas'); cv.width = sz; cv.height = sz;
