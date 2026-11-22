@@ -5918,3 +5918,23 @@
       const minY = Math.min(...nuclearTests.map(t => t.year));
       const maxY = Math.max(...nuclearTests.map(t => t.year));
       if (S.tlYear >= maxY) S.tlYear = minY;
+      S.tlPlaying = true;
+      const b = document.getElementById('tl-play'); b.textContent = '⏸ Pause'; b.classList.add('on');
+      const dur = Math.max(5000, (maxY - S.tlYear) * 55);
+      const t0 = performance.now();
+      const step = now => {
+        if (!S.tlPlaying) return;
+        const fr = Math.min((now - t0) / dur, 1);
+        S.tlYear = Math.min(maxY, Math.round(minY + (maxY - minY) * fr));
+        const sl = document.getElementById('tl-slider'); if (sl) sl.value = S.tlYear;
+        document.getElementById('tl-year').textContent = S.tlYear;
+        applyTimelineDots();
+        clearTimeout(tlSlTimer); tlSlTimer = setTimeout(renderTestList, 90);
+        const cnt = document.getElementById('tl-count');
+        if (cnt) cnt.textContent = `${timelineFilteredEnd().toLocaleString()} tests through ${S.tlYear}`;
+        if (fr < 1) requestAnimationFrame(step); else stopTimelinePlay();
+      };
+      requestAnimationFrame(step);
+    };
+    window.stopTimelinePlay = function () {
+      if (!S.tlPlaying) return;
