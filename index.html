@@ -6258,3 +6258,22 @@
       const rFireKm = Math.min(Math.max(0.75 * Math.pow(yieldKt, 0.38), 1.2), 45);
       const rFireSU = rFireKm * KM2SU;
       const gzPt = latlng2v3(lat, lng, EARTH_R + 0.0006);
+      const norm = gzPt.clone().normalize();
+      const arb = Math.abs(norm.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+      const tan1 = new THREE.Vector3().crossVectors(norm, arb).normalize();
+      const tan2 = new THREE.Vector3().crossVectors(norm, tan1);
+
+      const P_COUNT = 450;
+      const geo = new THREE.BufferGeometry();
+      const pos = new Float32Array(P_COUNT * 3);
+      const col = new Float32Array(P_COUNT * 3);
+      const parts = new Array(P_COUNT);
+
+      for (let i = 0; i < P_COUNT; i++) {
+        const u = Math.random();
+        const ang = Math.random() * Math.PI * 2;
+        const rad = rFireSU * (0.15 + 0.85 * Math.sqrt(u));
+        const p = gzPt.clone()
+          .addScaledVector(tan1, Math.cos(ang) * rad)
+          .addScaledVector(tan2, Math.sin(ang) * rad)
+          .addScaledVector(norm, (0.05 + Math.random() * 0.95) * rFireSU * 0.45);
