@@ -6078,3 +6078,23 @@
       const ctx = cv.getContext('2d'), img = ctx.createImageData(sz, sz), d = img.data, c = sz / 2;
       for (let y = 0; y < sz; y++) {
         for (let x = 0; x < sz; x++) {
+          const dx = (x - c) / (c * 0.75);
+          const dy = (y - c) / c;
+          const dist = Math.hypot(dx, dy);
+          if (dist >= 1.0) continue;
+          const falloff = Math.pow(Math.cos(dist * Math.PI * 0.5), 1.4);
+          
+          const fibers = 1.0
+            + 0.22 * Math.sin(x * 0.35 + Math.sin(y * 0.12) * 2.5)
+            + 0.12 * Math.sin(x * 0.72 - y * 0.18)
+            + 0.06 * Math.sin(y * 0.45);
+          const alpha = Math.max(0, Math.min(1, falloff * fibers));
+          const idx = (y * sz + x) * 4;
+          d[idx] = 230; d[idx + 1] = 230; d[idx + 2] = 230; d[idx + 3] = Math.round(alpha * 255);
+        }
+      }
+      ctx.putImageData(img, 0, 0);
+      const t = new THREE.CanvasTexture(cv); t.needsUpdate = true; return t;
+    })();
+
+    
