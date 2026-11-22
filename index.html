@@ -6038,3 +6038,23 @@
     
     const pTex = (() => {
       const sz = 256, cv = document.createElement('canvas'); cv.width = sz; cv.height = sz;
+      const ctx = cv.getContext('2d'), img = ctx.createImageData(sz, sz), d = img.data, c = sz / 2;
+      for (let y = 0; y < sz; y++) {
+        for (let x = 0; x < sz; x++) {
+          const dx = (x - c) / c, dy = (y - c) / c, dist = Math.hypot(dx, dy);
+          if (dist >= 1.0) continue;
+          const a = Math.atan2(dy, dx);
+          
+          const lobe = 0.80
+            + Math.sin(a * 3.0 + 0.42) * 0.11
+            + Math.cos(a * 5.0 - 0.68) * 0.075
+            + Math.sin(a * 8.0 + 1.25) * 0.042
+            + Math.cos(a * 14.0) * 0.024
+            + Math.sin(a * 21.0 - 0.8) * 0.015;
+          const defD = dist / lobe;
+          if (defD >= 1.0) continue;
+          
+          const falloff = Math.pow(Math.cos(defD * Math.PI * 0.5), 1.6);
+          
+          const turb = 1.0
+            + 0.16 * Math.sin(x * 0.22 + y * 0.16) * Math.cos(x * 0.15 - y * 0.20)
