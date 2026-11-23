@@ -6798,3 +6798,23 @@
     function calcFalloutDoseAt(lat, lng) {
       if (!activeFallouts.length && !falloutState) return null;
       const list = activeFallouts.length ? activeFallouts : [falloutState];
+      let totalDoseRate = 0;
+      let closestDist = 99999;
+      let dominantBurst = null;
+
+      for (const f of list) {
+        if (!f) continue;
+        const cosLat = Math.cos(f.latRad || (f.lat * Math.PI / 180));
+        const dLat = (lat - f.lat) * 111.32;
+        const dLng = (lng - f.lng) * 111.32 * cosLat;
+        const dir = f.dir || 0;
+        const cosD = Math.cos(dir), sinD = Math.sin(dir);
+        const u = dLat * cosD + dLng * sinD;
+        const v = -dLat * sinD + dLng * cosD;
+
+        const maxL = f.lenKm || 100;
+        const maxW = f.widKm || 20;
+        if (u < -Math.min(maxL * 0.1, 14) || u > maxL * 1.18) continue;
+
+        const uNorm = Math.max(0, u / maxL);
+        const wAtU = maxW * (0.20 + 0.80 * Math.pow(uNorm, 0.72));
