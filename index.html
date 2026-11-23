@@ -6878,3 +6878,23 @@
         const mat = new THREE.PointsMaterial({
           color: 0xffffff,
           size: KM2SU * siz,
+          map: pTex,
+          transparent: true,
+          opacity: 0.88,
+          depthWrite: false,
+          sizeAttenuation: true,
+          blending: THREE.NormalBlending,
+          vertexColors: true
+        });
+        const points = new THREE.Points(geo, mat);
+        scene.add(points); S.layers.push(points);
+        groups.push({ points, geo, mat, pos, col, parts, N, cR, cG, cB, siz, hfFrac, type });
+      };
+
+      
+      
+      mkGroup(900, 0.12, 26.0, 1.0, 0.22, 0.17, 0.15, 'chimney');
+      
+      mkGroup(950, 0.07, 24.0, 0.22, 0.25, 0.20, 0.17, 'groundFumes');
+      
+      mkGroup(1150, 0.16, 36.0, 0.85, 0.28, 0.24, 0.22, 'troposphere');
