@@ -6638,3 +6638,23 @@
           probeVal = (normVal * peakE).toFixed(1);
           if (curScopeMode === 'e1') probeTime = (xFrac * 80.0).toFixed(1) + ' ns';
           else if (curScopeMode === 'e2') probeTime = (xFrac * 800.0).toFixed(0) + ' µs';
+          else probeTime = (xFrac * 80.0).toFixed(1) + ' s';
+        }
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      
+      const probeNorm = fCurve(targetProbeX / W);
+      const probeY = baseZeroY - probeNorm * ampMax;
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath(); ctx.moveTo(targetProbeX, 0); ctx.lineTo(targetProbeX, H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, probeY); ctx.lineTo(W, probeY); ctx.stroke();
+      ctx.setLineDash([]);
+
+      
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath(); ctx.arc(targetProbeX, probeY, 3.5, 0, Math.PI * 2); ctx.fill();
+
+      
