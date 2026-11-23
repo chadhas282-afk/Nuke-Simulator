@@ -6717,3 +6717,24 @@
           : `Localized substation breaker lockouts and line tripping. Power restoration feasible within 48–72 hours.`;
       }
     }
+
+       
+    function renderUrbanStructuralDamage(radii, yieldKt) {
+      const sec = document.getElementById('structural-damage-sec');
+      if (!sec) return;
+      sec.style.display = 'block';
+
+      const Y = Math.max(yieldKt, 0.01);
+      const isSub = S.burst === 'subsurface';
+      const isPen = S.burst === 'penetrator';
+      const isHane = S.burst === 'hane';
+
+      if (isHane) {
+        sec.style.display = 'none';
+        return;
+      }
+
+      
+      
+      const maxPsi = isPen ? 12 : (isSub ? 6 : 20);
+      const pKpa = maxPsi * 6.89476;
