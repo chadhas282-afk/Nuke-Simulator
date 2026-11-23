@@ -6298,3 +6298,22 @@
 
       const mat = new THREE.PointsMaterial({
         size: rFireSU * 0.12,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.85,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+
+      const pts = new THREE.Points(geo, mat);
+      const group = new THREE.Group();
+      group.add(pts);
+      scene.add(group);
+
+      firestormSystem = {
+        group, geo, pos, col, parts, gzPt, norm, tan1, tan2, rFireSU,
+        t0: Date.now(),
+        dur: 35000
+      };
+
+      playFirestormRoar();
