@@ -6378,3 +6378,23 @@
           col[i * 3 + 2] = 0.02 * flicker;
         } else {
           
+          col[i * 3] = 0.18 * heat;
+          col[i * 3 + 1] = 0.05 * heat;
+          col[i * 3 + 2] = 0.02 * heat;
+        }
+      }
+      geo.attributes.position.needsUpdate = true;
+      geo.attributes.color.needsUpdate = true;
+    }
+
+    
+    let haneObjects = [];
+
+    function triggerHANEBurst(lat, lng, yieldKt, altKm = 150) {
+      haneObjects.forEach(o => { scene.remove(o); if (o.geometry) o.geometry.dispose(); if (o.material) o.material.dispose(); });
+      haneObjects = [];
+
+      const altSU = altKm * KM2SU;
+      const gzPt = latlng2v3(lat, lng, EARTH_R + altSU);
+
+      
