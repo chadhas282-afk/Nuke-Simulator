@@ -6818,3 +6818,23 @@
 
         const uNorm = Math.max(0, u / maxL);
         const wAtU = maxW * (0.20 + 0.80 * Math.pow(uNorm, 0.72));
+        if (Math.abs(v) > wAtU * 1.05) continue;
+
+        const R0 = 3200 * Math.pow(Math.max(f.yieldKt || S.yieldKt, 1) / 100, 0.42);
+        const scavengeDecay = S.weather === 'rain' ? 1.65 : 1.30;
+        const distFactor = Math.pow(12 / (u + 12), scavengeDecay);
+        const crossFactor = Math.exp(-Math.pow(v / (wAtU * 0.55), 2) * 1.5);
+        const rainMultiplier = S.weather === 'rain' ? (uNorm < 0.45 ? 2.4 : 0.6) : 1.0;
+
+        const doseRate = R0 * distFactor * crossFactor * rainMultiplier;
+        totalDoseRate += doseRate;
+        const hyp = Math.hypot(u, v);
+        if (hyp < closestDist) {
+          closestDist = hyp;
+          dominantBurst = f;
+        }
+      }
+
+      if (totalDoseRate < 0.25) return null;
+      return {
+        doseRateR: totalDoseRate,
