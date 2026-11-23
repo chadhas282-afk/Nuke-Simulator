@@ -6477,3 +6477,24 @@
         } else {
           plasmaBubble.visible = false;
         }
+
+        if (el > 0.6 && el < 22.0) {
+          const aFrac = (el - 0.6) / 21.4;
+          auroraMat.opacity = Math.sin(aFrac * Math.PI) * (0.80 + 0.20 * Math.sin(el * 3.8));
+          const posArr = auroraGeo.attributes.position.array;
+          for (let pIdx = 0; pIdx < aPts.length; pIdx++) {
+            const baseP = aPts[pIdx];
+            const wave = Math.sin(el * 3.2 + pIdx * 0.28) * 0.0035;
+            posArr[pIdx * 3] = baseP.x * (1 + wave);
+            posArr[pIdx * 3 + 1] = baseP.y * (1 + wave);
+            posArr[pIdx * 3 + 2] = baseP.z * (1 + wave);
+          }
+          auroraGeo.attributes.position.needsUpdate = true;
+        }
+
+        requestAnimationFrame(stepHANE);
+      })(st);
+
+      const aurSec = document.getElementById('aurora-sec');
+      if (aurSec) {
+        aurSec.style.display = 'block';
