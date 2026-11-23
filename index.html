@@ -6337,3 +6337,23 @@
         firestormSystem = null;
         return;
       }
+
+      const dt = 0.016;
+      for (let i = 0; i < parts.length; i++) {
+        const p = parts[i];
+        p.life += dt;
+        if (p.life > p.maxLife) {
+          p.life = 0;
+          p.rad = p.maxRad * (0.75 + Math.random() * 0.25);
+          p.h = 0.0001;
+        }
+        p.rad = Math.max(0.0001, p.rad - p.inflowSpd * dt * (1.0 + Math.sin(Date.now() * 0.0025 + i * 0.7) * 0.35));
+        p.ang += p.omega * dt * (1.0 + (rFireSU / (p.rad + 0.0001)) * 0.55);
+        
+        const turbulence = Math.sin(Date.now() * 0.003 + i * 1.3) * 0.000012;
+        p.h += (p.updraftSpd + turbulence) * dt;
+
+        const curP = gzPt.clone()
+          .addScaledVector(tan1, Math.cos(p.ang) * p.rad)
+          .addScaledVector(tan2, Math.sin(p.ang) * p.rad)
+          .addScaledVector(norm, p.h);
