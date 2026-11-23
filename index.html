@@ -6578,3 +6578,23 @@
 
       const Y = Math.max(curScopeYield, 0.1);
       const isHane = S.burst === 'hane';
+      const altFactor = isHane ? Math.min(2.0, 1.0 + (curScopeAlt || 150) / 300) : 1.0;
+
+      
+      let peakE = 0, unitStr = '', timeScaleStr = '';
+      let fCurve = null;
+
+      if (curScopeMode === 'e1') {
+        
+        peakE = Math.min(50, Math.round((18 + 9 * Math.log10(Y)) * altFactor));
+        unitStr = 'kV/m'; timeScaleStr = '10 ns / div';
+        
+        fCurve = (xFrac) => {
+          const tNs = xFrac * 80.0;
+          if (tNs <= 0) return 0;
+          return 1.3 * (Math.exp(-tNs / 25.0) - Math.exp(-tNs / 2.5));
+        };
+      } else if (curScopeMode === 'e2') {
+        
+        peakE = Math.min(180, Math.round((45 + 30 * Math.log10(Y)) * altFactor));
+        unitStr = 'V/m'; timeScaleStr = '100 µs / div';
