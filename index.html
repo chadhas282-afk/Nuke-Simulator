@@ -6518,3 +6518,23 @@
 
       const evacSec = document.getElementById('evac-sec');
       if (evacSec) {
+        evacSec.style.display = 'block';
+        document.getElementById('evac-saved-val').textContent = fmtN(evacuatedPersons);
+        document.getElementById('evac-sheltered-val').textContent = fmtN(shelteredPersons);
+        document.getElementById('evac-delay-val').textContent = `${delayMin} min`;
+        document.getElementById('evac-drop-val').textContent = `−${Math.round(mortalityReductionFrac * 100)}% (${fmtN(deathsSaved)} saved)`;
+      }
+
+      return {
+        evacuatedPersons,
+        shelteredPersons,
+        delayMin,
+        deathsSaved,
+        mortalityReductionFrac
+      };
+    }
+
+    
+    let curScopeMode = 'e1';
+    let curScopeYield = 15;
+    let curScopeAlt = 0;
