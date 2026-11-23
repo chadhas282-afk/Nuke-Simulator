@@ -6758,3 +6758,23 @@
       document.getElementById('struct-steel-val').textContent = `${fmtR(rHeavyKm)} (20 psi collapse)`;
       document.getElementById('struct-glass-val').textContent = `${fmtR(rGlassKm)} (1 psi lethal glass)`;
     }
+
+    
+    window.setWinterModel = function (tg) {
+      document.querySelectorAll('.winter-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`wb-${tg}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const sootTg = parseFloat(tg);
+      const tau = 0.05 * sootTg;
+      const solarLossPct = Math.min(92, Math.round((1.0 - Math.exp(-tau)) * 100));
+      const coolingC = Math.min(26.0, 1.2 * Math.sqrt(sootTg * 2.8)).toFixed(1);
+      const cropLossPct = Math.min(98, Math.round(coolingC * 4.6 + sootTg * 0.3));
+      const faminePop = sootTg >= 150 ? '5.3 Billion' : (sootTg >= 47 ? '2.8 Billion' : (sootTg >= 27 ? '1.4 Billion' : '350 Million'));
+
+      document.getElementById('winter-line').textContent = `Stratospheric Soot Model (${sootTg} Tg) — Global cooling ≈ −${coolingC}°C`;
+      document.getElementById('winter-soot-val').textContent = `${sootTg} Tg`;
+      document.getElementById('winter-solar-val').textContent = `−${solarLossPct}%`;
+      const cropEl = document.getElementById('winter-crop-val');
+      if (cropEl) cropEl.textContent = `−${cropLossPct}% days`;
+      const famEl = document.getElementById('winter-famine-val');
