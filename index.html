@@ -6418,3 +6418,23 @@
       const auroraGeo = new THREE.BufferGeometry();
       const aPts = [];
       const aCols = [];
+      const ARCS = 72;
+      for (let a = 0; a < ARCS; a++) {
+        const u = a / ARCS;
+        const dLng = (u - 0.5) * 95;
+        
+        const pN1 = latlng2v3(magLat1 - 5, lng + dLng, EARTH_R + 0.018);
+        const pN2 = latlng2v3(magLat1 + 6, lng + dLng + 3, EARTH_R + 0.055);
+        aPts.push(pN1, pN2);
+        aCols.push(0.15, 0.95, 0.45, 0.95, 0.25, 0.45);
+
+        
+        const pS1 = latlng2v3(magLat2 - 5, lng + dLng, EARTH_R + 0.018);
+        const pS2 = latlng2v3(magLat2 + 6, lng + dLng + 3, EARTH_R + 0.055);
+        aPts.push(pS1, pS2);
+        aCols.push(0.15, 0.95, 0.45, 0.95, 0.25, 0.45);
+
+        
+        const pE1 = latlng2v3(lat - 3, lng + dLng, EARTH_R + 0.022);
+        const pE2 = latlng2v3(lat + 3, lng + dLng, EARTH_R + 0.040);
+        aPts.push(pE1, pE2);
