@@ -6398,3 +6398,23 @@
       const gzPt = latlng2v3(lat, lng, EARTH_R + altSU);
 
       
+      const plasmaGeo = new THREE.SphereGeometry(1, 48, 32);
+      const plasmaMat = new THREE.MeshBasicMaterial({
+        color: 0xa855f7,
+        transparent: true,
+        opacity: 0.95,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+      const plasmaBubble = new THREE.Mesh(plasmaGeo, plasmaMat);
+      plasmaBubble.position.copy(gzPt);
+      scene.add(plasmaBubble);
+      haneObjects.push(plasmaBubble);
+
+      
+      const magLat1 = Math.min(82, Math.max(-82, lat + 22.0));
+      const magLat2 = Math.min(82, Math.max(-82, -lat - 12.0));
+
+      const auroraGeo = new THREE.BufferGeometry();
+      const aPts = [];
+      const aCols = [];
