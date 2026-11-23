@@ -6357,3 +6357,24 @@
           .addScaledVector(tan1, Math.cos(p.ang) * p.rad)
           .addScaledVector(tan2, Math.sin(p.ang) * p.rad)
           .addScaledVector(norm, p.h);
+
+           pos[i * 3] = curP.x; pos[i * 3 + 1] = curP.y; pos[i * 3 + 2] = curP.z;
+
+        const lifeFrac = p.life / p.maxLife;
+        const heat = 1.0 - lifeFrac;
+        const flicker = 0.85 + 0.15 * Math.sin(Date.now() * 0.012 + i * 2.1);
+        
+        if (heat > 0.75) {
+          col[i * 3] = 1.0 * flicker;
+          col[i * 3 + 1] = (0.85 + 0.15 * heat) * flicker;
+          col[i * 3 + 2] = 0.65 * heat * flicker;
+        } else if (heat > 0.45) {
+          col[i * 3] = 1.0 * flicker;
+          col[i * 3 + 1] = (0.25 + 0.55 * heat) * flicker;
+          col[i * 3 + 2] = 0.04 * flicker;
+        } else if (heat > 0.18) {
+          col[i * 3] = (0.65 + 0.35 * heat) * flicker;
+          col[i * 3 + 1] = 0.08 * heat * flicker;
+          col[i * 3 + 2] = 0.02 * flicker;
+        } else {
+          
