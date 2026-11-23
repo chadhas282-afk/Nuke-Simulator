@@ -6538,3 +6538,23 @@
     let curScopeMode = 'e1';
     let curScopeYield = 15;
     let curScopeAlt = 0;
+
+    window.setScopeWaveform = function (mode) {
+      curScopeMode = mode;
+      document.querySelectorAll('.scope-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`scope-btn-${mode}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      drawEmpOscilloscope();
+    };
+
+    function drawEmpOscilloscope(cursorX = null) {
+      const cv = document.getElementById('emp-scope-canvas');
+      if (!cv) return;
+      const ctx = cv.getContext('2d');
+      const W = cv.width, H = cv.height;
+
+      
+      ctx.fillStyle = '#030a14';
+      ctx.fillRect(0, 0, W, H);
+
+      
