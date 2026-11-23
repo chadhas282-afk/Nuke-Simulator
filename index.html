@@ -6598,3 +6598,23 @@
         
         peakE = Math.min(180, Math.round((45 + 30 * Math.log10(Y)) * altFactor));
         unitStr = 'V/m'; timeScaleStr = '100 µs / div';
+        fCurve = (xFrac) => {
+          const tUs = xFrac * 800.0;
+          if (tUs <= 0) return 0;
+          return 1.15 * (Math.exp(-tUs / 220.0) - Math.exp(-tUs / 12.0));
+        };
+      } else {
+        
+        peakE = Math.min(42, Math.round((6 + 7 * Math.log10(Y)) * altFactor));
+        unitStr = 'V/km GIC'; timeScaleStr = '10 s / div';
+        fCurve = (xFrac) => {
+          const tSec = xFrac * 80.0;
+          if (tSec <= 0) return 0;
+          return Math.sin((Math.PI * tSec) / 32.0) * Math.exp(-tSec / 45.0) * 1.45;
+        };
+      }
+
+      
+      ctx.strokeStyle = curScopeMode === 'e1' ? '#38bdf8' : (curScopeMode === 'e2' ? '#facc15' : '#4ade80');
+      ctx.lineWidth = 2.2;
+      ctx.shadowColor = ctx.strokeStyle;
