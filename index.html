@@ -6618,3 +6618,23 @@
       ctx.strokeStyle = curScopeMode === 'e1' ? '#38bdf8' : (curScopeMode === 'e2' ? '#facc15' : '#4ade80');
       ctx.lineWidth = 2.2;
       ctx.shadowColor = ctx.strokeStyle;
+      ctx.shadowBlur = 8;
+
+      ctx.beginPath();
+      const baseZeroY = H * 0.85;
+      const ampMax = H * 0.72;
+
+      let probeTime = '0.0 ns', probeVal = '0.0';
+      const targetProbeX = cursorX !== null ? Math.max(0, Math.min(cursorX, W)) : W * 0.22;
+
+      for (let px = 0; px <= W; px++) {
+        const xFrac = px / W;
+        const normVal = Math.max(-0.2, fCurve(xFrac));
+        const py = baseZeroY - normVal * ampMax;
+        if (px === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+
+        if (Math.abs(px - targetProbeX) < 1) {
+          probeVal = (normVal * peakE).toFixed(1);
+          if (curScopeMode === 'e1') probeTime = (xFrac * 80.0).toFixed(1) + ' ns';
+          else if (curScopeMode === 'e2') probeTime = (xFrac * 800.0).toFixed(0) + ' µs';
