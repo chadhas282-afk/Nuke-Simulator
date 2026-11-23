@@ -6678,3 +6678,23 @@
           curV.style.color = numVal > 75 ? '#fbbf24' : '#4ade80';
         } else {
           curV.textContent = numVal > 18 ? 'CORE SATURATION (MELT)' : 'GIC TOLERABLE';
+           curV.style.color = numVal > 18 ? '#ef4444' : '#4ade80';
+        }
+      }
+    }
+
+    function initEmpOscilloscopeEvents() {
+      const cv = document.getElementById('emp-scope-canvas');
+      if (!cv || cv.dataset.wired) return;
+      cv.dataset.wired = 'true';
+      cv.addEventListener('mousemove', (e) => {
+        const rect = cv.getBoundingClientRect();
+        const x = (e.clientX - rect.left) * (cv.width / rect.width);
+        drawEmpOscilloscope(x);
+      });
+      cv.addEventListener('mouseleave', () => {
+        drawEmpOscilloscope(null);
+      });
+    }
+
+    function renderEmpOscilloscope(yieldKt, altKm) {
