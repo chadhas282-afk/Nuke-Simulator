@@ -6658,3 +6658,23 @@
       ctx.beginPath(); ctx.arc(targetProbeX, probeY, 3.5, 0, Math.PI * 2); ctx.fill();
 
       
+       ctx.fillStyle = '#94a3b8';
+      ctx.font = '600 9px monospace';
+      ctx.fillText(`${timeScaleStr} · PEAK: ${peakE} ${unitStr}`, 10, 16);
+
+      
+      const curT = document.getElementById('scope-cursor-t');
+      const curE = document.getElementById('scope-cursor-e');
+      const curV = document.getElementById('scope-vulnerability');
+      if (curT) curT.textContent = probeTime;
+      if (curE) curE.textContent = `${probeVal} ${unitStr}`;
+      if (curV) {
+        const numVal = Math.abs(parseFloat(probeVal));
+        if (curScopeMode === 'e1') {
+          curV.textContent = numVal > 15 ? 'CMOS GATE BREAKDOWN' : 'SURGE ARRESTOR OK';
+          curV.style.color = numVal > 15 ? '#f87171' : '#4ade80';
+        } else if (curScopeMode === 'e2') {
+          curV.textContent = numVal > 75 ? 'POWER ARRESTOR FLASH' : 'PASSIVE DIELECTRIC OK';
+          curV.style.color = numVal > 75 ? '#fbbf24' : '#4ade80';
+        } else {
+          curV.textContent = numVal > 18 ? 'CORE SATURATION (MELT)' : 'GIC TOLERABLE';
