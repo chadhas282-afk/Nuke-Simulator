@@ -6698,3 +6698,22 @@
     }
 
     function renderEmpOscilloscope(yieldKt, altKm) {
+      curScopeYield = yieldKt;
+      curScopeAlt = altKm;
+      initEmpOscilloscopeEvents();
+      drawEmpOscilloscope();
+
+      
+      const Y = Math.max(yieldKt, 0.1);
+      const isHane = S.burst === 'hane';
+      const satCount = isHane ? Math.min(480, Math.round(95 + 180 * Math.log10(Y))) : Math.min(180, Math.round(18 + 24 * Math.log10(Y)));
+      const breakerTrip = Math.min(96, Math.round(45 + 14 * Math.log10(Y)));
+      const gridEl = document.getElementById('hemp-grid-val');
+      const gridSub = document.getElementById('hemp-grid-sub');
+      if (gridEl) gridEl.textContent = `${satCount} EHV Transformers Saturated (${breakerTrip}% Breakers Tripped)`;
+      if (gridSub) {
+        gridSub.textContent = satCount > 80
+          ? `Catastrophic blackout across regional transmission interconnects. High-voltage core overheating requires 12–18 months fabrication lead time for replacement units.`
+          : `Localized substation breaker lockouts and line tripping. Power restoration feasible within 48–72 hours.`;
+      }
+    }
