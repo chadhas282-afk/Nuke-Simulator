@@ -6778,3 +6778,23 @@
       const cropEl = document.getElementById('winter-crop-val');
       if (cropEl) cropEl.textContent = `−${cropLossPct}% days`;
       const famEl = document.getElementById('winter-famine-val');
+      if (famEl) famEl.textContent = `~${faminePop}`;
+
+      winterLevel = Math.min(1.0, 0.2 + (sootTg / 150) * 0.8);
+      winterDrop = parseFloat(coolingC);
+      winterAgr = cropLossPct;
+      if (!winterVeil) buildAshShell();
+      if (winterVeil) winterVeil.material.opacity = Math.min(0.65, winterLevel * 0.6);
+      if (winterAsh) winterAsh.material.opacity = Math.min(0.75, winterLevel * 0.7);
+
+      toast(`☃ Nuclear Winter Model: ${sootTg} Tg Soot (Cooling: −${coolingC}°C, Solar: −${solarLossPct}%)`, 'info');
+    };
+
+    
+    let falloutState = null; 
+    let doseContours = [];
+    let activeFallouts = [];
+
+    function calcFalloutDoseAt(lat, lng) {
+      if (!activeFallouts.length && !falloutState) return null;
+      const list = activeFallouts.length ? activeFallouts : [falloutState];
