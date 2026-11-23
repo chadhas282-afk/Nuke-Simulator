@@ -6738,3 +6738,23 @@
       
       const maxPsi = isPen ? 12 : (isSub ? 6 : 20);
       const pKpa = maxPsi * 6.89476;
+      const qKpa = Math.round((5 * pKpa * pKpa) / (2 * (7 * 101.3 + pKpa)));
+      const windSpeedKmh = Math.round(Math.sqrt((2 * qKpa * 1000) / 1.225) * 3.6);
+
+      
+      
+      const rHeavyKm = radii.blast20psi || (0.18 * Math.pow(Y, 0.33));
+      const rModerateKm = radii.blast5psi || (0.45 * Math.pow(Y, 0.33));
+      const rGlassKm = radii.blast1psi || (1.50 * Math.pow(Y, 0.33));
+
+      const heavyAreaKm2 = Math.PI * rHeavyKm * rHeavyKm;
+      const rubbleVolM3 = Math.round(heavyAreaKm2 * 1.45 * 1000000);
+      const rubbleStr = rubbleVolM3 > 1000000
+        ? `${(rubbleVolM3 / 1000000).toFixed(1)}M m³ rubble`
+        : `${fmtN(rubbleVolM3)} m³ rubble`;
+
+      document.getElementById('struct-wind-val').textContent = `${qKpa} kPa (${windSpeedKmh} km/h wind)`;
+      document.getElementById('struct-rubble-val').textContent = rubbleStr;
+      document.getElementById('struct-steel-val').textContent = `${fmtR(rHeavyKm)} (20 psi collapse)`;
+      document.getElementById('struct-glass-val').textContent = `${fmtR(rGlassKm)} (1 psi lethal glass)`;
+    }
