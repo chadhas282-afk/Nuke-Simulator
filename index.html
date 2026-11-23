@@ -6317,3 +6317,23 @@
       };
 
       playFirestormRoar();
+
+      const fireSec = document.getElementById('firestorm-sec');
+      if (fireSec) {
+        fireSec.style.display = 'block';
+        const windKmH = Math.round(55 + Math.pow(yieldKt, 0.28) * 18);
+        const coreTemp = Math.round(750 + Math.pow(yieldKt, 0.25) * 60);
+        document.getElementById('firestorm-wind-val').textContent = `${windKmH} km/h (Inward Gale)`;
+        document.getElementById('firestorm-temp-val').textContent = `${coreTemp}°C (O2 < 7%)`;
+      }
+    }
+
+    function updateFirestorm() {
+      if (!firestormSystem) return;
+      const { geo, pos, col, parts, gzPt, norm, tan1, tan2, rFireSU, t0, dur } = firestormSystem;
+      const el = (Date.now() - t0) * 0.001;
+      if (el >= dur * 0.001) {
+        scene.remove(firestormSystem.group);
+        firestormSystem = null;
+        return;
+      }
