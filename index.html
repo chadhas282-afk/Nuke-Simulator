@@ -6498,3 +6498,23 @@
       const aurSec = document.getElementById('aurora-sec');
       if (aurSec) {
         aurSec.style.display = 'block';
+        document.getElementById('aurora-lat-val').textContent = `±${Math.abs(lat).toFixed(0)}° Geomagnetic Dipole`;
+        document.getElementById('aurora-sat-val').textContent = `Severe (~${(yieldKt * 0.08).toFixed(1)} mo. Van Allen decay)`;
+      }
+    }
+
+    
+    function calcCivilDefenseEvac(cas, warnMin, shelterPct) {
+      if (!cas || !S.fx.evac) return null;
+      const totalPop = (cas.deaths || 0) + (cas.injured || 0) + 12000;
+      const evacPotential = Math.min(0.65, (warnMin / 60) * 0.65);
+      const gridlockPenalty = warnMin > 10 ? 0.35 : 0.0;
+      const effectiveEvacRate = Math.max(0, evacPotential * (1.0 - gridlockPenalty));
+      const evacuatedPersons = Math.round(totalPop * effectiveEvacRate);
+      const shelteredPersons = Math.round((totalPop - evacuatedPersons) * (shelterPct * 0.01));
+      const mortalityReductionFrac = Math.min(0.85, (effectiveEvacRate * 0.9) + ((shelterPct * 0.01) * 0.52));
+      const deathsSaved = Math.round(cas.deaths * mortalityReductionFrac);
+      const delayMin = warnMin > 10 ? Math.round(18 + (totalPop / 200000) * 8) : 0;
+
+      const evacSec = document.getElementById('evac-sec');
+      if (evacSec) {
