@@ -6838,3 +6838,23 @@
       if (totalDoseRate < 0.25) return null;
       return {
         doseRateR: totalDoseRate,
+        doseRateSv: totalDoseRate * 0.01,
+        dose24Rem: totalDoseRate * 3.85,
+        closestDistKm: closestDist,
+        burst: dominantBurst
+      };
+    }
+
+    function drawFallout(lat, lng, opt = {}) {
+      if (!opt.merge && falloutState) tearDownFallout();
+      const Y = S.yieldKt;
+      
+      const timeScaleFactor = Math.pow(Math.max(1, S.falloutHours || 1), 0.45);
+      const len = Math.min(Math.max((Y * 0.85 + S.windSpd * 1.4) * timeScaleFactor, 12), 1200);
+      const wid = Math.min(Math.max(len * 0.22, 6), 260);
+      const shearAngleRad = (S.windShearDeg || 0) * Math.PI / 180;
+      const dir = ((S.windDir || 0) * Math.PI / 180) + shearAngleRad * 0.4;
+      const latRad = lat * Math.PI / 180;
+      const cLat = Math.max(Math.cos(latRad), 0.15);
+      const gzPt = latlng2v3(lat, lng, EARTH_R + 0.001);
+      const stemHkm = Math.min(Math.max(2.2 * Math.pow(Y, 0.26), 1.2), 85);
