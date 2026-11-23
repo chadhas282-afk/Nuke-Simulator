@@ -6458,3 +6458,22 @@
 
       (function stepHANE(now) {
         const el = (now - st) * 0.001;
+        if (el > 22.0) {
+          haneObjects.forEach(o => { scene.remove(o); if (o.geometry) o.geometry.dispose(); if (o.material) o.material.dispose(); });
+          haneObjects = [];
+          return;
+        }
+
+        if (el < 3.2) {
+          const pFrac = el / 3.2;
+          const r = maxPlasmaR * Math.pow(pFrac, 0.45);
+          plasmaBubble.scale.set(r, r, r);
+          plasmaMat.opacity = 0.95 * (1.0 - Math.pow(pFrac, 1.8));
+          if (pFrac < 0.3) {
+            plasmaMat.color.setRGB(1.0, 0.95, 1.0);
+          } else {
+            plasmaMat.color.setRGB(0.65, 0.3, 0.95);
+          }
+        } else {
+          plasmaBubble.visible = false;
+        }
