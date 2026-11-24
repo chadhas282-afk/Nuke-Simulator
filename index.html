@@ -7038,3 +7038,23 @@
     }
 
     function tearDownFallout() {
+      if (activeFallouts.length) {
+        activeFallouts.forEach(f => {
+          if (!f) return;
+          f.groups.forEach(g => {
+            scene.remove(g.points);
+            const li = S.layers.indexOf(g.points);
+            if (li >= 0) S.layers.splice(li, 1);
+            g.geo.dispose(); g.mat.dispose();
+          });
+          if (f.decalMesh) {
+            scene.remove(f.decalMesh);
+            const di = S.layers.indexOf(f.decalMesh);
+            if (di >= 0) S.layers.splice(di, 1);
+            f.decalMesh.geometry.dispose(); f.decalMesh.material.dispose();
+          }
+        });
+        activeFallouts = [];
+      } else if (falloutState) {
+        falloutState.groups.forEach(g => {
+          scene.remove(g.points);
