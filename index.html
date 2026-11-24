@@ -7458,3 +7458,23 @@
           spentBooster.position.addScaledVector(oV.clone().sub(curPt).normalize(), 0.0006);
           spentBooster.rotation.x += 0.08;
           spentBooster.rotation.y += 0.05;
+          spentBooster.material.opacity = Math.max(0, spentBooster.material.opacity - 0.015);
+        }
+
+        
+        if (!mirvDeployed && easedProg > 0.46) {
+          mirvDeployed = true;
+          sparkFlash(curPt, 0.14, 0x38bdf8, 2.0, 450); 
+
+          
+          const tgtN = tV.clone().normalize();
+          const arb = Math.abs(tgtN.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+          const t1 = new THREE.Vector3().crossVectors(tgtN, arb).normalize();
+          const t2 = new THREE.Vector3().crossVectors(tgtN, t1);
+
+          for (let m = 0; m < 3; m++) {
+            const ang = m * 2.094;
+            const fanR = 0.009 + m * 0.003;
+            const offV = t1.clone().multiplyScalar(Math.cos(ang) * fanR).add(t2.clone().multiplyScalar(Math.sin(ang) * fanR));
+            const subWGeo = new THREE.ConeGeometry(0.0035, 0.011, 6);
+            subWGeo.rotateX(Math.PI / 2);
