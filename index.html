@@ -6978,3 +6978,23 @@
         const uNose = Math.min(dL * 0.12, 14);
 
         for (let q = 0; q <= N; q++) {
+          const th = (q / N) * Math.PI * 2;
+          const cosT = Math.cos(th);
+          const sinT = Math.sin(th);
+          const s = 0.5 * (1 + cosT);
+          const u = dL * Math.pow(s, 1.25) - uNose * (1 - s);
+          const v = bw * sinT * (0.35 + 0.65 * Math.pow(s, 0.72));
+
+          const pert = 1.0 + 0.055 * Math.sin(th * 5.0 + li * 2.1) + 0.035 * Math.cos(th * 9.0 - 0.9) + 0.018 * Math.sin(th * 14.0);
+          const uP = u * pert;
+          const vP = v * pert;
+
+          const dLa = (uP * cDirC - vP * cDirS) / 111.32;
+          const dLo = (uP * cDirS + vP * cDirC) / (111.32 * cLat);
+          pts.push(latlng2v3(lat + dLa, lng + dLo, EARTH_R + 0.0025 + li * 0.0004).sub(gzPt));
+        }
+
+        const lineGeo = new THREE.BufferGeometry().setFromPoints(pts);
+        const lineMat = new THREE.LineBasicMaterial({ color: L.col, transparent: true, opacity: 0, depthWrite: false });
+        const lg = new THREE.Line(lineGeo, lineMat);
+        lg.position.copy(gzPt);
