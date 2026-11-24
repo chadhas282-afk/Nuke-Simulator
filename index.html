@@ -6918,3 +6918,23 @@
 
         const dLa = (u * cDirC) / 111.32, dLo = (u * cDirS) / (111.32 * cLat);
         const wLa = (-w * cDirS) / 111.32, wLo = (w * cDirC) / (111.32 * cLat);
+
+        const ptLeft = latlng2v3(lat + dLa - wLa, lng + dLo - wLo, EARTH_R + 0.0016).sub(gzPt);
+        const ptRight = latlng2v3(lat + dLa + wLa, lng + dLo + wLo, EARTH_R + 0.0016).sub(gzPt);
+
+        dPos[s * 6] = ptLeft.x; dPos[s * 6 + 1] = ptLeft.y; dPos[s * 6 + 2] = ptLeft.z;
+        dPos[s * 6 + 3] = ptRight.x; dPos[s * 6 + 4] = ptRight.y; dPos[s * 6 + 5] = ptRight.z;
+
+        const rainout = S.weather === 'rain';
+        const cr = rainout ? 0.08 : (0.16 + 0.12 * frac);
+        const cg = rainout ? 0.07 : (0.11 + 0.08 * frac);
+        const cb = rainout ? 0.07 : (0.09 + 0.06 * frac);
+
+        dCol[s * 6] = cr; dCol[s * 6 + 1] = cg; dCol[s * 6 + 2] = cb;
+        dCol[s * 6 + 3] = cr; dCol[s * 6 + 4] = cg; dCol[s * 6 + 5] = cb;
+
+        if (s < decalSegs) {
+          const v0 = s * 2, v1 = s * 2 + 1, v2 = (s + 1) * 2, v3 = (s + 1) * 2 + 1;
+          dIdx.push(v0, v1, v2, v1, v3, v2);
+        }
+      }
