@@ -7298,3 +7298,23 @@
       function easeFlashLights() {
         const p = Math.min(1.0, (performance.now() - tStart) / pulseDurMs);
         bloomPass.strength = peakBloom * (1.0 - p) + prevBloomStrength * p;
+        bloomPass.radius = 1.45 * (1.0 - p) + prevBloomRadius * p;
+        if (ambLight) ambLight.intensity = 4.5 * (1.0 - p) + prevAmbInt * p;
+        if (dirL) dirL.intensity = 5.8 * (1.0 - p) + prevDirInt * p;
+        if (p < 1.0) requestAnimationFrame(easeFlashLights);
+        else {
+          bloomPass.strength = prevBloomStrength;
+          bloomPass.radius = prevBloomRadius;
+          if (ambLight) ambLight.intensity = prevAmbInt;
+          if (dirL) dirL.intensity = prevDirInt;
+        }
+      }
+      requestAnimationFrame(easeFlashLights);
+    }
+
+    
+    S.targetQueue = [];
+
+    function renderTargetQueue() {
+      const el = document.getElementById('target-queue');
+      const cnt = document.getElementById('target-count');
