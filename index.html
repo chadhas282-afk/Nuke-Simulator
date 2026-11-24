@@ -6898,3 +6898,23 @@
       mkGroup(950, 0.07, 24.0, 0.22, 0.25, 0.20, 0.17, 'groundFumes');
       
       mkGroup(1150, 0.16, 36.0, 0.85, 0.28, 0.24, 0.22, 'troposphere');
+            
+      mkGroup(500, 0.26, 42.0, 1.30, 0.42, 0.39, 0.36, 'stratosphere');
+
+      const cDirC = Math.cos(dir), cDirS = Math.sin(dir);
+
+      
+      const decalSegs = 64;
+      const dVerts = (decalSegs + 1) * 2;
+      const dPos = new Float32Array(dVerts * 3);
+      const dCol = new Float32Array(dVerts * 3);
+      const dIdx = [];
+
+      for (let s = 0; s <= decalSegs; s++) {
+        const frac = s / decalSegs;
+        const u = len * Math.pow(frac, 1.15);
+        const scavengeWidth = S.weather === 'rain' ? wid * 0.48 : wid * 0.78;
+        const w = scavengeWidth * (0.18 + 0.82 * Math.pow(frac, 0.72));
+
+        const dLa = (u * cDirC) / 111.32, dLo = (u * cDirS) / (111.32 * cLat);
+        const wLa = (-w * cDirS) / 111.32, wLo = (w * cDirC) / (111.32 * cLat);
