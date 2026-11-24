@@ -7378,3 +7378,23 @@
 
       
       const mirvWarheads = [];
+      let mirvDeployed = false;
+
+      
+      let spentBooster = null;
+      let stagingDone = false;
+
+      
+      const chaffs = [];
+      let chaffSpawned = false;
+
+      
+      let abmMissile = null, abmTrail = null;
+      let abmEkvMesh = null;
+      const interceptIdx = Math.floor(N * 0.74);
+      const interceptPt = pts[interceptIdx];
+      let abmInterceptionResolved = false;
+
+      if (S.abmActive) {
+        
+        const abmBasePt = latlng2v3(toLat + (Math.random() - 0.5) * 8, toLng + (Math.random() - 0.5) * 8, EARTH_R);
