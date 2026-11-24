@@ -7018,3 +7018,23 @@
           color: L.col,
           transparent: true,
           opacity: 0,
+          side: THREE.DoubleSide,
+          depthWrite: false
+        }));
+        fl.position.copy(gzPt);
+
+        scene.add(lg); scene.add(fl);
+        doseContours.push({ line: lg, fill: fl, t0: Date.now() + li * 900, grow: L.grow, lineOp: L.lineOp, fillOp: L.fillOp });
+      });
+
+      const currentPlume = { groups, lenKm: len, widKm: wid, dir, lat, lng, latRad, hTopKm, tPrev: Date.now(), decalMesh: falloutDecalMesh, yieldKt: Y };
+      if (opt.merge) {
+        activeFallouts.push(currentPlume);
+      } else {
+        activeFallouts = [currentPlume];
+      }
+      falloutState = currentPlume;
+      updateFalloutParticles(true);
+    }
+
+    function tearDownFallout() {
