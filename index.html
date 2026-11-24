@@ -7138,3 +7138,23 @@
               u = f.lenKm * (0.08 + 0.92 * Math.pow(Math.min(kk, 1), 0.88) + 0.08 * Math.max(0, kk - 1)) * (1 + 0.04 * turb);
               hf = (1 - 0.65 * Math.min(kk, 1)) * (1 + 0.12 * turb) * Math.max(0, 1 - Math.max(0, kk - 1) * 0.8);
               vw = pt.lat0 * (0.15 + 0.85 * Math.pow(Math.min(kk, 1), 0.72) + 0.45 * Math.max(0, kk - 1));
+              }
+
+            const hKm = Math.max(0.08, hTop * hf * g.hfFrac);
+
+            
+            const shearAngle = Math.min(hKm / 15.0, 1.0) * 0.14;
+            const spdFactor = 0.75 + 0.45 * Math.min(hKm / 8.0, 1.0);
+
+            const effDir = f.dir + shearAngle;
+            const cosD = Math.cos(effDir), sinD = Math.sin(effDir);
+
+            const vKm = (f.widKm / 2) * vw * (1 + 0.35 * turb);
+            const rLat = (u * spdFactor * cosD - vKm * sinD) / 111.32;
+            const rLon = (u * spdFactor * sinD + vKm * cosD) / (111.32 * cosLat);
+            const gp = latlng2v3(f.lat + rLat, f.lng + rLon, EARTH_R + hKm * KM2SU);
+            pos[i * 3] = gp.x; pos[i * 3 + 1] = gp.y; pos[i * 3 + 2] = gp.z;
+
+            
+            const nPuff = gp.clone().normalize();
+            const sunDot = nPuff.dot(sunDirVec);
