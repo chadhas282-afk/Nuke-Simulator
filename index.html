@@ -6938,3 +6938,23 @@
           dIdx.push(v0, v1, v2, v1, v3, v2);
         }
       }
+
+      const decalGeo = new THREE.BufferGeometry();
+      decalGeo.setAttribute('position', new THREE.BufferAttribute(dPos, 3));
+      decalGeo.setAttribute('color', new THREE.BufferAttribute(dCol, 3));
+      decalGeo.setIndex(dIdx);
+      const decalMat = new THREE.MeshBasicMaterial({
+        vertexColors: true,
+        transparent: true,
+        opacity: S.weather === 'rain' ? 0.48 : 0.30,
+        side: THREE.DoubleSide,
+        depthWrite: false
+      });
+      const falloutDecalMesh = new THREE.Mesh(decalGeo, decalMat);
+      falloutDecalMesh.position.copy(gzPt);
+      scene.add(falloutDecalMesh); S.layers.push(falloutDecalMesh);
+
+      
+      if (!opt.merge) {
+        doseContours.forEach(c => {
+          scene.remove(c.line); scene.remove(c.fill);
