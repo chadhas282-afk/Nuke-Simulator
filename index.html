@@ -7118,3 +7118,23 @@
             }
             const s = Math.max(0, Math.min(pt.s, 1));
             const r1 = pt.r1, r2 = pt.r2;
+            const turb = (Math.sin(now * 0.0018 * pt.hz + pt.ph) * 0.5 + Math.cos(now * 0.0036 * pt.hz2 + pt.ph2) * 0.35) * pt.k;
+            let hf, u, vw;
+
+            if (s < r1) {
+              
+              const q = s / r1;
+              hf = Math.pow(q, 0.85) * (1 + 0.15 * turb);
+              u = q * q * (0.08 + 0.04 * turb) * f.lenKm;
+              vw = pt.lat0 * 0.08 * (1 + 0.3 * Math.sin(now * 0.003 * pt.hz + pt.ph));
+              if (g.type === 'chimney') {
+                const cyclonicTheta = now * 0.0015 * pt.spd + pt.ph;
+                vw += Math.sin(cyclonicTheta) * 0.12 * q;
+              }
+            } else {
+              
+              const k = (s - r1) / (r2 - r1);
+              const kk = Math.max(0, Math.min(k, 1.5));
+              u = f.lenKm * (0.08 + 0.92 * Math.pow(Math.min(kk, 1), 0.88) + 0.08 * Math.max(0, kk - 1)) * (1 + 0.04 * turb);
+              hf = (1 - 0.65 * Math.min(kk, 1)) * (1 + 0.12 * turb) * Math.max(0, 1 - Math.max(0, kk - 1) * 0.8);
+              vw = pt.lat0 * (0.15 + 0.85 * Math.pow(Math.min(kk, 1), 0.72) + 0.45 * Math.max(0, kk - 1));
