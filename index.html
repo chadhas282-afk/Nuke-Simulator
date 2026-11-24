@@ -7398,3 +7398,23 @@
       if (S.abmActive) {
         
         const abmBasePt = latlng2v3(toLat + (Math.random() - 0.5) * 8, toLng + (Math.random() - 0.5) * 8, EARTH_R);
+        const abmGeo = new THREE.ConeGeometry(0.0035, 0.012, 6);
+        abmGeo.rotateX(Math.PI / 2);
+        const abmMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+        abmMissile = new THREE.Mesh(abmGeo, abmMat);
+        abmMissile.position.copy(abmBasePt);
+        abmMissile.visible = false;
+        scene.add(abmMissile);
+
+        const abmLineGeo = new THREE.BufferGeometry().setFromPoints([abmBasePt, abmBasePt]);
+        const abmLineMat = new THREE.LineBasicMaterial({ color: 0x0284c7, transparent: true, opacity: 0.9, linewidth: 2 });
+        abmTrail = new THREE.Line(abmLineGeo, abmLineMat);
+        abmTrail.visible = false;
+        scene.add(abmTrail);
+
+        toast('🛡️ [ABM RADAR] SBIRS Space Tracking: Inbound Ballistic Track Acquired · Battery Armed', 'info');
+      }
+
+      const dur = 2400;
+      let lastTime = performance.now();
+      let elapsed = 0;
