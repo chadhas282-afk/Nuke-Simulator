@@ -7098,3 +7098,23 @@
         if (!f) continue;
         const dtMs = init ? 0 : Math.min(now - f.tPrev, 60);
         f.tPrev = now;
+        const cosLat = Math.cos(f.latRad);
+        const rate = (0.000035 + 0.0000022 * S.windSpd) * dtMs;
+        const hTop = f.hTopKm;
+
+        for (const g of f.groups) {
+          g.mat.size = KM2SU * Math.max(g.siz, f.widKm * 0.34, 18.0);
+          const pos = g.pos, col = g.col, P = g.parts;
+          for (let i = 0; i < P.length; i++) {
+            const pt = P[i];
+            if (dtMs > 0) {
+              pt.s += rate * pt.spd;
+              if (pt.s > 1) {
+                pt.s -= 1;
+                pt.lat0 = (Math.random() - 0.5) * 2;
+                pt.ph = Math.random() * Math.PI * 2;
+                pt.ph2 = Math.random() * Math.PI * 2;
+              }
+            }
+            const s = Math.max(0, Math.min(pt.s, 1));
+            const r1 = pt.r1, r2 = pt.r2;
