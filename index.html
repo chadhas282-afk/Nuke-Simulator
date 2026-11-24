@@ -7338,3 +7338,22 @@
     };
     window.removeTarget = function (i) { S.targetQueue.splice(i, 1); renderTargetQueue(); };
     window.clearTargetQueue = function () { S.targetQueue = []; renderTargetQueue(); };
+
+    
+    function launchICBM(fromLat, fromLng, toLat, toLng, onArrive) {
+      const N = 100;
+      const oV = latlng2v3(fromLat, fromLng, EARTH_R);
+      const tV = latlng2v3(toLat, toLng, EARTH_R);
+      const distOT = oV.distanceTo(tV);
+      const apogeeMult = EARTH_R + distOT * 0.72 + 0.08; 
+      const arcH = oV.clone().lerp(tV, 0.5).normalize().multiplyScalar(apogeeMult);
+      const pts = [];
+      for (let i = 0; i <= N; i++) {
+        const t = i / N;
+        const p = oV.clone().lerp(arcH, t).lerp(arcH.clone().lerp(tV, t), t);
+        pts.push(p);
+      }
+      const geo = new THREE.BufferGeometry().setFromPoints(pts);
+      const mat = new THREE.LineBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.0, linewidth: 1.5 });
+      const arc = new THREE.Line(geo, mat);
+      scene.add(arc);
