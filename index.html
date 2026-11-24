@@ -7078,3 +7078,23 @@
 
     function stepDoseContours() {
       const now = Date.now();
+      for (const c of doseContours) {
+        const t = now - c.t0;
+        const grow = Math.min(Math.max(t / c.grow, 0), 1);
+        const sc = 0.15 + 0.85 * (1 - Math.pow(1 - grow, 2));
+        c.line.scale.setScalar(sc); c.fill.scale.setScalar(sc);
+        const fade = t < c.grow + 60000 ? 1 : Math.max(0, 1 - (t - (c.grow + 60000)) / 30000);
+        c.line.material.opacity = c.lineOp * fade;
+        c.fill.material.opacity = c.fillOp * fade;
+      }
+    }
+
+    function updateFalloutParticles(init) {
+      const list = activeFallouts.length ? activeFallouts : (falloutState ? [falloutState] : []);
+      if (!list.length) return;
+      const now = Date.now();
+
+      for (const f of list) {
+        if (!f) continue;
+        const dtMs = init ? 0 : Math.min(now - f.tPrev, 60);
+        f.tPrev = now;
