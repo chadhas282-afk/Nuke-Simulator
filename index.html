@@ -6998,3 +6998,23 @@
         const lineMat = new THREE.LineBasicMaterial({ color: L.col, transparent: true, opacity: 0, depthWrite: false });
         const lg = new THREE.Line(lineGeo, lineMat);
         lg.position.copy(gzPt);
+
+        const fGeo = new THREE.BufferGeometry();
+        const cpos = new Float32Array((N + 2) * 3);
+        const idx = [];
+        const spineCenter = latlng2v3(lat + (dL * 0.35 * cDirC) / 111.32, lng + (dL * 0.35 * cDirS) / (111.32 * cLat), EARTH_R + 0.0025 + li * 0.0004).sub(gzPt);
+        cpos[0] = spineCenter.x; cpos[1] = spineCenter.y; cpos[2] = spineCenter.z;
+
+        for (let q = 0; q <= N; q++) {
+          cpos[(q + 1) * 3] = pts[q].x;
+          cpos[(q + 1) * 3 + 1] = pts[q].y;
+          cpos[(q + 1) * 3 + 2] = pts[q].z;
+        }
+        for (let q = 1; q <= N; q++) idx.push(0, q, q + 1);
+
+        fGeo.setAttribute('position', new THREE.BufferAttribute(cpos, 3));
+        fGeo.setIndex(idx);
+        const fl = new THREE.Mesh(fGeo, new THREE.MeshBasicMaterial({
+          color: L.col,
+          transparent: true,
+          opacity: 0,
