@@ -7158,3 +7158,23 @@
             
             const nPuff = gp.clone().normalize();
             const sunDot = nPuff.dot(sunDirVec);
+            const dayFactor = Math.max(0.20, Math.min(1.0, 0.45 + sunDot * 1.4));
+            const coreDist = Math.min(Math.abs(vw), 1.0);
+            const opticalExtinction = Math.exp(-0.85 * (1.0 - coreDist));
+            const sunScatter = Math.max(0.35, 0.65 + 0.35 * Math.max(0, sunDot));
+            const shadowFactor = dayFactor * (0.42 + 0.58 * opticalExtinction) * sunScatter;
+
+            
+            let cr = g.cR, cg = g.cG, cb = g.cB;
+            if (s < r1 * 0.65) {
+              const warm = 1.0 - (s / (r1 * 0.65));
+              cr = THREE.MathUtils.lerp(g.cR, 0.95, warm * 0.85);
+              cg = THREE.MathUtils.lerp(g.cG, 0.32, warm * 0.75);
+              cb = THREE.MathUtils.lerp(g.cB, 0.05, warm * 0.9);
+            } else {
+              const age = Math.min((s - r1 * 0.65) / (1.0 - r1 * 0.65), 1.0);
+              const fade = 0.45 + 0.55 * Math.pow(1 - age, 1.2);
+              cr *= fade; cg *= fade; cb *= fade;
+            }
+
+            const flicker = 0.88 + 0.12 * Math.sin(now * 0.004 * pt.hz2 + pt.ph2);
