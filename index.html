@@ -7418,3 +7418,23 @@
       const dur = 2400;
       let lastTime = performance.now();
       let elapsed = 0;
+      let revealed = 0;
+
+      (function animArc() {
+        const now = performance.now();
+        const dt = (now - lastTime) * (S.timeScale || 1.0);
+        lastTime = now;
+        elapsed += dt;
+
+        const prog = Math.min(elapsed / dur, 1.0);
+        const easedProg = prog < 0.5 ? 2 * prog * prog : -1 + (4 - 2 * prog) * prog;
+        const idx = Math.min(Math.floor(easedProg * N), N);
+        const curPt = pts[idx];
+        const nxtPt = pts[Math.min(idx + 1, N)];
+        headGroup.position.copy(curPt);
+        headGroup.lookAt(nxtPt);
+
+        
+        if (easedProg <= 0.22) {
+          
+          plumeMesh.visible = true;
