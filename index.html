@@ -7318,3 +7318,23 @@
     function renderTargetQueue() {
       const el = document.getElementById('target-queue');
       const cnt = document.getElementById('target-count');
+      el.innerHTML = '';
+      cnt.textContent = S.targetQueue.length;
+      S.targetQueue.forEach((t, i) => {
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;font:500 10px var(--font)';
+        row.innerHTML = `<span style="color:var(--accent);font-size:9px">•</span><span style="flex:1;color:var(--txt2)">${t.name || `${t.lat.toFixed(2)}, ${t.lng.toFixed(2)}`}</span><span style="color:var(--txt3)">${t.kt >= 1000 ? (t.kt / 1000).toFixed(1) + 'Mt' : t.kt + 'kt'}</span><button onclick="removeTarget(${i})" style="background:none;border:none;color:var(--txt3);cursor:pointer;font-size:11px;line-height:1;padding:0">✕</button>`;
+        el.appendChild(row);
+      });
+    }
+
+    window.addCurrentTarget = function () {
+      if (!S.point) { toast('📍 Click the globe to set a target first'); return; }
+      if (S.targetQueue.length >= 10) { toast('Max 10 targets in queue'); return; }
+      syncYield();
+      S.targetQueue.push({ lat: S.point.lat, lng: S.point.lng, kt: S.yieldKt, name: null });
+      renderTargetQueue();
+      toast(`🎯 Target added (${S.targetQueue.length}/10)`);
+    };
+    window.removeTarget = function (i) { S.targetQueue.splice(i, 1); renderTargetQueue(); };
+    window.clearTargetQueue = function () { S.targetQueue = []; renderTargetQueue(); };
