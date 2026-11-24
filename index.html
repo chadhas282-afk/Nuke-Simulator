@@ -7258,3 +7258,23 @@
         fl.style.opacity = '0.55';
 
         setTimeout(() => {
+                    
+          fl.style.background = 'radial-gradient(ellipse 50% 46% at 50% 50%, #fffbeb 0%, #fde68a 35%, rgba(251,146,60,0.8) 65%, transparent 85%)';
+          fl.style.transition = 'opacity 55ms ease-in, background 65ms linear';
+          fl.style.opacity = '0.88';
+
+          setTimeout(() => {
+            
+            fl.style.background = 'radial-gradient(ellipse 45% 42% at 50% 50%, #fed7aa 0%, #fb923c 38%, rgba(220,38,38,0.6) 68%, transparent 88%)';
+            fl.style.transition = 'opacity 380ms ease-out, background 420ms ease-out';
+            fl.style.opacity = '0.38';
+
+            
+            if (burn) {
+              burn.style.transition = 'none';
+              burn.style.opacity = '0';
+              setTimeout(() => {
+                burn.style.transition = `opacity ${pulseDurMs * 0.35}ms ease-in`;
+                burn.style.opacity = Math.min(0.65, 0.28 + Math.pow(Y, 0.18) * 0.25).toFixed(2);
+                setTimeout(() => {
+                  burn.style.transition = `opacity ${pulseDurMs * 0.82}ms cubic-bezier(0.2, 0.9, 0.3, 1)`;
