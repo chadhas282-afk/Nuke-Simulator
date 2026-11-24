@@ -7478,3 +7478,23 @@
             const offV = t1.clone().multiplyScalar(Math.cos(ang) * fanR).add(t2.clone().multiplyScalar(Math.sin(ang) * fanR));
             const subWGeo = new THREE.ConeGeometry(0.0035, 0.011, 6);
             subWGeo.rotateX(Math.PI / 2);
+            const subWMat = new THREE.MeshBasicMaterial({ color: 0xffa500 });
+            const subMesh = new THREE.Mesh(subWGeo, subWMat);
+            subMesh.position.copy(curPt);
+            scene.add(subMesh);
+            mirvWarheads.push({ mesh: subMesh, off: offV, basePos: curPt.clone() });
+          }
+        }
+
+        
+        if (mirvWarheads.length) {
+          mirvWarheads.forEach((mw, mi) => {
+            const sepFrac = Math.min((easedProg - 0.46) / 0.54, 1.0);
+            mw.mesh.position.copy(curPt).addScaledVector(mw.off, sepFrac);
+            mw.mesh.lookAt(nxtPt.clone().addScaledVector(mw.off, sepFrac));
+            if (easedProg > 0.65) {
+              mw.mesh.material.color.setHex(0x38bdf8); 
+              if (Math.random() < 0.4) {
+                sparkFlash(mw.mesh.position, 0.0055, 0x38bdf8, 1.1, 240);
+              }
+            }
