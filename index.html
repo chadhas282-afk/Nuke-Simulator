@@ -6958,3 +6958,23 @@
       if (!opt.merge) {
         doseContours.forEach(c => {
           scene.remove(c.line); scene.remove(c.fill);
+          c.line.geometry.dispose(); c.line.material.dispose();
+          c.fill.geometry.dispose(); c.fill.material.dispose();
+        });
+        doseContours = [];
+      }
+
+      const doseTiers = [
+        { rem: 1000, col: 0xd946ef, lenFrac: 0.35, widFrac: 0.36, lineOp: 0.34, fillOp: 0.15, grow: 4500 },
+        { rem: 300, col: 0xf97316, lenFrac: 0.68, widFrac: 0.68, lineOp: 0.28, fillOp: 0.10, grow: 7000 },
+        { rem: 100, col: 0xeab308, lenFrac: 1.00, widFrac: 1.00, lineOp: 0.22, fillOp: 0.06, grow: 9500 }
+      ];
+
+      doseTiers.forEach((L, li) => {
+        const dL = len * L.lenFrac;
+        const bw = wid * L.widFrac;
+        const N = 64;
+        const pts = [];
+        const uNose = Math.min(dL * 0.12, 14);
+
+        for (let q = 0; q <= N; q++) {
