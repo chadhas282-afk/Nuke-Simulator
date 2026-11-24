@@ -7278,3 +7278,23 @@
                 burn.style.opacity = Math.min(0.65, 0.28 + Math.pow(Y, 0.18) * 0.25).toFixed(2);
                 setTimeout(() => {
                   burn.style.transition = `opacity ${pulseDurMs * 0.82}ms cubic-bezier(0.2, 0.9, 0.3, 1)`;
+                  burn.style.opacity = '0';
+                }, pulseDurMs * 0.3);
+              }, 320);
+            }
+
+            setTimeout(() => {
+              
+              fl.style.background = 'radial-gradient(ellipse 40% 38% at 50% 50%, rgba(153,27,27,0.4) 0%, rgba(120,20,20,0.2) 45%, transparent 75%)';
+              fl.style.transition = `opacity ${pulseDurMs * 0.75}ms cubic-bezier(0.1, 0.8, 0.2, 1), background ${pulseDurMs * 0.75}ms ease-out`;
+              fl.style.opacity = '0';
+            }, 420);
+          }, 100);
+        }, 48);
+      }, 18);
+
+      
+      const tStart = performance.now();
+      function easeFlashLights() {
+        const p = Math.min(1.0, (performance.now() - tStart) / pulseDurMs);
+        bloomPass.strength = peakBloom * (1.0 - p) + prevBloomStrength * p;
