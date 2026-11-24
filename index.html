@@ -7178,3 +7178,23 @@
             }
 
             const flicker = 0.88 + 0.12 * Math.sin(now * 0.004 * pt.hz2 + pt.ph2);
+            col[i * 3] = cr * flicker * shadowFactor;
+            col[i * 3 + 1] = cg * flicker * shadowFactor;
+            col[i * 3 + 2] = cb * flicker * shadowFactor;
+          }
+          g.geo.attributes.position.needsUpdate = true;
+          g.geo.attributes.color.needsUpdate = true;
+        }
+      }
+    }
+
+    
+    let mushroomObjs = [], mushroomProg = 0;
+    let smokeParticles = null, smokeGeo = null, smokeMat = null;
+
+    
+    const glowTex = (() => {
+      const sz = 128, cv = document.createElement('canvas'); cv.width = sz; cv.height = sz;
+      const ctx = cv.getContext('2d');
+      const g = ctx.createRadialGradient(sz / 2, sz / 2, 0, sz / 2, sz / 2, sz / 2);
+      g.addColorStop(0, 'rgba(255, 255, 255, 1)');
