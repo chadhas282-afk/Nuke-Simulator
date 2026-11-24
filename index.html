@@ -7218,3 +7218,23 @@
       ctx.fillStyle = g; ctx.fillRect(0, 0, sz, sz);
       const t = new THREE.CanvasTexture(cv); t.needsUpdate = true; return t;
     })();
+
+    
+    const camShake = { intensity: 0, t0: 0, dur: 1200, freq: 24 };
+    function triggerCamShake(intensity = 0.02, dur = 1200, freq = 24) {
+      camShake.intensity = intensity; camShake.t0 = Date.now(); camShake.dur = dur; camShake.freq = freq;
+    }
+
+    
+    function triggerThermalFlash(yieldKt) {
+      const fl = document.getElementById('flash');
+      const burn = document.getElementById('flash-burn');
+      if (!fl) return;
+      const Y = Math.max(yieldKt, 0.01);
+      const pulseDurMs = Math.min(4200, Math.max(1100, 850 * Math.pow(Y, 0.25)));
+
+      
+      const prevBloomStrength = bloomPass.strength;
+      const prevBloomRadius = bloomPass.radius;
+      const prevAmbInt = ambLight ? ambLight.intensity : 0.65;
+      const prevDirInt = dirL ? dirL.intensity : 1.1;
