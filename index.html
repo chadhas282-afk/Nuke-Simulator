@@ -7658,3 +7658,23 @@
         color: 0xbae6fd,
         size: 0.0035,
         map: glowTex,
+        transparent: true,
+        opacity: 1.0,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+      const kMesh = new THREE.Points(kGeo, kMat);
+      scene.add(kMesh);
+      fxSparks.push(kMesh);
+
+      const k0 = Date.now(), kDur = 2200;
+      (function animKinetic() {
+        const el = Date.now() - k0;
+        const p = Math.min(el / kDur, 1.0);
+        if (p >= 1.0) {
+          scene.remove(kMesh); kGeo.dispose(); kMat.dispose();
+          const ix = fxSparks.indexOf(kMesh); if (ix > -1) fxSparks.splice(ix, 1);
+          return;
+        }
+        const arr = kGeo.attributes.position.array;
+        for (let i = 0; i < kN; i++) {
