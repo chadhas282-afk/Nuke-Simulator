@@ -8078,3 +8078,23 @@
         map: pTex,
         vertexColors: true,
         transparent: true,
+        opacity: 0,
+        depthWrite: false,
+        sizeAttenuation: true
+      });
+      const cloud = new THREE.Points(pg, pmat);
+      scene.add(cloud); mushroomObjs.push(cloud);
+
+      
+      const billowGroup = new THREE.Group();
+      scene.add(billowGroup); mushroomObjs.push(billowGroup);
+
+      const billowSprites = [];
+      
+      const numRimLobes = 24;
+      for (let b = 0; b < numRimLobes; b++) {
+        const mat = new THREE.SpriteMaterial({
+          map: pTex,
+          transparent: true,
+          opacity: 0,
+          depthWrite: false,
