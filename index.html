@@ -7558,3 +7558,23 @@
               scene.remove(arc); scene.remove(headGroup);
               scene.remove(abmMissile); scene.remove(abmTrail);
               if (spentBooster) scene.remove(spentBooster);
+              chaffs.forEach(cf => { scene.remove(cf.mesh); cf.mesh.geometry.dispose(); cf.mesh.material.dispose(); });
+              mirvWarheads.forEach(mw => { scene.remove(mw.mesh); mw.mesh.geometry.dispose(); mw.mesh.material.dispose(); });
+              arc.geometry.dispose(); arc.material.dispose();
+              headGeo.dispose(); headMat.dispose(); plumeGeo.dispose(); plumeMat.dispose();
+              abmMissile.geometry.dispose(); abmMissile.material.dispose();
+              abmTrail.geometry.dispose(); abmTrail.material.dispose();
+              return; 
+            }
+          }
+        }
+
+        
+        if (S.trackCam && !droneActive) {
+          const headPos = headGroup.position;
+          const upN = headPos.clone().normalize();
+          const prevIdx = Math.max(0, idx - 4);
+          const backDir = pts[prevIdx].clone().sub(headPos).normalize();
+          const camTarget = headPos.clone().addScaledVector(backDir, 0.08).addScaledVector(upN, 0.04);
+          camera.position.lerp(camTarget, 0.22);
+          camera.lookAt(headPos.clone().addScaledVector(backDir, -0.05));
