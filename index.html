@@ -7818,3 +7818,22 @@
 
       const shellMat = new THREE.MeshBasicMaterial({ color: 0xff8c1a, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending });
       const shell = new THREE.Mesh(new THREE.SphereGeometry(1, 36, 28), shellMat);
+      scene.add(shell); mushroomObjs.push(shell);
+
+      const glareMat = new THREE.SpriteMaterial({ map: glowTex, color: 0xffffff, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending });
+      const glare = new THREE.Sprite(glareMat);
+      scene.add(glare); mushroomObjs.push(glare);
+
+      
+      const ionGeo = new THREE.SphereGeometry(1, 32, 24);
+      const ionMat = new THREE.MeshBasicMaterial({ color: 0x818cf8, transparent: true, opacity: 0, side: THREE.BackSide, depthWrite: false, blending: THREE.AdditiveBlending });
+      const ionGlow = new THREE.Mesh(ionGeo, ionMat);
+      scene.add(ionGlow); mushroomObjs.push(ionGlow);
+
+      
+      const swDomeGeo = new THREE.SphereGeometry(1, 48, 24, 0, Math.PI * 2, 0, Math.PI / 2);
+      const swDomeMat = new THREE.MeshBasicMaterial({ color: 0x93c5fd, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending });
+      const swDome = new THREE.Mesh(swDomeGeo, swDomeMat);
+      swDome.position.copy(surfPt);
+      swDome.quaternion.copy(qNorm);
+      scene.add(swDome); mushroomObjs.push(swDome);
