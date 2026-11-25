@@ -7578,3 +7578,22 @@
           const camTarget = headPos.clone().addScaledVector(backDir, 0.08).addScaledVector(upN, 0.04);
           camera.position.lerp(camTarget, 0.22);
           camera.lookAt(headPos.clone().addScaledVector(backDir, -0.05));
+          }
+
+        
+        if (idx > revealed) {
+          const partial = pts.slice(0, idx + 1);
+          arc.geometry.setFromPoints(partial);
+          arc.geometry.attributes.position.needsUpdate = true;
+          revealed = idx;
+        }
+        mat.opacity = Math.min(prog * 3, 1.0) * (1.0 - Math.max(0, (prog - 0.85) / 0.15));
+
+        if (prog < 1.0) {
+          requestAnimationFrame(animArc);
+        } else {
+          scene.remove(arc); scene.remove(headGroup);
+          if (abmMissile) { scene.remove(abmMissile); abmMissile.geometry.dispose(); abmMissile.material.dispose(); }
+          if (abmTrail) { scene.remove(abmTrail); abmTrail.geometry.dispose(); abmTrail.material.dispose(); }
+          if (spentBooster) { scene.remove(spentBooster); spentBooster.geometry.dispose(); spentBooster.material.dispose(); }
+          chaffs.forEach(cf => { scene.remove(cf.mesh); cf.mesh.geometry.dispose(); cf.mesh.material.dispose(); });
