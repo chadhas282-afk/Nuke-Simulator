@@ -8038,3 +8038,23 @@
           depthWrite: true
         });
         craterMesh = new THREE.Mesh(craterGeo, crMat);
+        craterMesh.userData.cColOrig = new Float32Array(cCol);
+        scene.add(craterMesh);
+        mushroomObjs.push(craterMesh);
+      }
+
+      
+      const NP = 2600;
+      const pf = new Float32Array(NP * 3);
+      const cf = new Float32Array(NP * 3);
+      const seed = [];
+
+      for (let i = 0; i < NP; i++) {
+        const r = Math.random();
+        
+        const kind = r < 0.52 ? 0 : r < 0.78 ? 1 : r < 0.94 ? 2 : 3;
+        seed.push({
+          kind,
+          a: Math.random() * Math.PI * 2,
+          phi0: Math.random() * Math.PI * 2,
+          omega: 0.9 + Math.random() * 0.9,
