@@ -7858,3 +7858,23 @@
         ropePos[r * 6] = surfPt.x; ropePos[r * 6 + 1] = surfPt.y; ropePos[r * 6 + 2] = surfPt.z;
         ropePos[r * 6 + 3] = surfPt.x; ropePos[r * 6 + 4] = surfPt.y; ropePos[r * 6 + 5] = surfPt.z;
       }
+      ropeGeo.setAttribute('position', new THREE.BufferAttribute(ropePos, 3));
+      const ropeMat = new THREE.LineBasicMaterial({
+        color: 0xfff4e0,
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending
+      });
+      const ropeTrickMesh = new THREE.LineSegments(ropeGeo, ropeMat);
+      scene.add(ropeTrickMesh); mushroomObjs.push(ropeTrickMesh);
+
+      
+      const gShockGeo = new THREE.RingGeometry(0.96, 1.0, 64);
+      const gShockMat = new THREE.MeshBasicMaterial({
+        color: 0x7dd3fc,
+        transparent: true,
+        opacity: 0,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending
