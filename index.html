@@ -7518,3 +7518,23 @@
             cf.mesh.position.addScaledVector(cf.off, 0.035);
             cf.mesh.material.opacity = Math.max(0, 0.85 - (easedProg - 0.50) * 2.2);
           });
+          }
+
+        
+        if (easedProg > 0.68) {
+          headMat.color.setHex(0x38bdf8); 
+          headMat.emissive = new THREE.Color(0x0284c7);
+          headMat.emissiveIntensity = 1.2;
+          missileMesh.scale.setScalar(1.35 + 0.25 * Math.sin(now * 0.06));
+        }
+
+        
+        if (S.abmActive && abmMissile && !abmInterceptionResolved) {
+          if (easedProg >= 0.28) {
+            abmMissile.visible = true;
+            abmTrail.visible = true;
+            const abmProg = Math.min((easedProg - 0.28) / 0.44, 1.0);
+            const curAbmPos = tV.clone().lerp(interceptPt, Math.pow(abmProg, 1.35));
+            abmMissile.position.copy(curAbmPos);
+            abmMissile.lookAt(interceptPt);
+            abmTrail.geometry.setFromPoints([tV, curAbmPos]);
