@@ -7898,3 +7898,23 @@
         const hMesh = new THREE.Mesh(hGeo, hMat);
         hMesh.position.copy(surfPt);
         hMesh.quaternion.copy(qNorm);
+        hMesh.visible = false;
+        scene.add(hMesh); mushroomObjs.push(hMesh);
+        wilsonHalos.push({ mesh: hMesh, mat: hMat, altFrac: 0.12 + h * 0.24, delay: h * 0.08 });
+      }
+
+      
+      const rainN = 450;
+      const rainPos = new Float32Array(rainN * 3);
+      const rainCol = new Float32Array(rainN * 3);
+      const rainSeed = [];
+      for (let r = 0; r < rainN; r++) {
+        rainSeed.push({
+          radFrac: Math.sqrt(Math.random()) * 0.82,
+          ang: Math.random() * Math.PI * 2,
+          fallSpd: 0.85 + Math.random() * 0.55,
+          born: Math.random() * 1.5
+        });
+        rainPos[r * 3] = 9999; rainPos[r * 3 + 1] = 9999; rainPos[r * 3 + 2] = 9999;
+        rainCol[r * 3] = 0.10; rainCol[r * 3 + 1] = 0.09; rainCol[r * 3 + 2] = 0.09;
+      }
