@@ -7798,3 +7798,23 @@
       const groundScorchR = Math.max(fbMaxR * 2.2, 0.008);
       earthMatTexUniforms.uEmpCenter.value.copy(surfPt);
       earthMatTexUniforms.uEmpRadius.value = empR;
+      earthMatTexUniforms.uScorchCenter.value.copy(surfPt);
+      earthMatTexUniforms.uScorchRadius.value = groundScorchR;
+
+      
+      const arbV = Math.abs(normal.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+      const tan1 = new THREE.Vector3().crossVectors(normal, arbV).normalize();
+      const tan2 = new THREE.Vector3().crossVectors(normal, tan1);
+
+      
+      const blastLight = new THREE.PointLight(0xfffae6, 32.0, fbMaxR * 25, 1.2);
+      blastLight.position.copy(surfPt.clone().addScaledVector(normal, fbMaxR * 0.3));
+      scene.add(blastLight); mushroomObjs.push(blastLight);
+
+      
+      const coreMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending });
+      const core = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 24), coreMat);
+      scene.add(core); mushroomObjs.push(core);
+
+      const shellMat = new THREE.MeshBasicMaterial({ color: 0xff8c1a, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending });
+      const shell = new THREE.Mesh(new THREE.SphereGeometry(1, 36, 28), shellMat);
