@@ -7778,3 +7778,23 @@
           else o.material.dispose();
         }
       });
+      mushroomObjs = []; mushroomProg = 0;
+      if (smokeParticles) { scene.remove(smokeParticles); smokeParticles.geometry.dispose(); smokeParticles.material.dispose(); smokeParticles = null; }
+
+      const Y = Math.max(yieldKt, 0.01);
+      const stemH = Math.min(Math.max(3.2 * Math.pow(Y, 0.25), 1.2), 70) * KM2SU;
+      const stemR = Math.min(Math.max(0.42 * Math.pow(Y, 0.30), 0.15), 18) * KM2SU;
+      const capR = Math.min(Math.max(1.85 * Math.pow(Y, 0.33), 0.8), 85) * KM2SU;
+      const fbMaxR = Math.min(Math.max(0.070 * Math.pow(Y, 0.40), 0.04), 45) * KM2SU;
+      const surgeMaxR = Math.min(Math.max(1.6 * Math.pow(Y, 0.33), 0.6), 90) * KM2SU;
+      const swMaxR = Math.min(Math.max(1.50 * Math.pow(Y, 0.333), 0.4), 280) * KM2SU;
+
+      const surfPt = latlng2v3(lat, lng, EARTH_R);
+      const normal = surfPt.clone().normalize();
+      const qNorm = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal);
+
+      
+      const empR = Math.min(Math.max(16.0 * Math.pow(Y, 0.38), 2.5), 1800) * KM2SU;
+      const groundScorchR = Math.max(fbMaxR * 2.2, 0.008);
+      earthMatTexUniforms.uEmpCenter.value.copy(surfPt);
+      earthMatTexUniforms.uEmpRadius.value = empR;
