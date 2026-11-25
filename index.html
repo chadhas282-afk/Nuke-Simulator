@@ -7758,3 +7758,23 @@
 
     function animMushroom(lat, lng, yieldKt) {
       if (S.burst === 'hane') {
+        triggerHANEBurst(lat, lng, yieldKt, S.haneAltKm || 150);
+        return;
+      }
+      mushroomObjs.forEach(o => {
+        scene.remove(o);
+        if (o.children && o.children.length) {
+          o.children.forEach(c => {
+            if (c.geometry) c.geometry.dispose();
+            if (c.material) {
+              if (Array.isArray(c.material)) c.material.forEach(m => m.dispose());
+              else c.material.dispose();
+            }
+          });
+        }
+        if (o.geometry) o.geometry.dispose();
+        if (o.material) {
+          if (Array.isArray(o.material)) o.material.forEach(m => m.dispose());
+          else o.material.dispose();
+        }
+      });
