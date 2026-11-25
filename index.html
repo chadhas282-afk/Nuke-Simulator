@@ -7878,3 +7878,23 @@
         side: THREE.DoubleSide,
         depthWrite: false,
         blending: THREE.AdditiveBlending
+        });
+      const groundShockRing = new THREE.Mesh(gShockGeo, gShockMat);
+      groundShockRing.position.copy(surfPt.clone().addScaledVector(normal, 0.0006));
+      groundShockRing.quaternion.copy(qNorm);
+      scene.add(groundShockRing); mushroomObjs.push(groundShockRing);
+
+      
+      const wilsonHalos = [];
+      const haloCount = 3;
+      for (let h = 0; h < haloCount; h++) {
+        const hGeo = new THREE.TorusGeometry(1, 0.075, 16, 56);
+        const hMat = new THREE.MeshBasicMaterial({
+          color: h === 0 ? 0xbae6fd : (h === 1 ? 0xe0f2fe : 0xf0f9ff),
+          transparent: true,
+          opacity: 0,
+          depthWrite: false
+        });
+        const hMesh = new THREE.Mesh(hGeo, hMat);
+        hMesh.position.copy(surfPt);
+        hMesh.quaternion.copy(qNorm);
