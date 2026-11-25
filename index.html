@@ -7958,3 +7958,23 @@
 
         
         cPos[0] = surfPt.x - normal.x * craterDepth * 0.95;
+        cPos[1] = surfPt.y - normal.y * craterDepth * 0.95;
+        cPos[2] = surfPt.z - normal.z * craterDepth * 0.95;
+        cCol[0] = 1.0; cCol[1] = 0.38; cCol[2] = 0.06; 
+
+        let vPtr = 1;
+        for (let ring = 1; ring <= ringSegs; ring++) {
+          const u = ring / ringSegs;
+          const curR = crR * u;
+          let dispH;
+          if (u < 0.65) {
+            
+            dispH = -craterDepth * (1.0 - Math.pow(u / 0.65, 1.8));
+          } else {
+            
+            const rampU = (u - 0.65) / 0.35;
+            dispH = craterDepth * 0.32 * Math.sin(rampU * Math.PI);
+          }
+          let rC, gC, bC;
+          if (u < 0.32) {
+            const f = u / 0.32;
