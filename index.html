@@ -7998,3 +7998,23 @@
             const rx = Math.cos(th) * curR;
             const ry = Math.sin(th) * curR;
             const vx = surfPt.x + tan1.x * rx + tan2.x * ry + normal.x * dispH;
+            const vy = surfPt.y + tan1.y * rx + tan2.y * ry + normal.y * dispH;
+            const vz = surfPt.z + tan1.z * rx + tan2.z * ry + normal.z * dispH;
+            cPos[vPtr * 3] = vx; cPos[vPtr * 3 + 1] = vy; cPos[vPtr * 3 + 2] = vz;
+            cCol[vPtr * 3] = rC; cCol[vPtr * 3 + 1] = gC; cCol[vPtr * 3 + 2] = bC;
+            vPtr++;
+          }
+        }
+
+        
+        for (let seg = 0; seg < radialSegs; seg++) {
+          const nextSeg = (seg + 1) % radialSegs;
+          cIdx.push(0, 1 + seg, 1 + nextSeg);
+        }
+        for (let ring = 1; ring < ringSegs; ring++) {
+          const r1Start = 1 + (ring - 1) * radialSegs;
+          const r2Start = 1 + ring * radialSegs;
+          for (let seg = 0; seg < radialSegs; seg++) {
+            const nextSeg = (seg + 1) % radialSegs;
+            const a = r1Start + seg, b = r1Start + nextSeg;
+            const c = r2Start + nextSeg, d = r2Start + seg;
