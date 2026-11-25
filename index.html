@@ -7718,3 +7718,23 @@
     }
     function spawnReentryStreaks(lat, lng) {
       const tgt = latlng2v3(lat, lng, EARTH_R + 0.004);
+      const n = tgt.clone().normalize();
+      const arb = Math.abs(n.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+      const t1 = new THREE.Vector3().crossVectors(n, arb).normalize();
+      const t2 = new THREE.Vector3().crossVectors(n, t1);
+      for (let i = 0; i < 5; i++) {
+        const a = i * 1.25663, r = 0.016 + (i % 3) * 0.011;
+        const off = t1.clone().multiplyScalar(Math.cos(a) * r).add(t2.clone().multiplyScalar(Math.sin(a) * r));
+        const p1 = tgt.clone().add(off.clone().multiplyScalar(2.4)).add(n.clone().multiplyScalar(0.05 * (1 + i * 0.18)));
+        const p2 = tgt.clone().add(off.clone().multiplyScalar(0.25));
+        const geo = new THREE.BufferGeometry().setFromPoints([p1, p2]);
+        const mat = new THREE.LineBasicMaterial({ color: 0xffd27a, transparent: true, opacity: 0, depthWrite: false });
+        const line = new THREE.Line(geo, mat);
+        scene.add(line);
+        const t0 = Date.now() - i * 85, dur = 700;
+        (function f() {
+          const el = Date.now() - t0;
+          if (el < 0) { requestAnimationFrame(f); return; }
+          const t = Math.min(el / dur, 1);
+          mat.opacity = t < 0.15 ? (t / 0.15) * 0.9 : (1 - t) * 0.9;
+          if (t < 1) requestAnimationFrame(f);
