@@ -8018,3 +8018,23 @@
             const nextSeg = (seg + 1) % radialSegs;
             const a = r1Start + seg, b = r1Start + nextSeg;
             const c = r2Start + nextSeg, d = r2Start + seg;
+            cIdx.push(a, d, c);
+            cIdx.push(a, c, b);
+          }
+        }
+
+        const craterGeo = new THREE.BufferGeometry();
+        craterGeo.setAttribute('position', new THREE.BufferAttribute(cPos, 3));
+        craterGeo.setAttribute('color', new THREE.BufferAttribute(cCol, 3));
+        craterGeo.setIndex(cIdx);
+        craterGeo.computeVertexNormals();
+        const crMat = new THREE.MeshStandardMaterial({
+          vertexColors: true,
+          roughness: 0.88,
+          metalness: 0.12,
+          transparent: true,
+          opacity: 0.95,
+          side: THREE.DoubleSide,
+          depthWrite: true
+        });
+        craterMesh = new THREE.Mesh(craterGeo, crMat);
