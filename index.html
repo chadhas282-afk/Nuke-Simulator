@@ -7978,3 +7978,23 @@
           let rC, gC, bC;
           if (u < 0.32) {
             const f = u / 0.32;
+            rC = 1.0 * (1 - f) + 0.82 * f;
+            gC = 0.38 * (1 - f) + 0.16 * f;
+            bC = 0.06 * (1 - f) + 0.02 * f;
+          } else if (u < 0.72) {
+            const f = (u - 0.32) / 0.40;
+            rC = 0.82 * (1 - f) + 0.16 * f;
+            gC = 0.16 * (1 - f) + 0.13 * f;
+            bC = 0.02 * (1 - f) + 0.11 * f;
+          } else {
+            const f = (u - 0.72) / 0.28;
+            rC = 0.16 * (1 - f) + 0.09 * f;
+            gC = 0.13 * (1 - f) + 0.08 * f;
+            bC = 0.11 * (1 - f) + 0.07 * f;
+          }
+
+          for (let seg = 0; seg < radialSegs; seg++) {
+            const th = (seg / radialSegs) * Math.PI * 2;
+            const rx = Math.cos(th) * curR;
+            const ry = Math.sin(th) * curR;
+            const vx = surfPt.x + tan1.x * rx + tan2.x * ry + normal.x * dispH;
