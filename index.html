@@ -7538,3 +7538,23 @@
             abmMissile.position.copy(curAbmPos);
             abmMissile.lookAt(interceptPt);
             abmTrail.geometry.setFromPoints([tV, curAbmPos]);
+            abmTrail.geometry.attributes.position.needsUpdate = true;
+
+            
+            if (abmProg > 0.65 && !abmMissile.userData.discriminated) {
+              abmMissile.userData.discriminated = true;
+              toast('🎯 [ABM EKV] DACS Thrusters Active · Decoy Discrimination 98.4% · Closing at 12.8 km/s', 'info');
+            }
+
+            
+            if (abmProg >= 0.98) {
+              abmInterceptionResolved = true;
+              sparkFlash(interceptPt, 0.42, 0x38bdf8, 3.8, 950); 
+              sparkFlash(interceptPt, 0.28, 0xffffff, 4.5, 750);
+              spawnExoKineticDebris(interceptPt);
+              toast('🛡️ [ABM DEFENSE] Exo-Atmospheric Kinetic Kill Confirmed! Incoming RV Vaporized at Mach 22 (Zero Nuclear Yield)', 'success');
+
+              
+              scene.remove(arc); scene.remove(headGroup);
+              scene.remove(abmMissile); scene.remove(abmTrail);
+              if (spentBooster) scene.remove(spentBooster);
