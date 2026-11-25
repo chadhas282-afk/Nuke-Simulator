@@ -7698,3 +7698,23 @@
       const t2 = new THREE.Vector3().crossVectors(tgtN, t1);
       for (let i = 0; i < 4; i++) {
         const a = i * 1.8, r = 0.007 + i * 0.004;
+         const off = t1.clone().multiplyScalar(Math.cos(a) * r).add(t2.clone().multiplyScalar(Math.sin(a) * r));
+        const tgt = targetV.clone().add(off);
+        const sph = new THREE.Mesh(new THREE.SphereGeometry(0.0028, 6, 6), new THREE.MeshBasicMaterial({ color: 0xffd070, transparent: true, opacity: 0 }));
+        sph.position.copy(posAt);
+        scene.add(sph);
+        const t0 = Date.now() + i * 90, dur = 460;
+        (function f() {
+          const el = Date.now() - t0;
+          if (el < 0) { requestAnimationFrame(f); return; }
+          const t = Math.min(el / dur, 1), ease = 1 - Math.pow(1 - t, 2);
+          sph.position.lerpVectors(posAt, tgt, ease);
+          sph.material.opacity = Math.min(t * 2, 1);
+          if (t < 1) { requestAnimationFrame(f); return; }
+          sparkFlash(tgt, 0.12, 0xffd27a, 2.4, 700);
+          scene.remove(sph); sph.geometry.dispose(); sph.material.dispose();
+        })();
+      }
+    }
+    function spawnReentryStreaks(lat, lng) {
+      const tgt = latlng2v3(lat, lng, EARTH_R + 0.004);
