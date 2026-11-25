@@ -8058,3 +8058,23 @@
           a: Math.random() * Math.PI * 2,
           phi0: Math.random() * Math.PI * 2,
           omega: 0.9 + Math.random() * 0.9,
+          tubeR: 0.2 + Math.random() * 0.85,
+          born: kind === 0 ? 0.25 + Math.random() * 0.75 : kind === 1 ? Math.random() * 0.6 : kind === 2 ? Math.random() * 0.45 : 0.8 + Math.random() * 1.2,
+          life: (kind === 0 ? 32 : kind === 1 ? 26 : kind === 2 ? 22 : 14) + Math.random() * 12,
+          speed: 0.7 + Math.random() * 0.6,
+          jitter: (Math.random() - 0.5) * 2,
+          roff: 0.3 + Math.random() * 0.7,
+          inrushR: 1.2 + Math.random() * 2.8
+        });
+        pf[i * 3] = 9999; pf[i * 3 + 1] = 9999; pf[i * 3 + 2] = 9999;
+        cf[i * 3] = 1; cf[i * 3 + 1] = 1; cf[i * 3 + 2] = 1;
+      }
+
+      const pg = new THREE.BufferGeometry();
+      pg.setAttribute('position', new THREE.BufferAttribute(pf, 3));
+      pg.setAttribute('color', new THREE.BufferAttribute(cf, 3));
+      const pmat = new THREE.PointsMaterial({
+        size: Math.max(capR * 0.22, stemR * 0.95),
+        map: pTex,
+        vertexColors: true,
+        transparent: true,
