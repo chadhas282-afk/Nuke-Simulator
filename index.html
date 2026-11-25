@@ -7678,3 +7678,23 @@
         }
         const arr = kGeo.attributes.position.array;
         for (let i = 0; i < kN; i++) {
+          const v = kVel[i];
+          arr[i * 3] = pt.x + v.x * p;
+          arr[i * 3 + 1] = pt.y + v.y * p;
+          arr[i * 3 + 2] = pt.z + v.z * p;
+        }
+        kGeo.attributes.position.needsUpdate = true;
+        kMat.opacity = Math.max(0, (1.0 - p) * (Math.random() > 0.15 ? 1.0 : 0.4));
+        if (p < 0.3) kMat.color.setRGB(1.0, 1.0, 1.0);
+        else if (p < 0.7) kMat.color.setRGB(0.56, 0.85, 1.0);
+        else kMat.color.setRGB(0.2, 0.45, 0.75);
+        requestAnimationFrame(animKinetic);
+      })();
+    }
+    function spawnMIRVBus(posAt, targetV) {
+      const tgtN = targetV.clone().normalize();
+      const arb = Math.abs(tgtN.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+      const t1 = new THREE.Vector3().crossVectors(tgtN, arb).normalize();
+      const t2 = new THREE.Vector3().crossVectors(tgtN, t1);
+      for (let i = 0; i < 4; i++) {
+        const a = i * 1.8, r = 0.007 + i * 0.004;
