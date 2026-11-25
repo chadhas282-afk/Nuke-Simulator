@@ -7597,3 +7597,24 @@
           if (abmTrail) { scene.remove(abmTrail); abmTrail.geometry.dispose(); abmTrail.material.dispose(); }
           if (spentBooster) { scene.remove(spentBooster); spentBooster.geometry.dispose(); spentBooster.material.dispose(); }
           chaffs.forEach(cf => { scene.remove(cf.mesh); cf.mesh.geometry.dispose(); cf.mesh.material.dispose(); });
+
+                    
+          if (mirvWarheads.length > 0) {
+            mirvWarheads.forEach((mw, mi) => {
+              const impactDelay = (mi + 1) * 260;
+              setTimeout(() => {
+                const subPt = tV.clone().add(mw.off);
+                sparkFlash(subPt, 0.38, 0xffaa33, 2.8, 900);
+                sparkFlash(subPt, 0.22, 0xffffff, 3.5, 650);
+                spawnShockRings(toLat + (mw.off.x * 18), toLng + (mw.off.y * 18), Math.max(10, (S.yieldKt || 100) * 0.35));
+              }, impactDelay);
+            });
+            toast(`🚀 MIRV DISPERSION IMPACT: Staggered re-entry vehicles striking target footprint`, 'warning');
+          }
+          mirvWarheads.forEach(mw => { scene.remove(mw.mesh); mw.mesh.geometry.dispose(); mw.mesh.material.dispose(); });
+          arc.geometry.dispose(); arc.material.dispose();
+          headGeo.dispose(); headMat.dispose(); plumeGeo.dispose(); plumeMat.dispose();
+          if (S.trackCam && !droneActive) flyCamera(latlng2v3(toLat, toLng, EARTH_R).normalize().multiplyScalar(2.6), 1400);
+          if (onArrive) onArrive();
+        }
+      })();
