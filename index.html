@@ -7918,3 +7918,23 @@
         rainPos[r * 3] = 9999; rainPos[r * 3 + 1] = 9999; rainPos[r * 3 + 2] = 9999;
         rainCol[r * 3] = 0.10; rainCol[r * 3 + 1] = 0.09; rainCol[r * 3 + 2] = 0.09;
       }
+      const rainGeo = new THREE.BufferGeometry();
+      rainGeo.setAttribute('position', new THREE.BufferAttribute(rainPos, 3));
+      rainGeo.setAttribute('color', new THREE.BufferAttribute(rainCol, 3));
+      const rainMat = new THREE.PointsMaterial({
+        size: Math.max(stemR * 0.22, 0.0016),
+        map: pTex,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+        sizeAttenuation: true
+      });
+      const blackRainMesh = new THREE.Points(rainGeo, rainMat);
+      scene.add(blackRainMesh); mushroomObjs.push(blackRainMesh);
+
+      
+      const anvilMat = new THREE.SpriteMaterial({
+        map: pTex,
+        color: 0x242220,
+        transparent: true,
