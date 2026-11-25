@@ -7638,3 +7638,23 @@
         else { scene.remove(pts); pts.geometry.dispose(); pts.material.dispose(); const ix = fxSparks.indexOf(pts); if (ix > -1) fxSparks.splice(ix, 1); }
       })();
       return pts;
+       }
+    function spawnExoKineticDebris(pt) {
+      const kN = 54;
+      const kPos = new Float32Array(kN * 3);
+      const kVel = [];
+      for (let i = 0; i < kN; i++) {
+        const v = new THREE.Vector3(
+          (Math.random() - 0.5),
+          (Math.random() - 0.5),
+          (Math.random() - 0.5)
+        ).normalize().multiplyScalar(0.007 + Math.random() * 0.022);
+        kVel.push(v);
+        kPos[i * 3] = pt.x; kPos[i * 3 + 1] = pt.y; kPos[i * 3 + 2] = pt.z;
+      }
+      const kGeo = new THREE.BufferGeometry();
+      kGeo.setAttribute('position', new THREE.BufferAttribute(kPos, 3));
+      const kMat = new THREE.PointsMaterial({
+        color: 0xbae6fd,
+        size: 0.0035,
+        map: glowTex,
