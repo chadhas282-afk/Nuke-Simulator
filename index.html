@@ -7618,3 +7618,23 @@
           if (onArrive) onArrive();
         }
       })();
+      }
+
+    
+    const fxSparks = [];
+    function sparkFlash(pos, size, color, grow, dur, delay = 0) {
+      const geo = new THREE.BufferGeometry().setFromPoints([pos]);
+      const mat = new THREE.PointsMaterial({ color, size, map: glowTex, transparent: true, opacity: 0, depthWrite: false, sizeAttenuation: true, blending: THREE.AdditiveBlending });
+      const pts = new THREE.Points(geo, mat);
+      scene.add(pts); fxSparks.push(pts);
+      const t0 = Date.now() + delay;
+      (function f() {
+        const el = Date.now() - t0;
+        if (el < 0) { requestAnimationFrame(f); return; }
+        const t = Math.min(el / dur, 1);
+        pts.material.opacity = t < 0.22 ? t / 0.22 : Math.max(0, 1 - t) * 1.25;
+        pts.material.size = size * (1 + grow * Math.min(1, t * 2));
+        if (t < 1) requestAnimationFrame(f);
+        else { scene.remove(pts); pts.geometry.dispose(); pts.material.dispose(); const ix = fxSparks.indexOf(pts); if (ix > -1) fxSparks.splice(ix, 1); }
+      })();
+      return pts;
