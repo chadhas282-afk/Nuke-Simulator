@@ -7837,3 +7837,24 @@
       swDome.position.copy(surfPt);
       swDome.quaternion.copy(qNorm);
       scene.add(swDome); mushroomObjs.push(swDome);
+
+            
+      const wilsonMat = new THREE.MeshBasicMaterial({ color: 0xe0f2fe, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false });
+      const wilsonDome = new THREE.Mesh(swDomeGeo, wilsonMat);
+      wilsonDome.position.copy(surfPt);
+      wilsonDome.quaternion.copy(qNorm);
+      scene.add(wilsonDome); mushroomObjs.push(wilsonDome);
+
+      
+      const ropeN = 22;
+      const ropeGeo = new THREE.BufferGeometry();
+      const ropePos = new Float32Array(ropeN * 2 * 3);
+      const ropeSeed = [];
+      for (let r = 0; r < ropeN; r++) {
+        const ang = (r / ropeN) * Math.PI * 2 + (Math.random() - 0.5) * 0.22;
+        const downTilt = 0.35 + Math.random() * 0.75;
+        const dir = tan1.clone().multiplyScalar(Math.cos(ang)).add(tan2.clone().multiplyScalar(Math.sin(ang))).multiplyScalar(1.0 - downTilt * 0.35).addScaledVector(normal, -downTilt).normalize();
+        ropeSeed.push({ dir, maxL: fbMaxR * (1.8 + Math.random() * 1.6) });
+        ropePos[r * 6] = surfPt.x; ropePos[r * 6 + 1] = surfPt.y; ropePos[r * 6 + 2] = surfPt.z;
+        ropePos[r * 6 + 3] = surfPt.x; ropePos[r * 6 + 4] = surfPt.y; ropePos[r * 6 + 5] = surfPt.z;
+      }
