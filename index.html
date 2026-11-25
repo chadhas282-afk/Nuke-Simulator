@@ -7938,3 +7938,23 @@
         map: pTex,
         color: 0x242220,
         transparent: true,
+        opacity: 0,
+        depthWrite: false
+      });
+      const anvilMesh = new THREE.Sprite(anvilMat);
+      anvilMesh.visible = false;
+      scene.add(anvilMesh); mushroomObjs.push(anvilMesh);
+
+      
+      let craterMesh = null;
+      if (S.burst === 'surface' || (S.hobM || 0) < fbMaxR * EARTH_KM * 1000) {
+        const crR = Math.max(0.015 * Math.pow(Y, 0.30) * KM2SU * 2.2, fbMaxR * 0.85);
+        const craterDepth = crR * 0.38;
+        const radialSegs = 48, ringSegs = 16;
+        const numVerts = (ringSegs + 1) * radialSegs + 1;
+        const cPos = new Float32Array(numVerts * 3);
+        const cCol = new Float32Array(numVerts * 3);
+        const cIdx = [];
+
+        
+        cPos[0] = surfPt.x - normal.x * craterDepth * 0.95;
