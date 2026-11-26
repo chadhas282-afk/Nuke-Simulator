@@ -8357,3 +8357,24 @@
         const fbCoolT = Math.min(el / 2800, 1.0);
         const fbRiseZ = fbMaxR * 0.65 * Math.min(el / 1600, 1.0);
         const fbc = surfPt.clone().addScaledVector(normal, fbRiseZ);
+
+        core.position.copy(fbc); shell.position.copy(fbc); glare.position.copy(fbc);
+        core.quaternion.copy(qNorm); shell.quaternion.copy(qNorm);
+        const fbSize = Math.max(fbMaxR * Math.pow(fbNormT, 0.45), 0.00001);
+        const aeroSquash = Math.max(0.68, 1.0 - 0.28 * Math.min(el / 1400, 1.0));
+        core.scale.set(fbSize * 0.72, fbSize * 0.72 * aeroSquash, fbSize * 0.72);
+        shell.scale.set(fbSize, fbSize * aeroSquash, fbSize);
+        glare.scale.setScalar(Math.max(fbSize * 5.5, 0.00001));
+
+        coreMat.opacity = Math.max(0, fbCoolT < 0.4 ? 1.0 - fbCoolT * 1.5 : 0.4 * (1.0 - fbCoolT));
+        if (fbCoolT < 0.25) {
+          shellMat.color.setRGB(1.0, 0.94, 0.8);
+        } else if (fbCoolT < 0.65) {
+          const k = (fbCoolT - 0.25) / 0.4;
+          shellMat.color.setRGB(1.0, 0.94 - k * 0.55, 0.8 - k * 0.72);
+        } else {
+          const k = (fbCoolT - 0.65) / 0.35;
+          shellMat.color.setRGB(Math.max(0.15, 1.0 - k * 0.82), Math.max(0.04, 0.39 - k * 0.34), 0.02);
+        }
+        shellMat.opacity = Math.max(0, fbCoolT < 0.75 ? 0.95 * (1.0 - fbCoolT * 0.8) : 0.25 * (1.0 - (fbCoolT - 0.75) * 4));
+        glareMat.opacity = Math.max(0, 0.75 * (1.0 - fbCoolT));
