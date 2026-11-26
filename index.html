@@ -8598,3 +8598,23 @@
               curH = 0.001;
             } else {
               
+              const suctT = Math.min((age - 0.8) / 3.5, 1.0);
+              const targetR = stemR * (0.8 + 0.5 * sk.r0);
+              curR = (swRadius * sk.spd) * (1.0 - suctT) + targetR * suctT;
+              curH = stemH * 0.22 * Math.pow(suctT, 1.4);
+            }
+            const curTheta = sk.a + age * sk.vort;
+            const dpX = tan1.x * Math.cos(curTheta) * curR + tan2.x * Math.sin(curTheta) * curR;
+            const dpY = tan1.y * Math.cos(curTheta) * curR + tan2.y * Math.sin(curTheta) * curR;
+            const dpZ = tan1.z * Math.cos(curTheta) * curR + tan2.z * Math.sin(curTheta) * curR;
+            skirtPos[k * 3] = surfPt.x + normal.x * curH + dpX;
+            skirtPos[k * 3 + 1] = surfPt.y + normal.y * curH + dpY;
+            skirtPos[k * 3 + 2] = surfPt.z + normal.z * curH + dpZ;
+          }
+          skirtGeo.attributes.position.needsUpdate = true;
+          skirtMat.opacity = Math.max(0, 0.78 * Math.min(t / 0.5, 1.0) * (1.0 - Math.min(t / 24.0, 1.0)));
+        }
+
+        
+        if (t >= 1.2 && t <= 16.0 && S.fx.lightning) {
+          if (t >= nextLightningTime) {
