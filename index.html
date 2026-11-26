@@ -8518,3 +8518,23 @@
               b.sprite.scale.setScalar(curCapR * b.scaleMult * 1.55);
             } else if (b.type === 'crown') {
               const r = curCapR * b.radMult;
+               bx = tan1.x * Math.cos(ang) * r + tan2.x * Math.sin(ang) * r;
+              by = tan1.y * Math.cos(ang) * r + tan2.y * Math.sin(ang) * r;
+              bz = tan1.z * Math.cos(ang) * r + tan2.z * Math.sin(ang) * r;
+              zOff = curTubeR * b.zMult;
+              b.sprite.position.copy(capCenter).add(new THREE.Vector3(bx, by, bz)).addScaledVector(normal, zOff);
+              b.sprite.scale.setScalar(curCapR * b.scaleMult * 1.65);
+            } else if (b.type === 'core') {
+              const r = curCapR * b.radMult;
+              bx = tan1.x * Math.cos(ang) * r + tan2.x * Math.sin(ang) * r;
+              by = tan1.y * Math.cos(ang) * r + tan2.y * Math.sin(ang) * r;
+              bz = tan1.z * Math.cos(ang) * r + tan2.z * Math.sin(ang) * r;
+              zOff = curTubeR * b.zMult;
+              b.sprite.position.copy(capCenter).add(new THREE.Vector3(bx, by, bz)).addScaledVector(normal, zOff);
+              b.sprite.scale.setScalar(curCapR * b.scaleMult * 1.30);
+            } else if (b.type === 'stem_fireball') {
+              const fAge = (t * b.speed + b.offset) % 3.5;
+              const fFrac = fAge / 3.5;
+              const fH = curCapZ * Math.pow(fFrac, 1.25);
+              const neckR = stemR * (0.35 + 0.35 * Math.sin(fFrac * Math.PI));
+              bx = tan1.x * Math.cos(ang) * neckR + tan2.x * Math.sin(ang) * neckR;
