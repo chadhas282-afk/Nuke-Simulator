@@ -8498,3 +8498,23 @@
         const capRiseFrac = 1.0 - Math.exp(-t / 3.4);
         const capSpreadFrac = 1.0 - Math.exp(-t / 4.8);
         const curCapZ = stemH * (0.15 + 0.85 * capRiseFrac);
+        const curCapR = capR * (0.25 + 0.75 * capSpreadFrac);
+        const curTubeR = curCapR * (0.34 + 0.12 * Math.exp(-t / 3.5));
+
+        
+        const capCenter = surfPt.clone().addScaledVector(normal, curCapZ);
+        const dtSec = dt * 0.001;
+        if (billowSprites.length) {
+          billowSprites.forEach(b => {
+            const ang = b.phase + t * 0.055;
+            let bx, by, bz, zOff;
+            if (b.type === 'rim') {
+              const r = curCapR * b.radMult;
+              bx = tan1.x * Math.cos(ang) * r + tan2.x * Math.sin(ang) * r;
+              by = tan1.y * Math.cos(ang) * r + tan2.y * Math.sin(ang) * r;
+              bz = tan1.z * Math.cos(ang) * r + tan2.z * Math.sin(ang) * r;
+              zOff = curTubeR * b.zMult;
+              b.sprite.position.copy(capCenter).add(new THREE.Vector3(bx, by, bz)).addScaledVector(normal, zOff);
+              b.sprite.scale.setScalar(curCapR * b.scaleMult * 1.55);
+            } else if (b.type === 'crown') {
+              const r = curCapR * b.radMult;
