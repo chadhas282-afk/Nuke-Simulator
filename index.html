@@ -8178,3 +8178,23 @@
           type: 'stem_fireball',
           phase: (b / numStemFireballs) * Math.PI * 2,
           speed: 0.65 + Math.random() * 0.45,
+           offset: b * 0.45,
+          scaleMult: 0.55 + Math.random() * 0.35,
+          rotSpeed: (Math.random() - 0.5) * 0.25
+        });
+      }
+
+      
+      const skirtNP = 360;
+      const skirtPos = new Float32Array(skirtNP * 3);
+      const skirtCol = new Float32Array(skirtNP * 3);
+      const skirtSeed = [];
+      for (let i = 0; i < skirtNP; i++) {
+        const a = Math.random() * Math.PI * 2;
+        const r0 = 0.6 + Math.random() * 2.4;
+        skirtSeed.push({
+          a, r0,
+          spd: 0.65 + Math.random() * 0.75,
+          vort: 0.8 + Math.random() * 1.4,
+          life: 18 + Math.random() * 14,
+          born: 0.12 + Math.random() * 0.35
