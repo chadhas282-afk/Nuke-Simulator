@@ -8158,3 +8158,23 @@
           scaleMult: 0.55 + Math.random() * 0.28,
           rotSpeed: (Math.random() - 0.5) * 0.22
         });
+         }
+
+      
+      const numStemFireballs = 8;
+      for (let b = 0; b < numStemFireballs; b++) {
+        const mat = new THREE.SpriteMaterial({
+          map: glowTex,
+          color: 0xff7711,
+          transparent: true,
+          opacity: 0,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false
+        });
+        const sp = new THREE.Sprite(mat);
+        billowGroup.add(sp);
+        billowSprites.push({
+          sprite: sp, mat,
+          type: 'stem_fireball',
+          phase: (b / numStemFireballs) * Math.PI * 2,
+          speed: 0.65 + Math.random() * 0.45,
