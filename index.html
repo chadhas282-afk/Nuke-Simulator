@@ -8278,3 +8278,23 @@
       let nextLightningTime = 1.2;
 
       function spawnLightningBolt(capZ, capRadius) {
+        if (!S.fx.lightning) return;
+        if (lightningMesh) {
+          scene.remove(lightningMesh);
+          if (lightningMesh.geometry) lightningMesh.geometry.dispose();
+          lightningMesh = null;
+        }
+
+        const pts = [];
+        const topZ = capZ * (0.6 + Math.random() * 0.4);
+        const topR = capRadius * 0.5 * Math.random();
+        const startAng = Math.random() * Math.PI * 2;
+        const startPt = surfPt.clone()
+          .addScaledVector(normal, topZ)
+          .addScaledVector(tan1, Math.cos(startAng) * topR)
+          .addScaledVector(tan2, Math.sin(startAng) * topR);
+
+        const endZ = Math.random() < 0.4 ? 0.001 : topZ * 0.15;
+        const endR = capRadius * (0.3 + Math.random() * 0.6);
+        const endAng = startAng + (Math.random() - 0.5) * 1.5;
+        const endPt = surfPt.clone()
