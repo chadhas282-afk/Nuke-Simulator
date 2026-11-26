@@ -8198,3 +8198,23 @@
           vort: 0.8 + Math.random() * 1.4,
           life: 18 + Math.random() * 14,
           born: 0.12 + Math.random() * 0.35
+          });
+        skirtPos[i * 3] = 9999; skirtPos[i * 3 + 1] = 9999; skirtPos[i * 3 + 2] = 9999;
+        skirtCol[i * 3] = 0.68; skirtCol[i * 3 + 1] = 0.55; skirtCol[i * 3 + 2] = 0.42;
+      }
+      const skirtGeo = new THREE.BufferGeometry();
+      skirtGeo.setAttribute('position', new THREE.BufferAttribute(skirtPos, 3));
+      skirtGeo.setAttribute('color', new THREE.BufferAttribute(skirtCol, 3));
+      const skirtMat = new THREE.PointsMaterial({
+        size: Math.max(stemR * 1.15, 0.0035),
+        map: pTex,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+        sizeAttenuation: true
+      });
+      const groundDustSkirt = new THREE.Points(skirtGeo, skirtMat);
+      scene.add(groundDustSkirt); mushroomObjs.push(groundDustSkirt);
+
+      
