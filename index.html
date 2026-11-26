@@ -8558,3 +8558,23 @@
                 b.mat.opacity = Math.max(0, 0.28 * (1.0 - (t - 5.5) / 5.0));
                 b.mat.color.setRGB(0.7, 0.25, 0.05);
               }
+               } else if (b.type === 'stem_fireball') {
+              const heat = Math.max(0, 1.0 - t / 11.0);
+              b.mat.opacity = heat * 0.88;
+              b.mat.color.setRGB(1.0, 0.55 * heat + 0.2, 0.05);
+            } else {
+              
+              if (t < 2.0) {
+                const k = t / 2.0;
+                b.mat.opacity = Math.min(k * 0.88, 0.78);
+                b.mat.color.setRGB(1.0 - k * 0.72, 0.65 - k * 0.45, 0.25 - k * 0.15);
+              } else if (t < 7.0) {
+                const k = (t - 2.0) / 5.0;
+                b.mat.opacity = 0.78 * (1.0 - k * 0.15);
+                b.mat.color.setRGB(0.28 - k * 0.12, 0.20 - k * 0.07, 0.10 + k * 0.02);
+              } else {
+                const k = Math.min((t - 7.0) / 24.0, 1.0);
+                b.mat.opacity = Math.max(0, 0.66 * (1.0 - k));
+                b.mat.color.setRGB(0.16 - k * 0.05, 0.13 - k * 0.03, 0.12 - k * 0.03);
+              }
+            }
