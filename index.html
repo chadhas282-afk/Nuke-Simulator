@@ -8458,3 +8458,23 @@
           wilsonDome.visible = true;
           wilsonDome.scale.setScalar(Math.max(swRadius * 0.92, 0.00001));
           wilsonMat.opacity = Math.sin(wFrac * Math.PI) * 0.48 * humidFactor;
+
+          
+          wilsonHalos.forEach(h => {
+            const haloT = t - h.delay;
+            if (haloT >= 0.15 && haloT <= 2.6 * humidFactor) {
+              h.mesh.visible = true;
+              const hFrac = (haloT - 0.15) / (2.45 * humidFactor);
+              const haloH = stemH * h.altFrac * Math.min(haloT / 0.8, 1.0);
+              h.mesh.position.copy(surfPt).addScaledVector(normal, haloH);
+              const haloR = swRadius * (0.68 + h.altFrac * 0.22);
+              h.mesh.scale.set(haloR, haloR, haloR * 0.32);
+              h.mat.opacity = Math.sin(hFrac * Math.PI) * 0.52 * humidFactor;
+            } else {
+              h.mesh.visible = false;
+            }
+          });
+        } else {
+          wilsonDome.visible = false;
+          wilsonHalos.forEach(h => { h.mesh.visible = false; });
+        }
