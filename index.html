@@ -8678,3 +8678,23 @@
           debrisMesh.visible = true;
           debMat.opacity = Math.max(0, 0.88 * (1.0 - Math.pow(debT, 1.3)));
           const debFront = swMaxR * Math.pow(debT, 0.58);
+          for (let d = 0; d < debN; d++) {
+            const ds = debSeed[d];
+            const qDrag = Math.max(0, 1.0 - debT * 0.85); 
+            const dist = debFront * ds.spd * (1.0 + qDrag * 0.25);
+            const lift = dist * ds.lift * Math.sin(debT * Math.PI);
+            const dp = surfPt.clone()
+              .addScaledVector(tan1, Math.cos(ds.ang + debT * ds.rot) * dist)
+              .addScaledVector(tan2, Math.sin(ds.ang + debT * ds.rot) * dist)
+              .addScaledVector(normal, lift);
+            debPos[d * 3] = dp.x; debPos[d * 3 + 1] = dp.y; debPos[d * 3 + 2] = dp.z;
+          }
+          debGeo.attributes.position.needsUpdate = true;
+        } else {
+          debrisMesh.visible = false;
+        }
+
+        
+        if (t >= 3.5 && t <= 34.0) {
+          blackRainMesh.visible = true;
+          const rFrac = Math.min((t - 3.5) / 4.0, 1.0);
