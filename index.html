@@ -8138,3 +8138,23 @@
 
       
       const numCoreLobes = 6;
+       for (let b = 0; b < numCoreLobes; b++) {
+        const mat = new THREE.SpriteMaterial({
+          map: glowTex,
+          color: 0xff9911,
+          transparent: true,
+          opacity: 0,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending
+        });
+        const sp = new THREE.Sprite(mat);
+        billowGroup.add(sp);
+        billowSprites.push({
+          sprite: sp, mat,
+          type: 'core',
+          phase: (b / numCoreLobes) * Math.PI * 2,
+          radMult: 0.08 + Math.random() * 0.22,
+          zMult: (Math.random() - 0.5) * 0.18,
+          scaleMult: 0.55 + Math.random() * 0.28,
+          rotSpeed: (Math.random() - 0.5) * 0.22
+        });
