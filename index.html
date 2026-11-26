@@ -8397,3 +8397,24 @@
             blastLight.intensity = 0;
           }
         }
+
+               
+        
+        if (t < 0.28) {
+          ionGlow.visible = true;
+          const ionFrac = t / 0.28;
+          ionGlow.position.copy(fbc);
+          ionGlow.scale.setScalar(Math.max(fbMaxR * (1.2 + ionFrac * 2.6), 0.0001));
+          ionMat.opacity = Math.sin((1.0 - ionFrac) * Math.PI * 0.5) * 0.72;
+        } else {
+          ionGlow.visible = false;
+        }
+
+        
+        if (t < 0.38) {
+          ropeTrickMesh.visible = true;
+          const rFrac = Math.min(t / 0.10, 1.0);
+          const rFade = Math.max(0, Math.min(1.0, 1.0 - (t - 0.10) / 0.28));
+          const rPosArr = ropeGeo.attributes.position.array;
+          const orig = fbc.clone();
+          for (let r = 0; r < ropeN; r++) {
