@@ -8438,3 +8438,23 @@
         const swRadius = Math.max(swMaxR * Math.pow(swTime, 0.45), 0.00001);
         swDome.scale.setScalar(swRadius);
         swDomeMat.opacity = Math.max(0, 0.85 * (1.0 - Math.pow(swTime, 1.4)));
+
+        
+        if (swTime < 1.0) {
+          groundShockRing.visible = true;
+          const gR = swRadius;
+          groundShockRing.scale.set(gR, gR, 1);
+          groundShockRing.position.copy(surfPt.clone().addScaledVector(normal, 0.0006));
+          const gFade = Math.max(0, (1.0 - swTime) * (1.0 - Math.pow(swTime, 2.0)));
+          gShockMat.opacity = gFade * 0.75;
+        } else {
+          groundShockRing.visible = false;
+        }
+
+        
+        const humidFactor = S.weather === 'rain' ? 1.5 : (S.weather === 'blizzard' ? 1.2 : 1.0);
+        if (t >= 0.15 && t <= 3.2 * humidFactor) {
+          const wFrac = (t - 0.15) / (3.05 * humidFactor);
+          wilsonDome.visible = true;
+          wilsonDome.scale.setScalar(Math.max(swRadius * 0.92, 0.00001));
+          wilsonMat.opacity = Math.sin(wFrac * Math.PI) * 0.48 * humidFactor;
