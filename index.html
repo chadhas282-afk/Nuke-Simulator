@@ -8218,3 +8218,23 @@
       scene.add(groundDustSkirt); mushroomObjs.push(groundDustSkirt);
 
       
+      let waterPlume = null, waterSurge = null;
+      if (S.burst === 'subsurface') {
+        const wpGeo = new THREE.CylinderGeometry(stemR * 1.6, stemR * 2.8, stemH * 1.25, 24, 1, true);
+        const wpMat = new THREE.MeshBasicMaterial({ color: 0xdbeafe, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false });
+        waterPlume = new THREE.Mesh(wpGeo, wpMat);
+        waterPlume.position.copy(surfPt.clone().addScaledVector(normal, stemH * 0.62));
+        waterPlume.quaternion.copy(qNorm);
+        waterPlume.rotateX(Math.PI / 2);
+        scene.add(waterPlume); mushroomObjs.push(waterPlume);
+
+        const wsGeo = new THREE.RingGeometry(0.001, surgeMaxR * 1.4, 36);
+        const wsMat = new THREE.MeshBasicMaterial({ color: 0xf8fafc, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false });
+        waterSurge = new THREE.Mesh(wsGeo, wsMat);
+        waterSurge.position.copy(surfPt.clone().addScaledVector(normal, 0.001));
+        waterSurge.quaternion.copy(qNorm);
+        scene.add(waterSurge); mushroomObjs.push(waterSurge);
+      }
+
+      
+      const scorchR = Math.max(fbMaxR * 1.6, 0.006);
