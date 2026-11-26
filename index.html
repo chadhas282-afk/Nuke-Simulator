@@ -8618,3 +8618,23 @@
         
         if (t >= 1.2 && t <= 16.0 && S.fx.lightning) {
           if (t >= nextLightningTime) {
+            spawnLightningBolt(curCapZ, curCapR);
+            nextLightningTime = t + 0.22 + Math.random() * 0.45;
+          }
+          if (lightningMesh && lightningMesh.material) {
+            lightningMesh.material.opacity = Math.max(0, lightningMesh.material.opacity - 0.08);
+          }
+        } else if (lightningMesh) {
+          scene.remove(lightningMesh);
+          if (lightningMesh.geometry) lightningMesh.geometry.dispose();
+          lightningMesh = null;
+        }
+
+        
+        if (waterPlume && waterSurge) {
+          const wProg = Math.min(t / 4.5, 1.0);
+          waterPlume.scale.set(1.0 + wProg * 0.8, 1.0 + wProg * 0.4, 1.0 + wProg * 0.8);
+          waterPlume.material.opacity = Math.max(0, 0.75 * Math.sin(wProg * Math.PI));
+          const sProg = Math.min(t / 8.0, 1.0);
+          waterSurge.scale.setScalar(sProg * 1.5);
+          waterSurge.material.opacity = Math.max(0, 0.65 * (1.0 - sProg));
