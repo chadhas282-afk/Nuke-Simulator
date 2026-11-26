@@ -8538,3 +8538,23 @@
               const fH = curCapZ * Math.pow(fFrac, 1.25);
               const neckR = stemR * (0.35 + 0.35 * Math.sin(fFrac * Math.PI));
               bx = tan1.x * Math.cos(ang) * neckR + tan2.x * Math.sin(ang) * neckR;
+               by = tan1.y * Math.cos(ang) * neckR + tan2.y * Math.sin(ang) * neckR;
+              bz = tan1.z * Math.cos(ang) * neckR + tan2.z * Math.sin(ang) * neckR;
+              b.sprite.position.copy(surfPt).addScaledVector(normal, fH).add(new THREE.Vector3(bx, by, bz));
+              b.sprite.scale.setScalar(stemR * b.scaleMult * 2.2);
+            }
+            b.mat.rotation += b.rotSpeed * dtSec;
+
+            
+            if (b.type === 'core') {
+              if (t < 1.2) {
+                b.mat.opacity = Math.min(t / 0.4, 1.0) * 0.95;
+                b.mat.color.setRGB(1.0, 0.96, 0.85);
+              } else if (t < 5.5) {
+                const k = (t - 1.2) / 4.3;
+                b.mat.opacity = 0.95 * (1.0 - k * 0.7);
+                b.mat.color.setRGB(1.0, 0.96 - k * 0.55, 0.85 - k * 0.75);
+              } else {
+                b.mat.opacity = Math.max(0, 0.28 * (1.0 - (t - 5.5) / 5.0));
+                b.mat.color.setRGB(0.7, 0.25, 0.05);
+              }
