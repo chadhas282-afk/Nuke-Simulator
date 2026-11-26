@@ -8578,3 +8578,23 @@
                 b.mat.color.setRGB(0.16 - k * 0.05, 0.13 - k * 0.03, 0.12 - k * 0.03);
               }
             }
+            });
+        }
+
+        
+        if (groundDustSkirt) {
+          for (let k = 0; k < skirtNP; k++) {
+            const sk = skirtSeed[k];
+            const age = t - sk.born;
+            if (age < 0 || age > sk.life) {
+              skirtPos[k * 3] = 9999; skirtPos[k * 3 + 1] = 9999; skirtPos[k * 3 + 2] = 9999;
+              continue;
+            }
+            let curR, curH;
+            if (age < 0.8) {
+              
+              const fr = age / 0.8;
+              curR = swRadius * fr * sk.spd;
+              curH = 0.001;
+            } else {
+              
