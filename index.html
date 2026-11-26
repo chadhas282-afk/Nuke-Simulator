@@ -8478,3 +8478,23 @@
           wilsonDome.visible = false;
           wilsonHalos.forEach(h => { h.mesh.visible = false; });
         }
+
+        
+        if (craterMesh && craterMesh.geometry && craterMesh.geometry.attributes.color && craterMesh.userData.cColOrig) {
+          const cCool = Math.min(el / 34000, 1.0);
+          const colAttr = craterMesh.geometry.attributes.color;
+          const orig = craterMesh.userData.cColOrig;
+          const coolFactor = Math.pow(1.0 - cCool, 1.4);
+          for (let cv = 0; cv < colAttr.count; cv++) {
+            colAttr.array[cv * 3] = orig[cv * 3] * (0.18 + 0.82 * coolFactor);
+            colAttr.array[cv * 3 + 1] = orig[cv * 3 + 1] * (0.18 + 0.82 * coolFactor);
+            colAttr.array[cv * 3 + 2] = orig[cv * 3 + 2] * (0.18 + 0.82 * coolFactor);
+          }
+          colAttr.needsUpdate = true;
+          if (craterMesh.material) craterMesh.material.opacity = Math.max(0.4, 0.95 * (1.0 - cCool * 0.35));
+        }
+
+        
+        const capRiseFrac = 1.0 - Math.exp(-t / 3.4);
+        const capSpreadFrac = 1.0 - Math.exp(-t / 4.8);
+        const curCapZ = stemH * (0.15 + 0.85 * capRiseFrac);
