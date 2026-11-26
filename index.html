@@ -8338,3 +8338,22 @@
         lightningMesh = new THREE.LineSegments(geo, mat);
         scene.add(lightningMesh);
         mushroomObjs.push(lightningMesh);
+
+        if (blastLight) blastLight.intensity = Math.max(blastLight.intensity, 18.0);
+        playElectrostaticCrackle();
+      }
+
+      function frame() {
+        const now = performance.now();
+        const dt = (now - lastTime) * (S.timeScale || 1.0);
+        lastTime = now;
+        el += dt;
+        const t = Math.min(el / 1000, DUR / 1000);
+        if (el > DUR) { cleanup(); return; }
+        mushroomProg = Math.min(el / 2800, 1);
+
+        
+        const fbNormT = Math.min(el / 1100, 1.0);
+        const fbCoolT = Math.min(el / 2800, 1.0);
+        const fbRiseZ = fbMaxR * 0.65 * Math.min(el / 1600, 1.0);
+        const fbc = surfPt.clone().addScaledVector(normal, fbRiseZ);
