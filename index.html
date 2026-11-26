@@ -8298,3 +8298,23 @@
         const endR = capRadius * (0.3 + Math.random() * 0.6);
         const endAng = startAng + (Math.random() - 0.5) * 1.5;
         const endPt = surfPt.clone()
+        .addScaledVector(normal, endZ)
+          .addScaledVector(tan1, Math.cos(endAng) * endR)
+          .addScaledVector(tan2, Math.sin(endAng) * endR);
+
+        function subdivide(p1, p2, depth) {
+          if (depth >= 4) {
+            pts.push(p1.clone(), p2.clone());
+            return;
+          }
+          const mid = new THREE.Vector3().lerpVectors(p1, p2, 0.5);
+          const d = p1.distanceTo(p2);
+          const j = d * (0.2 + Math.random() * 0.15);
+          mid.x += (Math.random() - 0.5) * j;
+          mid.y += (Math.random() - 0.5) * j;
+          mid.z += (Math.random() - 0.5) * j;
+          subdivide(p1, mid, depth + 1);
+          subdivide(mid, p2, depth + 1);
+
+          if (depth === 2 && Math.random() < 0.6) {
+            const bEnd = mid.clone().add(new THREE.Vector3(
