@@ -8418,3 +8418,23 @@
           const rPosArr = ropeGeo.attributes.position.array;
           const orig = fbc.clone();
           for (let r = 0; r < ropeN; r++) {
+            const sd = ropeSeed[r];
+            const len = sd.maxL * rFrac;
+            rPosArr[r * 6] = orig.x;
+            rPosArr[r * 6 + 1] = orig.y;
+            rPosArr[r * 6 + 2] = orig.z;
+            rPosArr[r * 6 + 3] = orig.x + sd.dir.x * len;
+            rPosArr[r * 6 + 4] = orig.y + sd.dir.y * len;
+            rPosArr[r * 6 + 5] = orig.z + sd.dir.z * len;
+          }
+          ropeGeo.attributes.position.needsUpdate = true;
+          ropeMat.opacity = rFade * 0.95;
+        } else {
+          ropeTrickMesh.visible = false;
+        }
+
+        
+        const swTime = Math.min(el / 3400, 1.0);
+        const swRadius = Math.max(swMaxR * Math.pow(swTime, 0.45), 0.00001);
+        swDome.scale.setScalar(swRadius);
+        swDomeMat.opacity = Math.max(0, 0.85 * (1.0 - Math.pow(swTime, 1.4)));
