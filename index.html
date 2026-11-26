@@ -8098,3 +8098,23 @@
           transparent: true,
           opacity: 0,
           depthWrite: false,
+          rotation: Math.random() * Math.PI * 2
+        });
+        const sp = new THREE.Sprite(mat);
+        billowGroup.add(sp);
+        billowSprites.push({
+          sprite: sp, mat,
+          type: 'rim',
+          phase: (b / numRimLobes) * Math.PI * 2,
+          radMult: 0.72 + Math.random() * 0.38,
+          zMult: (Math.random() - 0.5) * 0.42,
+          scaleMult: 0.65 + Math.random() * 0.42,
+          rotSpeed: (Math.random() - 0.5) * 0.16
+        });
+      }
+
+      
+      const numCrownLobes = 8;
+      for (let b = 0; b < numCrownLobes; b++) {
+        const mat = new THREE.SpriteMaterial({
+          map: pTex,
