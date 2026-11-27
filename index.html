@@ -9198,3 +9198,23 @@
           const gridMat = new THREE.LineBasicMaterial({
             color: 0x38bdf8,
             transparent: true,
+            opacity: 1.0,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+          });
+          const gridLine = new THREE.Line(gridGeo, gridMat);
+          scene.add(gridLine);
+          fxShockObjs.push(gridLine);
+
+          setTimeout(() => {
+            let surgeT = 0;
+            const sInt = setInterval(() => {
+              surgeT++;
+              gridMat.color.setHex(surgeT % 2 === 0 ? 0xffffff : 0x0284c7);
+              if (surgeT > 8) {
+                clearInterval(sInt);
+                gridMat.color.setHex(0x1e293b);
+                gridMat.opacity = 0.4;
+                setTimeout(() => {
+                  scene.remove(gridLine);
+                  gridGeo.dispose();
