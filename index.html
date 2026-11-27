@@ -8738,3 +8738,23 @@
           anvilMesh.position.copy(anvilPos);
           anvilMesh.scale.set(anvilR * 2.2, anvilR * 1.4, 1.0);
           anvilMat.opacity = aGrow * aFade * 0.62;
+          const darkTone = Math.max(0.08, 0.22 - aGrow * 0.08);
+          anvilMat.color.setRGB(darkTone, darkTone * 0.95, darkTone * 0.9);
+        } else {
+          anvilMesh.visible = false;
+        }
+
+        for (let i = 0; i < NP; i++) {
+          const s = seed[i], age = t - s.born;
+          if (age < 0 || age > s.life) {
+            pf[i * 3] = 9999; pf[i * 3 + 1] = 9999; pf[i * 3 + 2] = 9999;
+            continue;
+          }
+          const lifeFrac = age / s.life;
+          let h, rDist, theta = s.a;
+
+          if (s.kind === 0) {
+            
+            const phi = s.phi0 + s.omega * Math.pow(age, 0.82);
+            const tubeEff = curTubeR * s.tubeR;
+            const rRoll = curCapR * s.roff + tubeEff * Math.cos(phi);
