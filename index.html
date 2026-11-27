@@ -8998,3 +8998,23 @@
         const hole = Math.pow(t, 0.58);
         slow.scale.setScalar(Math.max(maxR * hole, 0.00001));
         slow.material.opacity = Math.pow(1.0 - t, 1.6) * 0.38;
+        if (t < 1.0) requestAnimationFrame(animSlow);
+        else {
+          scene.remove(slow); slow.geometry.dispose(); slow.material.dispose();
+          const ix = fxShockObjs.indexOf(slow); if (ix > -1) fxShockObjs.splice(ix, 1);
+        }
+      })();
+    }
+
+    
+    function spawnSubstationArc(lat, lng, delayMs) {
+      setTimeout(() => {
+        const pt = latlng2v3(lat, lng, EARTH_R + 0.0012);
+        const norm = pt.clone().normalize();
+        const arb = Math.abs(norm.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+        const t1 = new THREE.Vector3().crossVectors(norm, arb).normalize();
+        const t2 = new THREE.Vector3().crossVectors(norm, t1);
+
+        
+        const flashMat = new THREE.SpriteMaterial({
+          map: glowTex,
