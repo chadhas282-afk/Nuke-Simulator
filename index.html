@@ -8718,3 +8718,23 @@
             rainPosArr[r * 3 + 1] = surfPt.y + normal.y * dropH + dropY;
             rainPosArr[r * 3 + 2] = surfPt.z + normal.z * dropH + dropZ;
           }
+          rainGeo.attributes.position.needsUpdate = true;
+        } else {
+          blackRainMesh.visible = false;
+        }
+
+        
+        if (t >= 4.0) {
+          anvilMesh.visible = true;
+          const anvilAge = t - 4.0;
+          const aGrow = Math.min(anvilAge / 14.0, 1.0);
+          const aFade = Math.max(0, 1.0 - Math.max(0, t - 24.0) / 16.0);
+          const tropoH = stemH * 1.02;
+          const anvilR = curCapR * (1.2 + aGrow * 1.8);
+
+          const shearOffset = (windSpeedSU * 0.9) * anvilAge;
+          const anvilPos = surfPt.clone().addScaledVector(normal, tropoH);
+          if (windVec) anvilPos.addScaledVector(windVec, shearOffset);
+          anvilMesh.position.copy(anvilPos);
+          anvilMesh.scale.set(anvilR * 2.2, anvilR * 1.4, 1.0);
+          anvilMat.opacity = aGrow * aFade * 0.62;
