@@ -8698,3 +8698,23 @@
         if (t >= 3.5 && t <= 34.0) {
           blackRainMesh.visible = true;
           const rFrac = Math.min((t - 3.5) / 4.0, 1.0);
+          const rFade = Math.max(0, 1.0 - Math.max(0, t - 22.0) / 12.0);
+          rainMat.opacity = rFrac * rFade * 0.78;
+          const rainPosArr = rainGeo.attributes.position.array;
+          const rainCycle = 4.0;
+          for (let r = 0; r < rainN; r++) {
+            const rs = rainSeed[r];
+            const pAge = (t - 3.5 + rs.born * 2.0) % rainCycle;
+            const dropFrac = Math.pow(pAge / rainCycle, rs.fallSpd);
+            const dropH = curCapZ * (1.0 - dropFrac);
+            const dropR = curCapR * rs.radFrac * (0.8 + 0.35 * (1.0 - dropFrac));
+
+            const driftDist = (windSpeedSU * 0.4) * (t - 3.5) * (1.0 - dropFrac);
+            const dropX = tan1.x * Math.cos(rs.ang) * dropR + tan2.x * Math.sin(rs.ang) * dropR + (windVec ? windVec.x * driftDist : 0);
+            const dropY = tan1.y * Math.cos(rs.ang) * dropR + tan2.y * Math.sin(rs.ang) * dropR + (windVec ? windVec.y * driftDist : 0);
+            const dropZ = tan1.z * Math.cos(rs.ang) * dropR + tan2.z * Math.sin(rs.ang) * dropR + (windVec ? windVec.z * driftDist : 0);
+
+            rainPosArr[r * 3] = surfPt.x + normal.x * dropH + dropX;
+            rainPosArr[r * 3 + 1] = surfPt.y + normal.y * dropH + dropY;
+            rainPosArr[r * 3 + 2] = surfPt.z + normal.z * dropH + dropZ;
+          }
