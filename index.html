@@ -8898,3 +8898,23 @@
       const emberMat = new THREE.PointsMaterial({
         size: fbMaxR * 0.075,
         color: 0xff5511,
+        map: glowTex,
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+        sizeAttenuation: true,
+        blending: THREE.AdditiveBlending
+      });
+      const embers = new THREE.Points(emberGeo, emberMat);
+      scene.add(embers); mushroomObjs.push(embers);
+
+      let emberLast = performance.now();
+      let emberEl = 0;
+      const emberDur = 34000;
+      (function animEmbers() {
+        const now = performance.now();
+        const dt = (now - emberLast) * (S.timeScale || 1.0);
+        emberLast = now;
+        emberEl += dt;
+        if (emberEl > emberDur || !mushroomObjs.includes(embers)) return;
+        const tSec = emberEl / 1000;
