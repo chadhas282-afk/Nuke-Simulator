@@ -8778,3 +8778,23 @@
             
             const throat = 0.52 + 0.48 * Math.pow(Math.abs(zNorm - 0.14) / 0.86, 1.5);
             const crownFlare = 1.0 + 2.2 * Math.pow(Math.max(0, zNorm - 0.62) / 0.38, 2.0);
+            const inrushTime = Math.min(age / 1.2, 1.0);
+            const startR = stemR * s.inrushR;
+            const neckR = stemR * (0.50 + 0.50 * s.roff) * throat * crownFlare;
+            rDist = startR * (1.0 - inrushTime) + neckR * inrushTime;
+            
+            const swirlRate = 0.28 + 0.85 / (throat + 0.2);
+            theta += age * swirlRate * s.jitter;
+          } else if (s.kind === 2) {
+            
+            const surgeProg = 1.0 - Math.exp(-age / 2.2);
+            rDist = fbMaxR * 0.4 + surgeMaxR * surgeProg * s.speed;
+            h = 0.06 * surgeMaxR * Math.sin(Math.min(surgeProg * Math.PI, Math.PI)) * (0.5 + 0.5 * s.roff);
+          } else {
+            
+            const cProg = Math.min(age / 3.5, 1.0);
+            rDist = curCapR * (0.7 + 0.5 * cProg) * (0.95 + 0.05 * s.jitter);
+            h = curCapZ * (0.48 + 0.15 * Math.sin(cProg * Math.PI));
+          }
+
+          
