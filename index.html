@@ -9098,3 +9098,23 @@
         const spkGeo = new THREE.BufferGeometry();
         spkGeo.setAttribute('position', new THREE.BufferAttribute(spkPos, 3));
         const spkMat = new THREE.PointsMaterial({
+          color: 0x38bdf8,
+          size: 0.0028,
+          map: glowTex,
+          transparent: true,
+          opacity: 0.95,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false
+        });
+        const spkMesh = new THREE.Points(spkGeo, spkMat);
+        scene.add(spkMesh);
+        fxShockObjs.push(spkMesh);
+
+        const arcStart = Date.now();
+        const arcDur = 480;
+        function animArc() {
+          const el = Date.now() - arcStart;
+          const p = Math.min(el / arcDur, 1.0);
+          if (p >= 1.0) {
+            scene.remove(flashSprite); flashSprite.material.dispose();
+            scene.remove(arcLine); arcLine.geometry.dispose(); arcLine.material.dispose();
