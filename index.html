@@ -8838,3 +8838,23 @@
             const bNormX = px - surfPt.x, bNormY = py - surfPt.y, bNormZ = pz - surfPt.z;
             const bLen = Math.hypot(bNormX, bNormY, bNormZ) || 1;
             const sunDot = (bNormX / bLen) * sunDirVec.x + (bNormY / bLen) * sunDirVec.y + (bNormZ / bLen) * sunDirVec.z;
+            const sunLit = Math.max(0.24, sunDot * 0.45 + 0.55);
+            shade *= sunLit;
+          }
+          const fade = (1.0 - Math.pow(lifeFrac, 2.5)) * shade;
+          cf[i * 3] = cr * fade;
+          cf[i * 3 + 1] = cg * fade;
+          cf[i * 3 + 2] = cb * fade;
+        }
+
+        pg.attributes.position.needsUpdate = true;
+        pg.attributes.color.needsUpdate = true;
+        pmat.opacity = 0.88 * Math.min(1.0, t / 0.8) * Math.max(0, 1.0 - Math.max(0, (t - 28) / 10));
+        pmat.size = Math.max(capR * 0.24, stemR * 1.05) * (1.0 + 0.45 * Math.min(t / 20, 1.0));
+
+        requestAnimationFrame(frame);
+      }
+
+      function cleanup() {
+        mushroomObjs.forEach(o => {
+          scene.remove(o);
