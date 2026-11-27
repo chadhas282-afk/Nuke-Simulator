@@ -9118,3 +9118,23 @@
           if (p >= 1.0) {
             scene.remove(flashSprite); flashSprite.material.dispose();
             scene.remove(arcLine); arcLine.geometry.dispose(); arcLine.material.dispose();
+            scene.remove(spkMesh); spkMesh.geometry.dispose(); spkMesh.material.dispose();
+            branchArcs.forEach(({ line, mat }) => { scene.remove(line); line.geometry.dispose(); mat.dispose(); });
+            [flashSprite, arcLine, spkMesh].forEach(o => {
+              const idx = fxShockObjs.indexOf(o);
+              if (idx > -1) fxShockObjs.splice(idx, 1);
+            });
+            return;
+          }
+          
+          const flicker = Math.random() > 0.6 ? 1.0 : (Math.random() > 0.4 ? 0.35 : 0.0);
+          flashMat.opacity = Math.max(0, (1.0 - p * 1.4) * (Math.random() > 0.25 ? 1.0 : 0.3));
+          flashSprite.scale.setScalar(0.018 * (1.0 + p * 1.2));
+          arcMat.opacity = Math.max(0, (1.0 - p * 1.8) * flicker);
+          
+          branchArcs.forEach(({ mat: bm }) => { bm.opacity = Math.max(0, (1.0 - p * 2.5) * (Math.random() > 0.5 ? 0.75 : 0)); });
+
+          const arr = spkGeo.attributes.position.array;
+          for (let k = 0; k < spkN; k++) {
+            const sd = spkSeeds[k];
+            const drag = 1.0 - p * 0.35;
