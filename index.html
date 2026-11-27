@@ -8798,3 +8798,23 @@
           }
 
           
+           const windShearFrac = Math.min(h / stemH, 1.4);
+          const driftSU = windSpeedSU * (age * 0.7) * (0.3 + 0.8 * Math.pow(windShearFrac, 0.75));
+
+          const posX = tan1.x * Math.cos(theta) * rDist + tan2.x * Math.sin(theta) * rDist + windVec.x * driftSU;
+          const posY = tan1.y * Math.cos(theta) * rDist + tan2.y * Math.sin(theta) * rDist + windVec.y * driftSU;
+          const posZ = tan1.z * Math.cos(theta) * rDist + tan2.z * Math.sin(theta) * rDist + windVec.z * driftSU;
+
+          pf[i * 3] = surfPt.x + normal.x * h + posX;
+          pf[i * 3 + 1] = surfPt.y + normal.y * h + posY;
+          pf[i * 3 + 2] = surfPt.z + normal.z * h + posZ;
+
+          
+          let cr, cg, cb;
+          if (age < 1.1) {
+            const k = age / 1.1;
+            cr = 1.0; cg = 0.95 - k * 0.25; cb = 0.85 - k * 0.65;
+          } else if (age < 3.4) {
+            const k = (age - 1.1) / 2.3;
+            cr = 1.0 - k * 0.35; cg = 0.70 - k * 0.48; cb = 0.20 - k * 0.16;
+          } else if (age < 7.5) {
