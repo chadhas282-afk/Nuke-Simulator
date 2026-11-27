@@ -8938,3 +8938,23 @@
         emberGeo.attributes.position.needsUpdate = true;
         
         emberMat.size = fbMaxR * 0.075 * (0.75 + 0.45 * Math.sin(emberEl * 0.015));
+        requestAnimationFrame(animEmbers);
+      })();
+    }
+
+    
+    const fxShockObjs = [];
+    function spawnShockRings(lat, lng, yieldKt) {
+      const base = latlng2v3(lat, lng, EARTH_R + 0.0035);
+      const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), base.clone().normalize());
+      const Y = Math.max(yieldKt, 0.01);
+      
+      const maxR = Math.min(Math.max(1.50 * Math.pow(Y, 0.333), 0.35), 340) * KM2SU;
+
+      
+      for (let i = 0; i < 4; i++) {
+        const ringMat = new THREE.MeshBasicMaterial({
+          color: i === 0 ? 0xffffff : i === 1 ? 0xffdf99 : 0x93c5fd,
+          transparent: true,
+          opacity: 0,
+          side: THREE.DoubleSide,
