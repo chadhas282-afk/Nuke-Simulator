@@ -9178,3 +9178,23 @@
       });
       cityLabelSprites.forEach(sp => {
         const c = sp.userData;
+        if (!c || c.lat === undefined) return;
+        const d = distKm(lat, lng, c.lat, c.lng);
+        if (d <= radii.emp) {
+          sp.material.opacity = 0.22;
+        }
+      });
+
+      
+      const affectedCities = PRESET_CITIES.filter(c => distKm(lat, lng, c.lat, c.lng) <= radii.emp);
+      if (affectedCities.length >= 2) {
+        for (let i = 0; i < Math.min(affectedCities.length - 1, 6); i++) {
+          const c1 = affectedCities[i];
+          const c2 = affectedCities[i + 1];
+          const p1 = latlng2v3(c1.lat, c1.lng, EARTH_R + 0.0025);
+          const p2 = latlng2v3(c2.lat, c2.lng, EARTH_R + 0.0025);
+          const midP = p1.clone().lerp(p2, 0.5).normalize().multiplyScalar(EARTH_R + 0.0045);
+          const gridGeo = new THREE.BufferGeometry().setFromPoints([p1, midP, p2]);
+          const gridMat = new THREE.LineBasicMaterial({
+            color: 0x38bdf8,
+            transparent: true,
