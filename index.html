@@ -9238,3 +9238,23 @@
 
       if (blackoutCount > 0) {
         toast(`⚡ EMP PULSE: Continental grid blackout across ${blackoutCount} urban centers · E1/E2 surge collapse`);
+         }
+      if (firestormCount > 0) {
+        setTimeout(() => toast(`🔥 Secondary firestorms ignited in ${firestormCount} metropolitan zones`), 1400);
+      }
+    }
+
+    function spawnSecondaryCityFirestorm(cLat, cLng, cityName) {
+      const cityPt = latlng2v3(cLat, cLng, EARTH_R + 0.002);
+      const normal = cityPt.clone().normalize();
+      const arbV = Math.abs(normal.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+      const tan1 = new THREE.Vector3().crossVectors(normal, arbV).normalize();
+      const tan2 = new THREE.Vector3().crossVectors(normal, tan1);
+
+      const N = 120;
+      const pos = new Float32Array(N * 3);
+      const col = new Float32Array(N * 3);
+      const seeds = [];
+      for (let i = 0; i < N; i++) {
+        seeds.push({
+          born: Math.random() * 4000,
