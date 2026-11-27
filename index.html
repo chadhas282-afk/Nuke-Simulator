@@ -8878,3 +8878,23 @@
       frame();
 
       
+      const emberCount = 350;
+      const emberGeo = new THREE.BufferGeometry();
+      const emberPos = new Float32Array(emberCount * 3);
+      const emberData = [];
+      for (let i = 0; i < emberCount; i++) {
+        const ang = Math.random() * Math.PI * 2;
+        const rad = Math.random() * fbMaxR * 0.95;
+        emberData.push({
+          ang, rad,
+          speed: 0.004 + Math.random() * 0.009,
+          rotSpeed: (Math.random() - 0.5) * 0.025,
+          jitter: Math.random() * Math.PI * 2
+        });
+        const p = surfPt.clone().addScaledVector(tan1, Math.cos(ang) * rad).addScaledVector(tan2, Math.sin(ang) * rad);
+        emberPos[i * 3] = p.x; emberPos[i * 3 + 1] = p.y; emberPos[i * 3 + 2] = p.z;
+      }
+      emberGeo.setAttribute('position', new THREE.BufferAttribute(emberPos, 3));
+      const emberMat = new THREE.PointsMaterial({
+        size: fbMaxR * 0.075,
+        color: 0xff5511,
