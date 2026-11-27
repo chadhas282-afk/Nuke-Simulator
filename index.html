@@ -8758,3 +8758,23 @@
             const phi = s.phi0 + s.omega * Math.pow(age, 0.82);
             const tubeEff = curTubeR * s.tubeR;
             const rRoll = curCapR * s.roff + tubeEff * Math.cos(phi);
+            const zRoll = curCapZ + tubeEff * Math.sin(phi);
+
+            
+            let khCurlR = 0, khCurlZ = 0;
+            if (s.roff > 0.72) {
+              const curlFreq = 5.0;
+              khCurlR = tubeEff * 0.35 * Math.sin(s.a * curlFreq + age * 1.5);
+              khCurlZ = tubeEff * 0.30 * Math.cos(s.a * curlFreq - phi);
+            }
+            rDist = Math.max(rRoll + khCurlR, 0.0001);
+            h = Math.max(zRoll + khCurlZ, 0.0005);
+            theta += age * 0.12 * s.jitter;
+          } else if (s.kind === 1) {
+            
+            const stemZProg = Math.min(age / 3.8, 1.0);
+            h = curCapZ * Math.pow(stemZProg, 1.18) * (0.35 + 0.65 * s.speed);
+            const zNorm = Math.min(1.0, h / (curCapZ + 0.0001));
+            
+            const throat = 0.52 + 0.48 * Math.pow(Math.abs(zNorm - 0.14) / 0.86, 1.5);
+            const crownFlare = 1.0 + 2.2 * Math.pow(Math.max(0, zNorm - 0.62) / 0.38, 2.0);
