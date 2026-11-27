@@ -9158,3 +9158,23 @@
       let firestormCount = 0;
       cityDotMeshes.forEach(mesh => {
         const c = mesh.userData.city;
+        if (!c) return;
+        const d = distKm(lat, lng, c.lat, c.lng);
+        if (d <= radii.emp) {
+          blackoutCount++;
+          const arcDelay = Math.min((d / Math.max(radii.emp, 1)) * 450 + Math.random() * 220, 800);
+          spawnSubstationArc(c.lat, c.lng, arcDelay);
+          let fCount = 0;
+          const flInterval = setInterval(() => {
+            fCount++;
+            mesh.material.color.setHex(fCount % 2 === 0 ? 0x00ffff : (fCount % 3 === 0 ? 0xff4422 : 0x050508));
+            if (fCount > 10) {
+              clearInterval(flInterval);
+              mesh.material.color.setHex(0x1a1c23);
+              mesh.scale.setScalar(0.7);
+            }
+          }, 80);
+        }
+      });
+      cityLabelSprites.forEach(sp => {
+        const c = sp.userData;
