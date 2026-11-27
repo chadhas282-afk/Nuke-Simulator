@@ -9218,3 +9218,23 @@
                 setTimeout(() => {
                   scene.remove(gridLine);
                   gridGeo.dispose();
+                   gridMat.dispose();
+                  const gIdx = fxShockObjs.indexOf(gridLine);
+                  if (gIdx > -1) fxShockObjs.splice(gIdx, 1);
+                }, 14000);
+              }
+            }, 60);
+          }, 250);
+        }
+      }
+
+      PRESET_CITIES.forEach(c => {
+        const d = distKm(lat, lng, c.lat, c.lng);
+        if (d > 0.5 && d <= (radii.thermal2 || radii.thermal3 || 10)) {
+          firestormCount++;
+          spawnSecondaryCityFirestorm(c.lat, c.lng, c.n);
+        }
+      });
+
+      if (blackoutCount > 0) {
+        toast(`⚡ EMP PULSE: Continental grid blackout across ${blackoutCount} urban centers · E1/E2 surge collapse`);
