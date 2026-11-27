@@ -8978,3 +8978,23 @@
           else {
             scene.remove(m); m.geometry.dispose(); m.material.dispose();
             const ix = fxShockObjs.indexOf(m); if (ix > -1) fxShockObjs.splice(ix, 1);
+            }
+        })();
+      }
+
+      
+      const slow = new THREE.Mesh(
+        new THREE.RingGeometry(0.993, 1.0, 120),
+        new THREE.MeshBasicMaterial({ color: 0xbfdbfe, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false })
+      );
+      slow.position.copy(base); slow.quaternion.copy(q); slow.scale.setScalar(0.00001);
+      scene.add(slow); fxShockObjs.push(slow);
+
+      const s0 = Date.now() + 600, sdur = 9500;
+      (function animSlow() {
+        const el = Date.now() - s0;
+        if (el < 0) { requestAnimationFrame(animSlow); return; }
+        const t = Math.min(el / sdur, 1.0);
+        const hole = Math.pow(t, 0.58);
+        slow.scale.setScalar(Math.max(maxR * hole, 0.00001));
+        slow.material.opacity = Math.pow(1.0 - t, 1.6) * 0.38;
