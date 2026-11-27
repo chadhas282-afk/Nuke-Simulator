@@ -8918,3 +8918,23 @@
         emberEl += dt;
         if (emberEl > emberDur || !mushroomObjs.includes(embers)) return;
         const tSec = emberEl / 1000;
+        const fadeIn = Math.min(emberEl / 1200, 1.0);
+        const fadeOut = Math.max(0, 1.0 - (emberEl - emberDur * 0.35) / (emberDur * 0.65));
+        emberMat.opacity = 0.88 * fadeIn * fadeOut;
+
+        for (let i = 0; i < emberCount; i++) {
+          const ed = emberData[i];
+          ed.ang += ed.rotSpeed;
+          const upH = Math.min(ed.speed * tSec * fbMaxR * 14.0, stemH * 0.72);
+          const curR = ed.rad * (0.75 + 0.35 * Math.sin(tSec * 2.5 + ed.jitter));
+          const ep = surfPt.clone()
+            .addScaledVector(normal, upH)
+            .addScaledVector(tan1, Math.cos(ed.ang) * curR)
+            .addScaledVector(tan2, Math.sin(ed.ang) * curR);
+          emberPos[i * 3] = ep.x;
+          emberPos[i * 3 + 1] = ep.y;
+          emberPos[i * 3 + 2] = ep.z;
+        }
+        emberGeo.attributes.position.needsUpdate = true;
+        
+        emberMat.size = fbMaxR * 0.075 * (0.75 + 0.45 * Math.sin(emberEl * 0.015));
