@@ -9058,3 +9058,24 @@
 
         
         const numBranches = 3;
+        const branchArcs = [];
+        for (let br = 0; br < numBranches; br++) {
+          const branchPts = [pt.clone().addScaledVector(t1, (Math.random() - 0.5) * 0.003).addScaledVector(t2, (Math.random() - 0.5) * 0.003)];
+          const branchSegs = 5 + Math.floor(Math.random() * 5);
+          for (let bs = 1; bs <= branchSegs; bs++) {
+            const frac = bs / branchSegs;
+            const bx = (Math.random() - 0.5) * 0.009;
+            const by = (Math.random() - 0.5) * 0.009;
+            const bn = pt.clone()
+              .addScaledVector(norm, frac * 0.012 + (Math.random() - 0.5) * 0.003)
+              .addScaledVector(t1, bx + (Math.random() - 0.5) * 0.006 * (1 - frac))
+              .addScaledVector(t2, by);
+            branchPts.push(bn);
+          }
+          const bGeo = new THREE.BufferGeometry().setFromPoints(branchPts);
+          const bMat = new THREE.LineBasicMaterial({ color: 0x7dd3fc, transparent: true, opacity: 0.75, blending: THREE.AdditiveBlending, depthWrite: false });
+          const bLine = new THREE.Line(bGeo, bMat);
+          scene.add(bLine);
+          fxShockObjs.push(bLine);
+          branchArcs.push({ line: bLine, mat: bMat });
+        }
