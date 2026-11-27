@@ -8958,3 +8958,23 @@
           transparent: true,
           opacity: 0,
           side: THREE.DoubleSide,
+          depthWrite: false,
+          blending: i < 2 ? THREE.AdditiveBlending : THREE.NormalBlending
+        });
+        const m = new THREE.Mesh(new THREE.RingGeometry(0.982, 1.0, 96), ringMat);
+        m.position.copy(base); m.quaternion.copy(q); m.scale.setScalar(0.00001);
+        scene.add(m); fxShockObjs.push(m);
+
+        const t0 = Date.now() + i * 220, dur = 3200 + i * 400;
+        (function animRing() {
+          const el = Date.now() - t0;
+          if (el < 0) { requestAnimationFrame(animRing); return; }
+          const t = Math.min(el / dur, 1.0);
+          
+          const sedovFrac = Math.pow(t, 0.48);
+          m.scale.setScalar(Math.max(maxR * sedovFrac, 0.00001));
+          m.material.opacity = Math.max(0, 1.0 - Math.pow(t, 1.2)) * (0.92 - i * 0.14);
+          if (t < 1.0) requestAnimationFrame(animRing);
+          else {
+            scene.remove(m); m.geometry.dispose(); m.material.dispose();
+            const ix = fxShockObjs.indexOf(m); if (ix > -1) fxShockObjs.splice(ix, 1);
