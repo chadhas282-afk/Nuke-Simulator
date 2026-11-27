@@ -9018,3 +9018,23 @@
         
         const flashMat = new THREE.SpriteMaterial({
           map: glowTex,
+          color: 0x67e8f9,
+          transparent: true,
+          opacity: 0.95,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false
+        });
+        const flashSprite = new THREE.Sprite(flashMat);
+        flashSprite.position.copy(pt.clone().addScaledVector(norm, 0.0025));
+        flashSprite.scale.setScalar(0.014);
+        scene.add(flashSprite);
+        fxShockObjs.push(flashSprite);
+
+        
+        const segs = 12;
+        const arcPts = [pt.clone()];
+        for (let s = 1; s <= segs; s++) {
+          const frac = s / segs;
+          const jitterX = (Math.random() - 0.5) * 0.007;
+          const jitterY = (Math.random() - 0.5) * 0.007;
+          const next = pt.clone()
