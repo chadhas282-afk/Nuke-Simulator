@@ -9138,3 +9138,23 @@
           for (let k = 0; k < spkN; k++) {
             const sd = spkSeeds[k];
             const drag = 1.0 - p * 0.35;
+            const h = Math.max(0, (sd.vn * p - 0.5 * 0.018 * p * p));
+            const pX = pt.x + t1.x * sd.vx * p * drag + t2.x * sd.vy * p * drag + norm.x * h;
+            const pY = pt.y + t1.y * sd.vx * p * drag + t2.y * sd.vy * p * drag + norm.y * h;
+            const pZ = pt.z + t1.z * sd.vx * p * drag + t2.z * sd.vy * p * drag + norm.z * h;
+            arr[k * 3] = pX; arr[k * 3 + 1] = pY; arr[k * 3 + 2] = pZ;
+          }
+          spkGeo.attributes.position.needsUpdate = true;
+          spkMat.opacity = Math.max(0, 1.0 - p);
+          requestAnimationFrame(animArc);
+        }
+        requestAnimationFrame(animArc);
+      }, Math.max(0, delayMs));
+    }
+
+    
+    function triggerUrbanBlackoutAndFires(lat, lng, radii, yieldKt) {
+      let blackoutCount = 0;
+      let firestormCount = 0;
+      cityDotMeshes.forEach(mesh => {
+        const c = mesh.userData.city;
