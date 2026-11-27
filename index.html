@@ -9278,3 +9278,23 @@
         depthWrite: false,
         sizeAttenuation: true
       });
+      const points = new THREE.Points(geo, mat);
+      scene.add(points);
+      mushroomObjs.push(points);
+
+      const t0 = Date.now(), dur = 24000;
+      (function loopSecFire() {
+        const el = Date.now() - t0;
+        if (el > dur) {
+          scene.remove(points);
+          geo.dispose();
+          mat.dispose();
+          return;
+        }
+        for (let i = 0; i < N; i++) {
+          const s = seeds[i];
+          const t = el - s.born;
+          if (t < 0 || t > s.life) {
+            pos[i * 3] = 9999; pos[i * 3 + 1] = 9999; pos[i * 3 + 2] = 9999;
+            continue;
+          }
