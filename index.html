@@ -9038,3 +9038,23 @@
           const jitterX = (Math.random() - 0.5) * 0.007;
           const jitterY = (Math.random() - 0.5) * 0.007;
           const next = pt.clone()
+          .addScaledVector(norm, frac * 0.018 + (Math.random() - 0.5) * 0.002)
+            .addScaledVector(t1, jitterX)
+            .addScaledVector(t2, jitterY);
+          arcPts.push(next);
+        }
+        const arcGeo = new THREE.BufferGeometry().setFromPoints(arcPts);
+        const arcMat = new THREE.LineBasicMaterial({
+          color: 0xe0f2fe,
+          transparent: true,
+          opacity: 1.0,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+          linewidth: 2
+        });
+        const arcLine = new THREE.Line(arcGeo, arcMat);
+        scene.add(arcLine);
+        fxShockObjs.push(arcLine);
+
+        
+        const numBranches = 3;
