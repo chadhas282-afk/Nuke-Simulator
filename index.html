@@ -9738,3 +9738,23 @@
         transparent: true,
         opacity: 0.82,
         depthWrite: false,
+        sizeAttenuation: true
+      });
+      persistentCraterSmoke = new THREE.Points(geo, mat);
+      persistentCraterSmoke.userData = { surfPt, normal, tan1, tan2, seed, plumeH, plumeSpread, N, t0: Date.now() };
+      scene.add(persistentCraterSmoke);
+    }
+
+    function updatePersistentCraterSmoke() {
+      if (!persistentCraterSmoke || !persistentCraterSmoke.visible) return;
+      const ud = persistentCraterSmoke.userData;
+      if (!ud || !ud.seed) return;
+      const el = Date.now() - ud.t0;
+      const geo = persistentCraterSmoke.geometry;
+      const pos = geo.attributes.position.array;
+      const col = geo.attributes.color.array;
+      const windRad = (S.windDir || 0) * (Math.PI / 180);
+      const windSpeedSU = (S.windSpd || 15) * 0.18 * KM2SU;
+      const windVec = ud.tan1.clone().multiplyScalar(Math.cos(windRad)).add(ud.tan2.clone().multiplyScalar(Math.sin(windRad)));
+
+      for (let i = 0; i < ud.N; i++) {
