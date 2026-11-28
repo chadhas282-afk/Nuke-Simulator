@@ -9458,3 +9458,23 @@
     }
 
     function tsunamiThreat(lat, lng, kt) {
+      if (!oceanGrid) return null;
+      const gx = 180, gy = 90;
+      const ly = Math.max(0, Math.min(gy - 1, Math.round((90 - lat) / 2)));
+      const lx = Math.max(0, Math.min(gx - 1, Math.round((lng + 180) / 2)));
+      const cellLand = oceanGrid[ly * gx + lx] === 1;
+      let minLand = Infinity, minSea = Infinity;
+      const R = 5;
+      for (let dy = -R; dy <= R; dy++) for (let dx = -R; dx <= R; dx++) {
+        const ny = ly + dy; if (ny < 0 || ny >= gy) continue;
+        const nx = (lx + dx + gx) % gx;
+        const d = Math.sqrt(dy * dy + dx * dx);
+        if (oceanGrid[ny * gx + nx] === 1) { if (d < minLand) minLand = d; }
+        else if (d < minSea) minSea = d;
+      }
+      if (cellLand && minSea > 3.2) return null;                 
+      const coastalKm = Math.min(minLand, minSea) * 222;
+      if (!cellLand && minLand > 3.2) return null;               
+      const Y = Math.max(kt, 0.01);
+      const hM = Math.max(0.8, Math.min(40, 1.1 * Math.pow(Y / 1000, 0.45) * (cellLand ? 0.6 : 1.15)));
+      const arrivalH = Math.max(0.2, coastalKm / 700);
