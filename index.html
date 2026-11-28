@@ -9778,3 +9778,23 @@
         const isEmber = p < 0.14;
         col[i * 3] = (isEmber ? 0.58 : 0.15) * fade;
         col[i * 3 + 1] = (isEmber ? 0.26 : 0.13) * fade;
+        col[i * 3 + 2] = (isEmber ? 0.08 : 0.12) * fade;
+      }
+      geo.attributes.position.needsUpdate = true;
+      geo.attributes.color.needsUpdate = true;
+    }
+
+    
+    let dustParticles = null, dustRAF = null;
+    function spawnGroundDust(lat, lng, yieldKt) {
+      if (dustParticles) { scene.remove(dustParticles); dustParticles.geometry.dispose(); dustParticles.material.dispose(); dustParticles = null; }
+      if (dustRAF) { cancelAnimationFrame(dustRAF); dustRAF = null; }
+
+      const Y = Math.max(yieldKt, 0.01);
+      const maxR = Math.min(Math.max(1.6 * Math.pow(Y, 0.33), 0.6), 120) * KM2SU;
+      const fbR = Math.min(Math.max(0.070 * Math.pow(Y, 0.40), 0.04), 45) * KM2SU;
+      const stemH = Math.min(Math.max(3.2 * Math.pow(Y, 0.25), 1.2), 70) * KM2SU;
+      const stemR = Math.min(Math.max(0.42 * Math.pow(Y, 0.30), 0.15), 18) * KM2SU;
+      const surfPt = latlng2v3(lat, lng, EARTH_R);
+      const normal = surfPt.clone().normalize();
+      const arbV = Math.abs(normal.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
