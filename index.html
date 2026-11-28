@@ -9418,3 +9418,23 @@
       startWinterRecovery();
       toast('☃ Simulating 10-year climate recovery…');
     };
+
+    
+    let oceanGrid = null;
+    let popGrid = null;
+    function buildPopGrid() {
+      if (!citiesDB || !citiesDB.length) return;
+      const GX = 720, GY = 360, g = new Float32Array(GX * GY);
+      const cellLat = 180 / GY, cellLng = 360 / GX;
+      for (let ii = 0; ii < citiesDB.length; ii++) {
+        const c = citiesDB[ii]; const p = c.p || 0; if (p <= 0) continue;
+        const j = Math.max(0, Math.min(GY - 1, Math.floor((90 - c.lat) / cellLat)));
+        const i = Math.max(0, Math.min(GX - 1, Math.floor((c.lng + 180) / cellLng)));
+        const w = [0.4, 0.3, 0.3];
+        for (let dj = -1; dj <= 1; dj++) for (let di = -1; di <= 1; di++) {
+          const nj = j + dj; if (nj < 0 || nj >= GY) continue;
+          const ni = (i + di + GX) % GX;
+          g[nj * GX + ni] += p * w[Math.abs(dj)] * w[Math.abs(di)];
+        }
+      }
+      popGrid = g;
