@@ -9559,3 +9559,22 @@
         `<span class="tag" style="background:rgba(14,165,233,.14);color:#7dd3fc;border:1px solid rgba(56,189,248,.25)">${esc(c.n)} ~${c.days}d</span>`).join('');
       document.getElementById('emp-sub').textContent = `High-altitude burst — neutralizes power grids, telecom & electronics across the EMP footprint; blackout decays as grids regain power.`;
     }
+
+    
+    let smokeRAF = null;
+    function spawnSmoke(lat, lng, yieldKt) {
+      if (smokeParticles) { scene.remove(smokeParticles); smokeParticles.geometry.dispose(); smokeParticles.material.dispose(); smokeParticles = null; }
+      if (smokeRAF) { cancelAnimationFrame(smokeRAF); smokeRAF = null; }
+      if (dustParticles) { scene.remove(dustParticles); dustParticles.geometry.dispose(); dustParticles.material.dispose(); dustParticles = null; }
+      if (dustRAF) { cancelAnimationFrame(dustRAF); dustRAF = null; }
+
+      const Y = Math.max(yieldKt, 0.01);
+      const stemH = Math.min(Math.max(3.2 * Math.pow(Y, 0.25), 1.2), 70) * KM2SU;
+      const capR = Math.min(Math.max(1.85 * Math.pow(Y, 0.33), 0.8), 85) * KM2SU;
+      const fbMaxR = Math.min(Math.max(0.070 * Math.pow(Y, 0.40), 0.04), 45) * KM2SU;
+      const burnR = Math.min(Math.max(1.25 * Math.pow(Y, 0.41), 0.5), 140) * KM2SU;
+
+      const surfPt = latlng2v3(lat, lng, EARTH_R);
+      const normal = surfPt.clone().normalize();
+      const arbV = Math.abs(normal.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+      const tan1 = new THREE.Vector3().crossVectors(normal, arbV).normalize();
