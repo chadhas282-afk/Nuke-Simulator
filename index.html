@@ -9498,3 +9498,23 @@
           m.scale.setScalar(Math.max(targetR * hole, 0.00001));
           m.material.opacity = Math.max((1 - t), 0) * 0.4;
           if (t < 1) requestAnimationFrame(animWave);
+           else { scene.remove(m); m.geometry.dispose(); m.material.dispose(); const ix = fxTsuObjs.indexOf(m); if (ix > -1) fxTsuObjs.splice(ix, 1); }
+        })();
+      }
+    }
+    function clearTsunami() {
+      fxTsuObjs.forEach(m => { scene.remove(m); m.geometry.dispose(); m.material.dispose(); });
+      fxTsuObjs.length = 0;
+      const ts = document.getElementById('tsunami-sec'); if (ts) ts.style.display = 'none';
+    }
+
+    
+    let empPulse = null;
+    function empBlackout(lat, lng, rKm, kt) {
+      if (!citiesDB.length || !rKm) return null;
+      const byC = {};
+      const latR = lat * Math.PI / 180, dLat = rKm / 111.32, dLng = rKm / (111.32 * Math.max(Math.cos(latR), 0.15));
+      const loLat = lat - dLat, hiLat = lat + dLat;
+      for (const c of citiesDB) {
+        if (!c.c || c.lat < loLat || c.lat > hiLat) continue;
+        const dl = ((c.lng - lng + 540) % 360) - 180;
