@@ -9378,3 +9378,23 @@
       const agr = Math.max(0, Math.min(95, winterRecovery.agr0 * Math.pow(f, 0.8)));
       winterVeil.material.opacity = winterRecovery.veil0 * (0.3 + 0.7 * f);
       winterAsh.material.opacity = winterRecovery.ash0 * (0.35 + 0.65 * f);
+       winterAsh.rotation.y += 16 * 0.0007;
+      if (Date.now() - winterRecovery.lastDom > 220) {
+        winterRecovery.lastDom = Date.now();
+        const yr = Math.min(10, Math.floor(year));
+        document.getElementById('winter-bar').style.width = Math.min(100, year * 10) + '%';
+        document.getElementById('winter-yr').textContent = 'Y+' + yr;
+        document.getElementById('winter-line').textContent = `Global cooling −${cooling.toFixed(1)}°C · crops at ${Math.max(0, Math.round(100 - agr))}% of baseline`;
+        if (yr >= 10) document.getElementById('winter-detail').textContent = 'Stratospheric aerosols cleared — climate baselines restored.';
+        else document.getElementById('winter-detail').textContent = f > 0.5 ? 'Soot injection peaks; dimming begins to recede.' : 'Cold snap easing; agriculture recovering toward pre-war norms.';
+      }
+      if (t >= 1) stopWinterRecovery();
+    }
+
+    function updateWinter(dtMs) {
+      if (winterLevel <= 0 || !winterVeil) return;
+      winterAsh.rotation.y += dtMs * 0.0006;
+      winterAsh.rotation.x += dtMs * 0.00012;
+      if (winterRecovery) return;
+      const tl = Math.min(1, dtMs / 5000);
+      winterVeil.material.opacity = Math.min(winterLevel * 0.68, winterVeil.material.opacity + tl * 0.68);
