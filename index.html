@@ -9638,3 +9638,23 @@
       const t0 = Date.now(), DUR = 44000;
       (function loop() {
         const el = Date.now() - t0;
+        for (let i = 0; i < N; i++) {
+          const s = seed[i];
+          const localAge = (el + s.tOffset) % s.period;
+          const p = localAge / s.life;
+          const e = 1.0 - Math.pow(1.0 - p, 1.75);
+
+          
+          const hgt = (s.ground ? stemH * 0.15 : stemH * 0.78) * e * s.speed;
+
+          
+          const hsX = Math.cos(s.hs.a) * s.hs.r;
+          const hsY = Math.sin(s.hs.a) * s.hs.r;
+          const plumeSpread = (s.ground ? capR * 0.28 : capR * 0.18) * Math.pow(p, 0.65) + s.radiusJitter;
+          const sway = Math.sin((el * 0.001 + p * 4.0) * s.swayFreq + s.swayPhase) * capR * 0.06 * p;
+
+          
+          const windShear = Math.pow(Math.min(hgt / (stemH * 0.8), 1.2), 0.8);
+          const driftSU = windSpeedSU * (localAge / 1000) * (0.2 + 0.9 * windShear);
+
+          const rX = hsX + Math.cos(s.ang) * plumeSpread + windVec.x * driftSU + sway;
