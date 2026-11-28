@@ -9538,3 +9538,24 @@
       const fill = makeFill(lat, lng, rKm, '#0ea5e9', 0.05); scene.add(fill); empPulse.userData.fill = fill;
     }
     function stepEmpPulse() {
+      if (!empPulse) return;
+      const t = (Date.now() - empPulse.userData.t0) / 1000;
+      empPulse.material.opacity = Math.max(0, Math.sin(t * 1.05)) * 0.5 * (1 - t / 120);
+      empPulse.userData.fill.material.opacity = 0.05 * (0.5 + 0.5 * Math.sin(t * 0.7));
+    }
+    function clearEmpPulse() {
+      if (!empPulse) return;
+      scene.remove(empPulse); empPulse.geometry.dispose(); empPulse.material.dispose();
+      if (empPulse.userData.fill) { scene.remove(empPulse.userData.fill); empPulse.userData.fill.geometry.dispose(); empPulse.userData.fill.material.dispose(); }
+      empPulse = null;
+    }
+    function renderEmp() {
+      const sec = document.getElementById('emp-sec'); if (!sec) return;
+      const eb = S.empBlack;
+      if (!eb || !eb.countries || !eb.countries.length) { sec.style.display = 'none'; return; }
+      sec.style.display = 'block';
+      document.getElementById('emp-line').textContent = `Grid down in ${eb.countries.length} nation${eb.countries.length > 1 ? 's' : ''} — worst ≈ ${eb.peak} days`;
+      document.getElementById('emp-chips').innerHTML = eb.countries.slice(0, 8).map(c =>
+        `<span class="tag" style="background:rgba(14,165,233,.14);color:#7dd3fc;border:1px solid rgba(56,189,248,.25)">${esc(c.n)} ~${c.days}d</span>`).join('');
+      document.getElementById('emp-sub').textContent = `High-altitude burst — neutralizes power grids, telecom & electronics across the EMP footprint; blackout decays as grids regain power.`;
+    }
