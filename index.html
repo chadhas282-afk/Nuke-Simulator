@@ -9578,3 +9578,22 @@
       const normal = surfPt.clone().normalize();
       const arbV = Math.abs(normal.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
       const tan1 = new THREE.Vector3().crossVectors(normal, arbV).normalize();
+      const tan2 = new THREE.Vector3().crossVectors(normal, tan1);
+
+      
+      const numHotspots = 10;
+      const hotspots = [{ r: 0, a: 0 }]; 
+      for (let h = 1; h < numHotspots; h++) {
+        hotspots.push({
+          r: burnR * (0.22 + 0.68 * Math.sqrt(Math.random())),
+          a: Math.random() * Math.PI * 2
+        });
+      }
+
+      const N = 1200;
+      const pos = new Float32Array(N * 3);
+      const col = new Float32Array(N * 3);
+      const seed = [];
+      const windRad = (S.windDir || 0) * (Math.PI / 180);
+      const windSpeedSU = (S.windSpd || 15) * 0.25 * KM2SU;
+      const windVec = tan1.clone().multiplyScalar(Math.cos(windRad)).add(tan2.clone().multiplyScalar(Math.sin(windRad)));
