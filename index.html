@@ -9318,3 +9318,23 @@
         geo.attributes.color.needsUpdate = true;
         requestAnimationFrame(loopSecFire);
       })();
+       }
+
+    
+    let winterVeil = null, winterAsh = null, winterLevel = 0, winterDrop = 0, winterAgr = 0, winterRecovery = null;
+    const winterPtex = (() => { const cv = document.createElement('canvas'); cv.width = 64; cv.height = 64; const c2 = cv.getContext('2d'); const g = c2.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.4, 'rgba(255,255,255,0.55)'); g.addColorStop(1, 'rgba(255,255,255,0)'); c2.fillStyle = g; c2.fillRect(0, 0, 64, 64); return new THREE.CanvasTexture(cv); })();
+
+    function buildAshShell() {
+      const N = 3200, pos = new Float32Array(N * 3);
+      const col = new Float32Array(N * 3);
+      for (let i = 0; i < N; i++) {
+        const t = Math.acos(2 * Math.random() - 1);
+        const p = 2 * Math.PI * Math.random();
+        const r = (1.022 + Math.random() * 0.028) * EARTH_R;
+        pos[i * 3] = r * Math.sin(t) * Math.cos(p); pos[i * 3 + 1] = r * Math.cos(t); pos[i * 3 + 2] = r * Math.sin(t) * Math.sin(p);
+        const shade = 0.12 + Math.random() * 0.22;
+        col[i * 3] = shade * 1.05; col[i * 3 + 1] = shade * 0.88; col[i * 3 + 2] = shade * 0.72;
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
