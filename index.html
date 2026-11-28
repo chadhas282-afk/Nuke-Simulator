@@ -9838,3 +9838,23 @@
         const el = Date.now() - t0;
         const tSec = el / 1000;
         for (let i = 0; i < N; i++) {
+          const s = seed[i], t = el - s.dt;
+          if (t < 0 || t > DUR) { pos[i * 3] = 9999; pos[i * 3 + 1] = 9999; pos[i * 3 + 2] = 9999; continue; }
+          const p = t / DUR;
+          let rad, hgt, curTheta = s.a;
+
+          if (tSec < 1.3) {
+            
+            const pOut = Math.min(1.0, tSec / 1.3);
+            const surgeProg = 1.0 - Math.exp(-pOut * 3.5);
+            rad = fbR * 0.6 + (maxR - fbR * 0.6) * surgeProg * s.sp;
+            hgt = 0.0006 + 0.006 * maxR * Math.sin(surgeProg * Math.PI) * (0.5 + 0.5 * Math.sin(s.a * 3 + el * 0.001 * s.curlRate));
+          } else {
+            
+            const suctProg = Math.min(1.0, (tSec - 1.3) / 7.5);
+            const targetStemR = stemR * (0.9 + 0.6 * s.r0);
+            rad = (maxR * s.sp) * (1.0 - suctProg) + targetStemR * suctProg;
+            
+            curTheta += (tSec - 1.3) * (0.8 + 1.2 / (suctProg + 0.15));
+            
+            hgt = stemH * 0.28 * Math.pow(suctProg, 1.4);
