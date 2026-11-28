@@ -9818,3 +9818,23 @@
         col[i * 3] = 0.58; col[i * 3 + 1] = 0.48; col[i * 3 + 2] = 0.38;
       }
       const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+      const mat = new THREE.PointsMaterial({
+        size: Math.max(stemR * 0.55, fbR * 0.45, 0.0028),
+        map: pTex,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+        sizeAttenuation: true,
+        blending: THREE.NormalBlending
+      });
+      dustParticles = new THREE.Points(geo, mat);
+      scene.add(dustParticles);
+
+      const t0 = Date.now(), DUR = 18000;
+      (function loop() {
+        const el = Date.now() - t0;
+        const tSec = el / 1000;
+        for (let i = 0; i < N; i++) {
