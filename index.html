@@ -9658,3 +9658,23 @@
           const driftSU = windSpeedSU * (localAge / 1000) * (0.2 + 0.9 * windShear);
 
           const rX = hsX + Math.cos(s.ang) * plumeSpread + windVec.x * driftSU + sway;
+          const rY = hsY + Math.sin(s.ang) * plumeSpread + windVec.y * driftSU;
+
+          pos[i * 3] = surfPt.x + normal.x * hgt + tan1.x * rX + tan2.x * rY;
+          pos[i * 3 + 1] = surfPt.y + normal.y * hgt + tan1.y * rX + tan2.y * rY;
+          pos[i * 3 + 2] = surfPt.z + normal.z * hgt + tan1.z * rX + tan2.z * rY;
+
+          
+          let cr, cg, cb;
+          if (p < 0.12) {
+            cr = 0.42; cg = 0.22; cb = 0.10;
+          } else if (p < 0.65) {
+            cr = 0.14; cg = 0.12; cb = 0.11;
+          } else {
+            cr = 0.22; cg = 0.20; cb = 0.19;
+          }
+          const fade = Math.sin(p * Math.PI);
+          col[i * 3] = cr * fade;
+          col[i * 3 + 1] = cg * fade;
+          col[i * 3 + 2] = cb * fade;
+        }
