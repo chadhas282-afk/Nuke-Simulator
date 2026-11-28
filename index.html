@@ -9698,3 +9698,23 @@
       if (persistentCraterSmoke) {
         scene.remove(persistentCraterSmoke);
         persistentCraterSmoke.geometry.dispose();
+         persistentCraterSmoke.material.dispose();
+        persistentCraterSmoke = null;
+      }
+      const surfPt = latlng2v3(lat, lng, EARTH_R);
+      const normal = surfPt.clone().normalize();
+      const arbV = Math.abs(normal.y) < 0.99 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+      const tan1 = new THREE.Vector3().crossVectors(normal, arbV).normalize();
+      const tan2 = new THREE.Vector3().crossVectors(normal, tan1);
+
+      const N = 480;
+      const pos = new Float32Array(N * 3);
+      const col = new Float32Array(N * 3);
+      const seed = [];
+      const plumeH = Math.min(Math.max(2.4 * Math.pow(yieldKt, 0.23), 1.0), 32) * KM2SU;
+      const plumeSpread = Math.min(Math.max(0.75 * Math.pow(yieldKt, 0.25), 0.35), 18) * KM2SU;
+
+      for (let i = 0; i < N; i++) {
+        const life = 14000 + Math.random() * 9000;
+        seed.push({
+          life,
