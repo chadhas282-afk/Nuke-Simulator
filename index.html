@@ -9338,3 +9338,22 @@
       const geo = new THREE.BufferGeometry();
       geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
       geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+      const mat = new THREE.PointsMaterial({ size: 0.028, map: winterPtex, vertexColors: true, transparent: true, opacity: 0, depthWrite: false, blending: THREE.NormalBlending, sizeAttenuation: true });
+      const g = new THREE.Points(geo, mat);
+      winterAsh = g;
+      winterVeil = new THREE.Mesh(
+        new THREE.SphereGeometry(EARTH_R * 1.015, 64, 40),
+        new THREE.MeshBasicMaterial({ color: new THREE.Color(0x120a05), transparent: true, opacity: 0, depthWrite: false, side: THREE.BackSide })
+      );
+      scene.add(winterVeil); scene.add(winterAsh); g.userData.seed = new Float32Array(N);
+    }
+
+    function considerNuclearWinter(totalKt) {
+      if (totalKt < 500) return;
+      if (!winterVeil) buildAshShell();
+      const mt = Math.max(totalKt / 1000, 0.5);
+      winterLevel = Math.min(1, 0.25 + 0.75 * Math.min(mt / 4000, 1));
+      winterDrop = Math.min(25, 2.6 * Math.sqrt(mt));
+      winterAgr = Math.min(95, winterDrop * 4.2 + Math.min(mt, 100) * 0.4);
+      stopWinterRecovery();
+    }
