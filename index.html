@@ -9298,3 +9298,23 @@
             pos[i * 3] = 9999; pos[i * 3 + 1] = 9999; pos[i * 3 + 2] = 9999;
             continue;
           }
+           const p = t / s.life;
+          const h = KM2SU * 2.8 * p * s.speed;
+          const r = s.spreadR * (1 + p * 2);
+          const rx = Math.cos(s.spreadAng) * r;
+          const ry = Math.sin(s.spreadAng) * r;
+          pos[i * 3] = cityPt.x + normal.x * h + tan1.x * rx + tan2.x * ry;
+          pos[i * 3 + 1] = cityPt.y + normal.y * h + tan1.y * rx + tan2.y * ry;
+          pos[i * 3 + 2] = cityPt.z + normal.z * h + tan1.z * rx + tan2.z * ry;
+
+          const fade = Math.sin(p * Math.PI);
+          if (p < 0.25) {
+            col[i * 3] = 1.0 * fade; col[i * 3 + 1] = 0.5 * fade; col[i * 3 + 2] = 0.1 * fade;
+          } else {
+            col[i * 3] = 0.18 * fade; col[i * 3 + 1] = 0.16 * fade; col[i * 3 + 2] = 0.14 * fade;
+          }
+        }
+        geo.attributes.position.needsUpdate = true;
+        geo.attributes.color.needsUpdate = true;
+        requestAnimationFrame(loopSecFire);
+      })();
