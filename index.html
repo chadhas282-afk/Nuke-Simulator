@@ -9678,3 +9678,23 @@
           col[i * 3 + 1] = cg * fade;
           col[i * 3 + 2] = cb * fade;
         }
+
+        geo.attributes.position.needsUpdate = true;
+        geo.attributes.color.needsUpdate = true;
+        mat.opacity = 0.85 * Math.min(el / 1200, 1.0) * Math.max(0, 1.0 - Math.max(0, (el - 30000) / 14000));
+        mat.size = Math.max(stemH * 0.14, fbMaxR * 0.65, 0.0035) * (1.0 + 0.35 * Math.min(1.0, el / 12000));
+
+        if (el < DUR) smokeRAF = requestAnimationFrame(loop);
+        else {
+          scene.remove(smokeParticles); smokeParticles.geometry.dispose(); smokeParticles.material.dispose();
+          smokeParticles = null; smokeRAF = null;
+        }
+      })();
+    }
+
+    
+    let persistentCraterSmoke = null;
+    function spawnPersistentCraterSmoke(lat, lng, yieldKt) {
+      if (persistentCraterSmoke) {
+        scene.remove(persistentCraterSmoke);
+        persistentCraterSmoke.geometry.dispose();
