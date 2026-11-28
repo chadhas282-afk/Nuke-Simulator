@@ -9357,3 +9357,24 @@
       winterAgr = Math.min(95, winterDrop * 4.2 + Math.min(mt, 100) * 0.4);
       stopWinterRecovery();
     }
+
+        
+    function startWinterRecovery() {
+      if (!winterDrop || !winterVeil) return;
+      document.getElementById('winter-play').textContent = '⏸ Recovery in progress…';
+      winterRecovery = { t0: Date.now(), year0: winterDrop, agr0: winterAgr, veil0: winterVeil.material.opacity, ash0: winterAsh.material.opacity, lastDom: 0 };
+    }
+    function stopWinterRecovery() {
+      winterRecovery = null;
+      const bp = document.getElementById('winter-play');
+      if (bp) bp.textContent = '▶ Play 10-year recovery';
+    }
+    function stepWinterRecovery() {
+      if (!winterRecovery || !winterVeil) return;
+      const t = Math.min((Date.now() - winterRecovery.t0) / 12000, 1);
+      const year = t * 10;
+      const f = Math.exp(-year / 2.8);
+      const cooling = winterRecovery.year0 * f;
+      const agr = Math.max(0, Math.min(95, winterRecovery.agr0 * Math.pow(f, 0.8)));
+      winterVeil.material.opacity = winterRecovery.veil0 * (0.3 + 0.7 * f);
+      winterAsh.material.opacity = winterRecovery.ash0 * (0.35 + 0.65 * f);
