@@ -9758,3 +9758,23 @@
       const windVec = ud.tan1.clone().multiplyScalar(Math.cos(windRad)).add(ud.tan2.clone().multiplyScalar(Math.sin(windRad)));
 
       for (let i = 0; i < ud.N; i++) {
+        const s = ud.seed[i];
+        const age = (el + s.offset) % s.life;
+        const p = age / s.life;
+        const e = Math.pow(p, 0.75);
+        const h = ud.plumeH * e * s.speed;
+        const spread = s.radius * (0.25 + 1.25 * p);
+        const sway = Math.sin((el * 0.001 + p * 3.5) * s.swayFreq + s.swayPhase) * ud.plumeSpread * 0.14 * p;
+        const drift = windSpeedSU * (age / 1000) * (0.25 + 0.85 * e);
+
+        const rX = Math.cos(s.ang) * spread + windVec.x * drift + sway;
+        const rY = Math.sin(s.ang) * spread + windVec.y * drift;
+
+        pos[i * 3] = ud.surfPt.x + ud.normal.x * h + ud.tan1.x * rX + ud.tan2.x * rY;
+        pos[i * 3 + 1] = ud.surfPt.y + ud.normal.y * h + ud.tan1.y * rX + ud.tan2.y * rY;
+        pos[i * 3 + 2] = ud.surfPt.z + ud.normal.z * h + ud.tan1.z * rX + ud.tan2.z * rY;
+
+        const fade = Math.sin(p * Math.PI);
+        const isEmber = p < 0.14;
+        col[i * 3] = (isEmber ? 0.58 : 0.15) * fade;
+        col[i * 3 + 1] = (isEmber ? 0.26 : 0.13) * fade;
