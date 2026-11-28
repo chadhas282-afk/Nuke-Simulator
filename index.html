@@ -9618,3 +9618,23 @@
         pos[i * 3] = 9999; pos[i * 3 + 1] = 9999; pos[i * 3 + 2] = 9999;
         col[i * 3] = 0.2; col[i * 3 + 1] = 0.18; col[i * 3 + 2] = 0.16;
       }
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+      const mat = new THREE.PointsMaterial({
+        size: Math.max(stemH * 0.14, fbMaxR * 0.65, 0.0035),
+        map: sootTex || pTex,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+        sizeAttenuation: true,
+        blending: THREE.NormalBlending
+      });
+      smokeParticles = new THREE.Points(geo, mat);
+      scene.add(smokeParticles);
+
+      const t0 = Date.now(), DUR = 44000;
+      (function loop() {
+        const el = Date.now() - t0;
