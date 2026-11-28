@@ -9398,3 +9398,23 @@
       if (winterRecovery) return;
       const tl = Math.min(1, dtMs / 5000);
       winterVeil.material.opacity = Math.min(winterLevel * 0.68, winterVeil.material.opacity + tl * 0.68);
+       winterAsh.material.opacity = Math.min(winterLevel * 0.72, winterAsh.material.opacity + tl * 0.72);
+    }
+
+    function clearWinter() {
+      winterLevel = 0; winterDrop = 0; winterAgr = 0;
+      stopWinterRecovery();
+      if (winterVeil) { scene.remove(winterVeil); winterVeil.geometry.dispose(); winterVeil.material.dispose(); winterVeil = null; }
+      if (winterAsh) { scene.remove(winterAsh); winterAsh.geometry.dispose(); winterAsh.material.dispose(); winterAsh = null; }
+      const ws = document.getElementById('winter-sec'); if (ws) ws.style.display = 'none';
+      const wr = document.getElementById('winter-recover'); if (wr) wr.style.display = 'none';
+    }
+    window.playWinterRecovery = function () {
+      if (!winterDrop) { toast('No sizable nuclear winter in progress'); return; }
+      if (winterRecovery) { stopWinterRecovery(); return; }
+      document.getElementById('winter-recover').style.display = 'block';
+      document.getElementById('winter-bar').style.width = '0%';
+      document.getElementById('winter-yr').textContent = 'Y+0';
+      startWinterRecovery();
+      toast('☃ Simulating 10-year climate recovery…');
+    };
