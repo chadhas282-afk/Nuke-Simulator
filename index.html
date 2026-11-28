@@ -9478,3 +9478,23 @@
       const Y = Math.max(kt, 0.01);
       const hM = Math.max(0.8, Math.min(40, 1.1 * Math.pow(Y / 1000, 0.45) * (cellLand ? 0.6 : 1.15)));
       const arrivalH = Math.max(0.2, coastalKm / 700);
+      return { coastalKm, hM, arrivalH, sea: !cellLand };
+    }
+
+    const fxTsuObjs = [];
+    function spawnTsunamiWave(lat, lng, threat) {
+      const base = latlng2v3(lat, lng, EARTH_R + 0.003);
+      const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), base.clone().normalize());
+      const targetR = Math.min(Math.max(threat.coastalKm * 1.6 + 40, 60), 420) * KM2SU;
+      for (let i = 0; i < 3; i++) {
+        const m = new THREE.Mesh(new THREE.RingGeometry(0.99, 1, 112), new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false }));
+        m.position.copy(base); m.quaternion.copy(q); m.scale.setScalar(0.00001);
+        scene.add(m); fxTsuObjs.push(m);
+        const t0 = Date.now() + i * 550, dur = 16000;
+        (function animWave() {
+          const el = Date.now() - t0;
+          if (el < 0) { requestAnimationFrame(animWave); return; }
+          const t = Math.min(el / dur, 1), ease = 1 - Math.pow(1 - t, 2.2), hole = 0.08 + 0.92 * ease;
+          m.scale.setScalar(Math.max(targetR * hole, 0.00001));
+          m.material.opacity = Math.max((1 - t), 0) * 0.4;
+          if (t < 1) requestAnimationFrame(animWave);
