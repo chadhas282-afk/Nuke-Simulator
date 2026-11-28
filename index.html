@@ -9518,3 +9518,23 @@
       for (const c of citiesDB) {
         if (!c.c || c.lat < loLat || c.lat > hiLat) continue;
         const dl = ((c.lng - lng + 540) % 360) - 180;
+         if (dl < -dLng || dl > dLng) continue;
+        const d = distKm(lat, lng, c.lat, c.lng);
+        if (d > rKm) continue;
+        const e = byC[c.c]; if (!e) byC[c.c] = { n: c.c, d: d, pop: c.p || 0 }; else { if (d < e.d) e.d = d; e.pop += c.p || 0; }
+      }
+      const Y = Math.max(kt, 0.01), base = 2 + Y * 0.4 / 100;
+      const countries = Object.values(byC).map(e => {
+        const days = Math.max(2, Math.min(120, Math.round(base + (1 - Math.min(e.d, rKm) / rKm) * 18)));
+        return { n: e.n, days, pop: e.pop };
+      }).sort((a, b) => b.days - a.days).slice(0, 12);
+      if (!countries.length) return null;
+      return { countries, peak: countries[0].days };
+    }
+    function spawnEmpPulse(lat, lng, rKm) {
+      if (empPulse) clearEmpPulse();
+      const ring = makeRing(lat, lng, rKm, '#38bdf8', 0);
+      scene.add(ring); empPulse = ring; empPulse.userData.t0 = Date.now();
+      const fill = makeFill(lat, lng, rKm, '#0ea5e9', 0.05); scene.add(fill); empPulse.userData.fill = fill;
+    }
+    function stepEmpPulse() {
